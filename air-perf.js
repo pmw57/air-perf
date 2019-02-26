@@ -325,26 +325,28 @@
     }
 
     var form = document.getElementById("perf");
-    form.onsubmit = function submitHandler() {
+    form.onsubmit = function submitHandler(evt) {
+        evt.preventDefault();
         var perf = {};
-        perf.name = form.elements.name.value;
-        perf.bhp = form.elements.bhp.value;
-        perf.wing_span_ft = form.elements.wing_span_ft.value;
-        perf.prop_dia_ft = form.elements.prop_dia_ft.value;
-        perf.prop_dia_in = form.elements.prop_dia_in.value;
-        perf.wing_area = form.elements.wing_area.value;
-        perf.empty_weight_lb = form.elements.empty_weight_lb.value;
-        perf.gross_lb = form.elements.gross_lb.value;
-        perf.vel_max_mph = form.elements.vel_max_mph.value;
-        perf.vel_stall_clean_mph = form.elements.vel_stall_clean_mph.value;
-        perf.rcmax = form.elements.rcmax.value;
-        perf.useful_load_lb = form.elements.useful_load_lb.value;
-        perf.prop_max_rpm = form.elements.prop_max_rpm.value;
-        perf.cl_max_clean = form.elements.cl_max_clean.value;
-        perf.cl_max_flap = form.elements.cl_max_flap.value;
-        perf.plane_efficiency = form.elements.plane_efficiency.value;
+        perf.name = Number(form.elements.name.value);
+        perf.bhp = Number(form.elements.bhp.value);
+        perf.wing_span_ft = Number(form.elements.wing_span_ft.value);
+        perf.prop_dia_ft = Number(form.elements.prop_dia_ft.value);
+        perf.prop_dia_in = Number(form.elements.prop_dia_in.value);
+        perf.wing_area = Number(form.elements.wing_area.value);
+        perf.empty_weight_lb = Number(form.elements.empty_weight_lb.value);
+        perf.gross_lb = Number(form.elements.gross_lb.value);
+        perf.vel_max_mph = Number(form.elements.vel_max_mph.value);
+        perf.vel_stall_clean_mph = Number(
+            form.elements.vel_stall_clean_mph.value
+        );
+        perf.rcmax = Number(form.elements.rcmax.value);
+        perf.useful_load_lb = Number(form.elements.useful_load_lb.value);
+        perf.prop_max_rpm = Number(form.elements.prop_max_rpm.value);
+        perf.cl_max_clean = Number(form.elements.cl_max_clean.value);
+        perf.cl_max_flap = Number(form.elements.cl_max_flap.value);
+        perf.plane_efficiency = Number(form.elements.plane_efficiency.value);
         main(perf);
-        return false;
     };
 
     const craft = "thorp_t18";
