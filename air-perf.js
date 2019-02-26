@@ -25,8 +25,8 @@ window.air_density_slug = 0.00237; // (sealevel)
 window.pi = 3.14159; // Defines the value of Pi as fixed
 window.vel_delta = 1.00; // airspeed increment for each iteration
 
-var performanceData = [
-   {
+var performanceData = {
+   thorp_t18: {
       name: "Thorp T-18 (Default)",
       vel_stall_clean_mph: 67.00, // VS1
       cl_max_clean: 1.53,
@@ -42,9 +42,9 @@ var performanceData = [
       wing_span_ft: 20 + 10 / 12,
       prop_max_rpm: 2700.00,
       wing_area: 86,
-      rcmax: 2000,
+      rcmax: 2000
    },
-   {
+   aerocar_imp: {
       name: "Aerocar Imp",
       bhp: 0.00,
       wing_span_ft: 20.83,
@@ -60,9 +60,9 @@ var performanceData = [
       prop_max_rpm: 2700.00,
       cl_max_clean: 1.53,
       cl_max_flap: 2.10,
-      plane_efficiency: 0.744,
+      plane_efficiency: 0.744
    },
-   {
+   thorp_t18_tiger: {
       name: "Thorp T-18 Tiger",
       bhp: 180.00,
       wing_span_ft: 20 + 10 / 12,
@@ -79,8 +79,8 @@ var performanceData = [
       cl_max_clean: 1.53,
       cl_max_flap: 2.10,
       plane_efficiency: 0.744
-   },
-];
+   }
+};
 // end of user editable custom variables
 
 function wing_load(cl_max_clean, vel_stall_clean_mph) {
@@ -259,5 +259,6 @@ document.getElementById('perf').onsubmit = function () {
    return false;
 };
 
-loadperf(performanceData[0]);
-main(performanceData[0]);
+const craft = "thorp_t18";
+loadperf(performanceData[craft]);
+main(performanceData[craft]);

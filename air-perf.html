@@ -6,12 +6,15 @@ form p {
 	margin-bottom: 0;
 }
 #perf {
-	position: absolute;
-	margin-left: 30em;
+	float: left;
+}
+#results {
+    margin-top: 2em;
 }
 </style>
 </head>
 <body>
+<div>
 <form id="perf">
     <p><label>name: <input name="name"></label></p>
     <p><label>bhp: <input name="bhp"></label></p>
@@ -54,7 +57,7 @@ form p {
 <tr><th>prop_vel_ref</th><td id="prop_vel_ref">&nbsp;</td></tr>
 <tr><th>static_thrust_ideal</th><td id="static_thrust_ideal">&nbsp;</td></tr>
 </table>
-
+</div>
 <table id="results">
 	<thead>
 		<tr><th>airspeed</th><th>climb rate</th><th>prop eff</th><th>sink rate</th><th>rennolds num</th></tr>
