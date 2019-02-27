@@ -105,7 +105,8 @@
 
     function insertCell(row, value) {
         var content = document.createTextNode(value);
-        row.insertCell().appendChild(content);
+        var cell = row.insertCell().appendChild(content);
+        return cell;
     }
 
     function updateResults(v, rc, eta, rs, rec) {
@@ -265,8 +266,8 @@
         var wv2 = 0;
 
         clearResults();
-
-        while (rc > 0) {
+        var counter = 0;
+        while (rc > 0 && counter < 1000) {
             vh = v / vel_sink_min_ft;
             rsh = 0.25 * (Math.pow(vh, 4) + 3) / vh;
             rs = rsh * rate_sink_min_ft;
@@ -290,8 +291,14 @@
                 );
                 v = v + vel_delta * rc2 / (rc2 - rc1);
             }
+            counter += 1;
         }
-
+        if (counter >= 1000) {
+            var table = document.getElementById("results");
+            var row = table.tBodies[0].insertRow(-1);
+            insertCell(row, "Stopping to avoid possible infinite loop.");
+            row.children[0].colSpan = 5;
+        }
         fp = rcmax * perf.useful_load_lb / 33000 / perf.bhp *
                 (1 - (vel_stall_flaps_mph / vmax));
         wv2 = perf.gross_lb * Math.pow(v, 2);
