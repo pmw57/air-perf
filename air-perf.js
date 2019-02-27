@@ -23,7 +23,6 @@
 */
 (function iife() {
     "use strict";
-    var altitude_ft = 0.00;
     var vel_delta = 1.00; // airspeed increment for each iteration
 
     var performanceData = {
@@ -34,52 +33,43 @@
             cl_max_flap: 2.10,
             gross_lb: 1500.00,
             useful_load_lb: 600.00,
-            empty_weight_lb: 900.00,
             plane_efficiency: 0.744,
             bhp: 150.00,
             vel_max_mph: 180.00,
             prop_dia_in: 6 * 12,
-            prop_dia_ft: 6,
             wing_span_ft: 20 + 10 / 12,
             prop_max_rpm: 2700.00,
-            wing_area: 86,
-            rcmax: 2000
+            altitude_ft: 0
         },
         aerocar_imp: {
             name: "Aerocar Imp",
-            bhp: 0.00,
-            wing_span_ft: 20.83,
-            prop_dia_ft: 72 / 12,
-            prop_dia_in: 72.00,
-            wing_area: 86,
-            empty_weight_lb: 600.00,
-            gross_lb: 1500.00,
-            vel_max_mph: 180.00,
             vel_stall_clean_mph: 67.00, // VS1
-            rcmax: 2000,
-            useful_load_lb: 600.00,
-            prop_max_rpm: 2700.00,
             cl_max_clean: 1.53,
             cl_max_flap: 2.10,
-            plane_efficiency: 0.744
+            gross_lb: 1500.00,
+            useful_load_lb: 600.00,
+            plane_efficiency: 0.744,
+            bhp: 0.00,
+            vel_max_mph: 180.00,
+            prop_dia_in: 72.00,
+            wing_span_ft: 20.83,
+            prop_max_rpm: 2700.00,
+            altitude_ft: 0
         },
         thorp_t18_tiger: {
             name: "Thorp T-18 Tiger",
-            bhp: 180.00,
-            wing_span_ft: 20 + 10 / 12,
-            prop_dia_ft: 5 + 3 / 12,
-            prop_dia_in: 5 * 12 + 3,
-            wing_area: 86,
-            empty_weight_lb: 900.00,
-            gross_lb: 1506.00,
-            vel_max_mph: 200.00,
             vel_stall_clean_mph: 65.00, // VS1
-            // rcmax: 2000,
-            prop_max_rpm: 2700.00,
-            useful_load_lb: 600.00,
             cl_max_clean: 1.53,
             cl_max_flap: 2.10,
-            plane_efficiency: 0.744
+            gross_lb: 1506.00,
+            useful_load_lb: 600.00,
+            plane_efficiency: 0.744,
+            bhp: 180.00,
+            vel_max_mph: 200.00,
+            prop_dia_in: 5 * 12 + 3,
+            wing_span_ft: 20 + 10 / 12,
+            prop_max_rpm: 2700.00,
+            altitude_ft: 0
         }
     };
     // end of user editable custom variables
@@ -149,12 +139,13 @@
         var drag_min = perf.gross_lb / ld_max;
         var cl_min_sink = 3.07 * Math.sqrt(drag_area_ft) / wing_chord_effective;
         var rate_climb_ideal = 33000 * perf.bhp / perf.gross_lb;
-        var prop_tip_mach = perf.prop_max_rpm * perf.prop_dia_ft *
+        var prop_dia_ft = perf.prop_dia_in / 12;
+        var prop_tip_mach = perf.prop_max_rpm * prop_dia_ft *
                 0.05236 / 1100;
         var prop_vel_ref = 41.9 *
-                Math.pow(perf.bhp / Math.pow(perf.prop_dia_ft, 2), 1.0 / 3);
+                Math.pow(perf.bhp / Math.pow(prop_dia_ft, 2), 1.0 / 3);
         var static_thrust_ideal = 10.41 *
-                Math.pow(perf.bhp * perf.prop_dia_ft, 2.0 / 3);
+                Math.pow(perf.bhp * prop_dia_ft, 2.0 / 3);
 
         var formValues = [
             {
@@ -255,8 +246,8 @@
         var rsh = 0;
         var rmu = 1;
         var rs = 0;
-        var sig = Math.pow(1 - altitude_ft / 145800, 4.265);
-        // var t = 518.7 - 0.00356 * altitude_ft;
+        var sig = Math.pow(1 - perf.altitude_ft / 145800, 4.265);
+        // var t = 518.7 - 0.00356 * perf.altitude_ft;
         var t1 = 1.0 / 3;
         var t2 = 0;
         var v = perf.vel_stall_clean_mph;
@@ -316,19 +307,16 @@
         form.elements.name.value = perf.name;
         form.elements.bhp.value = perf.bhp;
         form.elements.wing_span_ft.value = perf.wing_span_ft;
-        form.elements.prop_dia_ft.value = perf.prop_dia_ft;
         form.elements.prop_dia_in.value = perf.prop_dia_in;
-        form.elements.wing_area.value = perf.wing_area;
-        form.elements.empty_weight_lb.value = perf.empty_weight_lb;
         form.elements.gross_lb.value = perf.gross_lb;
         form.elements.vel_max_mph.value = perf.vel_max_mph;
         form.elements.vel_stall_clean_mph.value = perf.vel_stall_clean_mph;
-        form.elements.rcmax.value = perf.rcmax;
         form.elements.useful_load_lb.value = perf.useful_load_lb;
         form.elements.prop_max_rpm.value = perf.prop_max_rpm;
         form.elements.cl_max_clean.value = perf.cl_max_clean;
         form.elements.cl_max_flap.value = perf.cl_max_flap;
         form.elements.plane_efficiency.value = perf.plane_efficiency;
+        form.elements.altitude.value = perf.altitude_ft;
     }
 
     var form = document.getElementById("perf");
@@ -338,21 +326,18 @@
         perf.name = Number(form.elements.name.value);
         perf.bhp = Number(form.elements.bhp.value);
         perf.wing_span_ft = Number(form.elements.wing_span_ft.value);
-        perf.prop_dia_ft = Number(form.elements.prop_dia_ft.value);
         perf.prop_dia_in = Number(form.elements.prop_dia_in.value);
-        perf.wing_area = Number(form.elements.wing_area.value);
-        perf.empty_weight_lb = Number(form.elements.empty_weight_lb.value);
         perf.gross_lb = Number(form.elements.gross_lb.value);
         perf.vel_max_mph = Number(form.elements.vel_max_mph.value);
         perf.vel_stall_clean_mph = Number(
             form.elements.vel_stall_clean_mph.value
         );
-        perf.rcmax = Number(form.elements.rcmax.value);
         perf.useful_load_lb = Number(form.elements.useful_load_lb.value);
         perf.prop_max_rpm = Number(form.elements.prop_max_rpm.value);
         perf.cl_max_clean = Number(form.elements.cl_max_clean.value);
         perf.cl_max_flap = Number(form.elements.cl_max_flap.value);
         perf.plane_efficiency = Number(form.elements.plane_efficiency.value);
+        perf.altitude_ft = Number(form.elements.altitude_ft.value);
         main(perf);
     };
 
