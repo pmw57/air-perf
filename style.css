@@ -20,11 +20,10 @@ label {
 	left: 30em;
 }
 #summary th {
-	text-align: right;
 	padding-right: 1em;
 	font-weight: normal;
 }
-#summary td {
+table {
 	text-align: right;
 }
 #results {
