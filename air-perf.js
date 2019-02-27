@@ -89,7 +89,8 @@
     }
 
     function clearResults() {
-        var table = document.getElementById("results");
+        var results = document.getElementById("results");
+        var table = results.querySelector("table");
         table.tBodies[0].innerHTML = "";
     }
 
@@ -100,7 +101,8 @@
     }
 
     function updateResults(v, rc, eta, rs, rec) {
-        var table = document.getElementById("results");
+        var results = document.getElementById("results");
+        var table = results.querySelector("table");
         var row = table.tBodies[0].insertRow(-1);
         insertCell(row, v);
         insertCell(row, rc);
@@ -285,7 +287,8 @@
             counter += 1;
         }
         if (counter >= 1000) {
-            var table = document.getElementById("results");
+            var results = document.getElementById("results");
+            var table = results.querySelector("table");
             var row = table.tBodies[0].insertRow(-1);
             insertCell(row, "Stopping to avoid possible infinite loop.");
             row.children[0].colSpan = 5;
@@ -303,7 +306,7 @@
     }
 
     function loadperf(perf) {
-        var form = document.getElementById("perf");
+        var form = document.getElementById("input");
         form.elements.name.value = perf.name;
         form.elements.bhp.value = perf.bhp;
         form.elements.wing_span_ft.value = perf.wing_span_ft;
@@ -319,7 +322,7 @@
         form.elements.altitude.value = perf.altitude_ft;
     }
 
-    var form = document.getElementById("perf");
+    var form = document.getElementById("input");
     form.onsubmit = function submitHandler(evt) {
         evt.preventDefault();
         var perf = {};

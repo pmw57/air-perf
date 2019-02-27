@@ -1,0 +1,33 @@
+h3 {
+	margin-top: 1em;
+}
+#perf {
+	position: relative;
+}
+form p {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+label {
+	float: left;
+	text-align: right;
+	margin-right: 15px;
+	width: 15em;
+}
+#summary {
+	position: absolute;
+	top: 0;
+	left: 30em;
+}
+#summary th {
+	text-align: right;
+	padding-right: 1em;
+	font-weight: normal;
+}
+#summary th:after {
+	content: ":";
+}
+#results {
+	margin-top: 2em;
+	margin-left: 2em;
+}
