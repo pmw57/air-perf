@@ -24,8 +24,8 @@ label {
 	padding-right: 1em;
 	font-weight: normal;
 }
-#summary th:after {
-	content: ":";
+#summary td {
+	text-align: right;
 }
 #results {
 	margin-top: 2em;
