@@ -132,7 +132,7 @@
         var wing_load_effective = perf.gross_lb / wing_span_effective;
         var drag_area_ft = 0.8 * perf.bhp *
                 146625 / Math.pow(perf.vel_max_mph, 3);
-
+ 
         var cd_drag = drag_area_ft / wing_area_ft;
         var vel_sink_min_ft = 11.29 *
                 Math.sqrt(wing_load_effective) /
@@ -322,7 +322,7 @@
         form.elements.cl_max_clean.value = perf.cl_max_clean;
         form.elements.cl_max_flap.value = perf.cl_max_flap;
         form.elements.plane_efficiency.value = perf.plane_efficiency;
-        form.elements.altitude.value = perf.altitude_ft;
+        form.elements.altitude_ft.value = perf.altitude_ft;
     }
 
     var form = document.getElementById("input");
