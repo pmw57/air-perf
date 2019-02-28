@@ -368,16 +368,15 @@
     }
 
     function loadButtonHandler() {
-        csv.load("saved-data/"+ craft + ".csv");
+        csv.load("saved-data/" + craft + ".csv");
         csv.parse(function (arr) {
             var inputPerf = inputFromCsv(arr);
-            updateInputFields(inputPerf);            
+            updateInputFields(inputPerf);
             main(inputPerf);
         });
     }
 
     function inputChangeHandler(evt) {
-        console.log("input event");
         recalculatePerformance(evt.target.form);
     }
 
@@ -390,7 +389,7 @@
         recalculatePerformance(form);
     }
 
-   var loadButton = document.querySelector(".js-loadfile");
+    var loadButton = document.querySelector(".js-loadfile");
     loadButton.addEventListener("click", loadButtonHandler);
 
     var form = document.getElementById("input");
@@ -401,6 +400,6 @@
 
     form.onsubmit = submitHandler;
 
-        updateInputFields(performanceData[craft]);
+    updateInputFields(performanceData[craft]);
     main(performanceData[craft]);
 }());
