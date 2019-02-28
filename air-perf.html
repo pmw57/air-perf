@@ -10,19 +10,32 @@
     <div id="perf">
         <h3>Input parameters</h3>
         <form id="input">
-            <p><label for="name">Aircraft name </label><input id="name" name="name" autocomplete="off"></p>
-            <p><label for="vel_stall_clean_mph">Stall speed without flaps (mph) </label><input id="vel_stall_clean_mph" name="vel_stall_clean_mph" autocomplete="off"></p>
-            <p><label for="cl_max_clean">Maximum lift coefficient </label><input id="cl_max_clean" name="cl_max_clean" autocomplete="off"></p>
-            <p><label for="cl_max_flap">Maximum lift coeff with flaps </label><input name="cl_max_flap" autocomplete="off"></p>
-            <p><label for="gross_lb">Gross weight (lb) </label><input id="gross_lb" name="gross_lb" autocomplete="off"></p>
-            <p><label for="useful_load_lb">Useful load (lb) </label><input id="useful_load_lb" name="useful_load_lb" autocomplete="off"></p>
-            <p><label for="wing_span_ft">Wing span (ft) </label><input id="wing_span_ft" name="wing_span_ft" autocomplete="off"></p>
-            <p><label for="plane_efficiency">Airplane efficiency factor </label><input id="plane_efficiency" name="plane_efficiency" autocomplete="off"></p>
-            <p><label for="bhp">Engine brake horsepower (bhp) </label><input id="bhp" name="bhp" autocomplete="off"></p>
-            <p><label for="vel_max_mph">Maximum level speed (mph) </label><input id="vel_max_mph" name="vel_max_mph" autocomplete="off"></p>
-            <p><label for="prop_dia_in">Propeller diameter (in) </label><input id="prop_dia_in" name="prop_dia_in" autocomplete="off"></p>
-            <p><label for="prop_max_rpm">Propeller RPM </label><input id="prop_max_rpm" name="prop_max_rpm" autocomplete="off"></p>
-            <p><label for="altitude_ft">Altitude (ft) </label><input id="altitude_ft" name="altitude_ft" autocomplete="off"></p>
+            <p><label for="name">Aircraft name </label>
+                <input id="name" name="name" autocomplete="off"></p>
+            <p><label for="vel_stall_clean_mph">Stall speed without flaps (mph) </label>
+                <input type="number" id="vel_stall_clean_mph" name="vel_stall_clean_mph" autocomplete="off"></p>
+            <p><label for="cl_max_clean">Maximum lift coefficient </label>
+                <input id="cl_max_clean" name="cl_max_clean" autocomplete="off"></p>
+            <p><label for="cl_max_flap">Maximum lift coeff with flaps </label>
+                <input type="number" step="0.1" name="cl_max_flap" autocomplete="off"></p>
+            <p><label for="gross_lb">Gross weight (lb) </label>
+                <input type="number" step="20" id="gross_lb" name="gross_lb" autocomplete="off"></p>
+            <p><label for="useful_load_lb">Useful load (lb) </label>
+                <input type="number" step="20" id="useful_load_lb" name="useful_load_lb" autocomplete="off"></p>
+            <p><label for="wing_span_ft">Wing span (ft) </label>
+                <input type="number" step="0.5" id="wing_span_ft" name="wing_span_ft" autocomplete="off"></p>
+            <p><label for="plane_efficiency">Airplane efficiency factor </label>
+                <input type="number" step="0.025" id="plane_efficiency" name="plane_efficiency" autocomplete="off"></p>
+            <p><label for="bhp">Engine brake horsepower (bhp) </label>
+                <input type="number" step="5" id="bhp" name="bhp" autocomplete="off"></p>
+            <p><label for="vel_max_mph">Maximum level speed (mph) </label>
+                <input type="number" step="5" id="vel_max_mph" name="vel_max_mph" autocomplete="off"></p>
+            <p><label for="prop_dia_in">Propeller diameter (in) </label>
+                <input type="number" step="3" id="prop_dia_in" name="prop_dia_in" autocomplete="off"></p>
+            <p><label for="prop_max_rpm">Propeller RPM </label>
+                <input type="number" step="100" id="prop_max_rpm" name="prop_max_rpm" autocomplete="off"></p>
+            <p><label for="altitude_ft">Altitude (ft) </label>
+                <input type="number" step="500" id="altitude_ft" name="altitude_ft" autocomplete="off"></p>
             <p><input type="submit"></p>        
         </form>
     </div>
