@@ -4,13 +4,16 @@
 </head>
 <body>
 <div>
+    <div class="actions">
+        <button class="js-loadfile">Load from thorp-pref.csv</button>
+    </div>
     <div id="perf">
         <h3>Input parameters</h3>
         <form id="input">
             <p><label for="name">Aircraft name </label><input id="name" name="name"></p>
             <p><label for="vel_stall_clean_mph">Stall speed without flaps (mph) </label><input id="vel_stall_clean_mph" name="vel_stall_clean_mph"></p>
             <p><label for="cl_max_clean">Maximum lift coefficient </label><input id="cl_max_clean" name="cl_max_clean"></p>
-            <p><label for="cl_max_flap">Maximum lift coeff without flaps </label><input name="cl_max_flap"></p>
+            <p><label for="cl_max_flap">Maximum lift coeff with flaps </label><input name="cl_max_flap"></p>
             <p><label for="gross_lb">Gross weight (lb) </label><input id="gross_lb" name="gross_lb"></p>
             <p><label for="useful_load_lb">Useful load (lb) </label><input id="useful_load_lb" name="useful_load_lb"></p>
             <p><label for="wing_span_ft">Wing span (ft) </label><input id="wing_span_ft" name="wing_span_ft"></p>
@@ -68,6 +71,7 @@
 </ul>
 </div>
 
+<script src="js/csv.js"></script>
 <script src="js/air-perf.js"></script>
 </body>
 </html>

@@ -24,6 +24,8 @@
 */
 (function iife() {
     "use strict";
+
+    const craft = "thorp_t18";
     var vel_delta = 1.00; // airspeed increment for each iteration
 
     var performanceData = {
@@ -306,7 +308,7 @@
                 perf.useful_load_lb.toFixed(2);
     }
 
-    function loadperf(perf) {
+    function updateInputFields(perf) {
         var form = document.getElementById("input");
         form.elements.name.value = perf.name;
         form.elements.bhp.value = perf.bhp;
@@ -345,7 +347,36 @@
         main(perf);
     };
 
-    const craft = "thorp_t18";
-    loadperf(performanceData[craft]);
+    function inputFromCsv(arr) {
+        var inputPerf = {};
+        inputPerf.name = arr[1][1];
+        inputPerf.vel_stall_clean_mph = Number(arr[2][1]);
+        inputPerf.cl_max_clean = Number(arr[3][1]);
+        inputPerf.cl_max_flap = Number(arr[4][1]);
+        inputPerf.gross_lb = Number(arr[5][1]);
+        inputPerf.useful_load_lb = Number(arr[6][1]);
+        inputPerf.wing_span_ft = Number(arr[7][1]);
+        inputPerf.plane_efficiency = Number(arr[8][1]);
+        inputPerf.bhp = Number(arr[9][1]);
+        inputPerf.vel_max_mph = Number(arr[10][1]);
+        inputPerf.prop_dia_in = Number(arr[11][1]);
+        inputPerf.prop_max_rpm = Number(arr[12][1]);
+        inputPerf.altitude_ft = Number(arr[13][1]);
+        return inputPerf;
+    }
+
+    function loadButtonHandler() {
+        csv.load("saved-data/"+ craft + ".csv");
+        csv.parse(function (arr) {
+            var inputPerf = inputFromCsv(arr);
+            updateInputFields(inputPerf);            
+            main(inputPerf);
+        });
+    }
+
+    var loadButton = document.querySelector(".js-loadfile");
+    loadButton.addEventListener("click", loadButtonHandler);
+
+    updateInputFields(performanceData[craft]);
     main(performanceData[craft]);
 }());
