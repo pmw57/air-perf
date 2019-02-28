@@ -132,7 +132,7 @@
         var wing_load_effective = perf.gross_lb / wing_span_effective;
         var drag_area_ft = 0.8 * perf.bhp *
                 146625 / Math.pow(perf.vel_max_mph, 3);
- 
+
         var cd_drag = drag_area_ft / wing_area_ft;
         var vel_sink_min_ft = 11.29 *
                 Math.sqrt(wing_load_effective) /
@@ -325,9 +325,7 @@
         form.elements.altitude_ft.value = perf.altitude_ft;
     }
 
-    var form = document.getElementById("input");
-    form.onsubmit = function submitHandler(evt) {
-        evt.preventDefault();
+    function getPerformanceValues(form) {
         var perf = {};
         perf.name = Number(form.elements.name.value);
         perf.bhp = Number(form.elements.bhp.value);
@@ -344,9 +342,8 @@
         perf.cl_max_flap = Number(form.elements.cl_max_flap.value);
         perf.plane_efficiency = Number(form.elements.plane_efficiency.value);
         perf.altitude_ft = Number(form.elements.altitude_ft.value);
-        main(perf);
-    };
-
+        return perf;
+    }
     function inputFromCsv(arr) {
         var inputPerf = {};
         inputPerf.name = arr[1][1];
@@ -374,9 +371,22 @@
         });
     }
 
-    var loadButton = document.querySelector(".js-loadfile");
+    function submitHandler(evt) {
+        evt.preventDefault();
+        var target = evt.target;
+        var form = (target.nodeName === "FORM")
+            ? target
+            : target.form;
+        var perf = getPerformanceValues(form);
+        main(perf);
+    }
+
+   var loadButton = document.querySelector(".js-loadfile");
     loadButton.addEventListener("click", loadButtonHandler);
 
-    updateInputFields(performanceData[craft]);
+    var form = document.getElementById("input");
+    form.onsubmit = submitHandler;
+
+        updateInputFields(performanceData[craft]);
     main(performanceData[craft]);
 }());
