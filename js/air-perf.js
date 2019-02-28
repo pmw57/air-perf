@@ -304,7 +304,7 @@
         document.getElementById("wv2").innerHTML = wv2.toFixed(2);
         document.getElementById("rcmax").innerHTML = rcmax.toFixed(2);
         document.getElementById("vmax").innerHTML = vmax.toFixed(2);
-        document.getElementById("useful_load_lb").innerHTML =
+        document.getElementById("useful_load").innerHTML =
                 perf.useful_load_lb.toFixed(2);
     }
 
