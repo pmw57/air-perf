@@ -191,7 +191,7 @@
             },
             {
                 id: "cd_drag",
-                value: cd_drag.toFixed(2)
+                value: cd_drag.toFixed(4)
             },
             {
                 id: "vel_sink_min_ft",
@@ -397,8 +397,6 @@
     inputs.forEach(function (input) {
         input.addEventListener("change", inputChangeHandler);
     });
-
-    form.onsubmit = submitHandler;
 
     updateInputFields(performanceData[craft]);
     main(performanceData[craft]);
