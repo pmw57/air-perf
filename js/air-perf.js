@@ -344,6 +344,11 @@
         perf.altitude_ft = Number(form.elements.altitude_ft.value);
         return perf;
     }
+
+    function recalculatePerformance(form) {
+        var perf = getPerformanceValues(form);
+        main(perf);
+    }
     function inputFromCsv(arr) {
         var inputPerf = {};
         inputPerf.name = arr[1][1];
@@ -371,20 +376,29 @@
         });
     }
 
+    function inputChangeHandler(evt) {
+        console.log("input event");
+        recalculatePerformance(evt.target.form);
+    }
+
     function submitHandler(evt) {
         evt.preventDefault();
         var target = evt.target;
         var form = (target.nodeName === "FORM")
             ? target
             : target.form;
-        var perf = getPerformanceValues(form);
-        main(perf);
+        recalculatePerformance(form);
     }
 
    var loadButton = document.querySelector(".js-loadfile");
     loadButton.addEventListener("click", loadButtonHandler);
 
     var form = document.getElementById("input");
+    var inputs = form.querySelectorAll("input");
+    inputs.forEach(function (input) {
+        input.addEventListener("change", inputChangeHandler);
+    });
+
     form.onsubmit = submitHandler;
 
         updateInputFields(performanceData[craft]);
