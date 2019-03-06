@@ -380,17 +380,9 @@
         recalculatePerformance(evt.target.form);
     }
 
-    function submitHandler(evt) {
-        evt.preventDefault();
-        var target = evt.target;
-        var form = (target.nodeName === "FORM")
-            ? target
-            : target.form;
-        recalculatePerformance(form);
-    }
-
     var loadButton = document.querySelector(".js-loadfile");
     loadButton.addEventListener("click", loadButtonHandler);
+    loadButton.click();
 
     var form = document.getElementById("input");
     var inputs = form.querySelectorAll("input");
