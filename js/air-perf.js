@@ -1,27 +1,5 @@
 /*jslint browser */
 /*global csv */
-/*
-   --------------------------------------------------------------------
-   PROGRAM: index.html Ver: 1.0 Rev: 03/01/2010
-   DESCRIPTION: www.neatinfo.com main menu
-   BY: Jan Zumwalt - www.zoomaviation.com
-   --------------------------------------------------------------------
-   COMMENTS: Practical calculation of aircraft performance
-   Compiled and ran on the free Pellec C compiler
-   http://www.smorgasbordet.com/pellesc/
-   --------------------------------------------------------------------
-   Ver info:
-   V1.0 users will note slight variations in output compared to the basic
-   version of this program due to different round off error in math
-   packages.
-*/
-
-/*
-   --------------------------------------------------------------------
-   This section is user variables that can be customized to a particular
-   aircraft. See The book for descriptions.
-   --------------------------------------------------------------------
-*/
 (function iife() {
     "use strict";
 
