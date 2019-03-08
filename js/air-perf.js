@@ -3,10 +3,10 @@
 (function iife() {
     "use strict";
 
-    const craft = "thorp_t18";
+    const craft = "henry_x-1";
     var vel_delta = 1.00; // airspeed increment for each iteration
 
-    var performanceData = {
+    var inputsormanceData = {
         thorp_t18: {
             name: "Thorp T-18",
             vel_stall_clean_mph: 67.00, // VS1
@@ -92,24 +92,24 @@
         insertCell(row, rec);
     }
 
-    function main(perf) {
+    function main(inputs) {
         var wing_load_lb_ft = wing_load(
-            perf.cl_max_clean,
-            perf.vel_stall_clean_mph
+            inputs.cl_max_clean,
+            inputs.vel_stall_clean_mph
         );
         var vel_stall_flaps_mph = vel_stall_flaps(
             wing_load_lb_ft,
-            perf.cl_max_flap
+            inputs.cl_max_flap
         );
-        var wing_area_ft = wing_area(perf.gross_lb, wing_load_lb_ft);
-        var wing_aspect = Math.pow(perf.wing_span_ft, 2) / wing_area_ft;
-        var wing_chord_ft = perf.wing_span_ft / wing_aspect;
-        var wing_span_effective = perf.wing_span_ft *
-                Math.sqrt(perf.plane_efficiency);
+        var wing_area_ft = wing_area(inputs.gross_lb, wing_load_lb_ft);
+        var wing_aspect = Math.pow(inputs.wing_span_ft, 2) / wing_area_ft;
+        var wing_chord_ft = inputs.wing_span_ft / wing_aspect;
+        var wing_span_effective = inputs.wing_span_ft *
+                Math.sqrt(inputs.plane_efficiency);
         var wing_chord_effective = wing_area_ft / wing_span_effective;
-        var wing_load_effective = perf.gross_lb / wing_span_effective;
-        var drag_area_ft = 0.8 * perf.bhp *
-                146625 / Math.pow(perf.vel_max_mph, 3);
+        var wing_load_effective = inputs.gross_lb / wing_span_effective;
+        var drag_area_ft = 0.8 * inputs.bhp *
+                146625 / Math.pow(inputs.vel_max_mph, 3);
 
         var cd_drag = drag_area_ft / wing_area_ft;
         var vel_sink_min_ft = 11.29 *
@@ -117,106 +117,43 @@
                 Math.sqrt(Math.sqrt(drag_area_ft));
         var pwr_min_req_hp = 0.03922 * Math.sqrt(Math.sqrt(drag_area_ft)) *
                 wing_load_effective * Math.sqrt(wing_load_effective);
-        var rate_sink_min_ft = 33000 * pwr_min_req_hp / perf.gross_lb;
+        var rate_sink_min_ft = 33000 * pwr_min_req_hp / inputs.gross_lb;
         var ld_max = 0.8862 * wing_span_effective / Math.sqrt(drag_area_ft);
-        var drag_min = perf.gross_lb / ld_max;
+        var drag_min = inputs.gross_lb / ld_max;
         var cl_min_sink = 3.07 * Math.sqrt(drag_area_ft) / wing_chord_effective;
-        var rate_climb_ideal = 33000 * perf.bhp / perf.gross_lb;
-        var prop_dia_ft = perf.prop_dia_in / 12;
-        var prop_tip_mach = perf.prop_max_rpm * prop_dia_ft *
+        var rate_climb_ideal = 33000 * inputs.bhp / inputs.gross_lb;
+        var prop_dia_ft = inputs.prop_dia_in / 12;
+        var prop_tip_mach = inputs.prop_max_rpm * prop_dia_ft *
                 0.05236 / 1100;
         var prop_vel_ref = 41.9 *
-                Math.pow(perf.bhp / Math.pow(prop_dia_ft, 2), 1.0 / 3);
+                Math.pow(inputs.bhp / Math.pow(prop_dia_ft, 2), 1.0 / 3);
         var static_thrust_ideal = 10.41 *
-                Math.pow(perf.bhp * prop_dia_ft, 2.0 / 3);
+                Math.pow(inputs.bhp * prop_dia_ft, 2.0 / 3);
 
-        var formValues = [
-            {
-                id: "wing_load_lb_ft",
-                value: wing_load_lb_ft.toFixed(2)
-            },
-            {
-                id: "vel_stall_flaps_mph",
-                value: vel_stall_flaps_mph.toFixed(2)
-            },
-            {
-                id: "wing_area_ft",
-                value: wing_area_ft.toFixed(2)
-            },
-            {
-                id: "wing_aspect",
-                value: wing_aspect.toFixed(2)
-            },
-            {
-                id: "wing_chord_ft",
-                value: wing_chord_ft.toFixed(2)
-            },
-            {
-                id: "wing_span_effective",
-                value: wing_span_effective.toFixed(2)
-            },
-            {
-                id: "wing_chord_effective",
-                value: wing_chord_effective.toFixed(2)
-            },
-            {
-                id: "wing_load_effective",
-                value: wing_load_effective.toFixed(2)
-            },
-            {
-                id: "drag_area_ft",
-                value: drag_area_ft.toFixed(2)
-            },
-            {
-                id: "cd_drag",
-                value: cd_drag.toFixed(4)
-            },
-            {
-                id: "vel_sink_min_ft",
-                value: vel_sink_min_ft.toFixed(2)
-            },
-            {
-                id: "pwr_min_req_hp",
-                value: pwr_min_req_hp.toFixed(2)
-            },
-            {
-                id: "rate_sink_min_ft",
-                value: rate_sink_min_ft.toFixed(2)
-            },
-            {
-                id: "ld_max",
-                value: ld_max.toFixed(2)
-            },
-            {
-                id: "drag_min",
-                value: drag_min.toFixed(2)
-            },
-            {
-                id: "cl_min_sink",
-                value: cl_min_sink.toFixed(2)
-            },
-            {
-                id: "rate_climb_ideal",
-                value: rate_climb_ideal.toFixed(2)
-            },
-            {
-                id: "prop_tip_mach",
-                value: prop_tip_mach.toFixed(2)
-            },
-            {
-                id: "prop_vel_ref",
-                value: prop_vel_ref.toFixed(2)
-            },
-            {
-                id: "static_thrust_ideal",
-                value: static_thrust_ideal.toFixed(2)
-            }
-        ];
-        formValues.forEach(function showValue({
-            id,
-            value
-        }) {
-            document.getElementById(id).innerHTML = value;
+        const outputs = {
+            "wing_load_lb_ft": wing_load_lb_ft.toFixed(2),
+            "vel_stall_flaps_mph": vel_stall_flaps_mph.toFixed(2),
+            "wing_area_ft": wing_area_ft.toFixed(2),
+            "wing_aspect": wing_aspect.toFixed(2),
+            "wing_chord_ft": wing_chord_ft.toFixed(2),
+            "wing_span_effective": wing_span_effective.toFixed(2),
+            "wing_chord_effective": wing_chord_effective.toFixed(2),
+            "wing_load_effective": wing_load_effective.toFixed(2),
+            "drag_area_ft": drag_area_ft.toFixed(2),
+            "cd_drag": cd_drag.toFixed(4),
+            "vel_sink_min_ft": vel_sink_min_ft.toFixed(2),
+            "pwr_min_req_hp": pwr_min_req_hp.toFixed(2),
+            "rate_sink_min_ft": rate_sink_min_ft.toFixed(2),
+            "ld_max": ld_max.toFixed(2),
+            "drag_min": drag_min.toFixed(2),
+            "cl_min_sink": cl_min_sink.toFixed(2),
+            "rate_climb_ideal": rate_climb_ideal.toFixed(2),
+            "prop_tip_mach": prop_tip_mach.toFixed(2),
+            "prop_vel_ref": prop_vel_ref.toFixed(2),
+            "static_thrust_ideal": static_thrust_ideal.toFixed(2)
+        };
+        Object.entries(outputs).forEach(function ([key, value]) {
+            document.getElementById(key).innerHTML = value;
         });
 
         var eta = 1;
@@ -229,11 +166,11 @@
         var rsh = 0;
         var rmu = 1;
         var rs = 0;
-        var sig = Math.pow(1 - perf.altitude_ft / 145800, 4.265);
-        // var t = 518.7 - 0.00356 * perf.altitude_ft;
+        var sig = Math.pow(1 - inputs.altitude_ft / 145800, 4.265);
+        // var t = 518.7 - 0.00356 * inputs.altitude_ft;
         var t1 = 1.0 / 3;
         var t2 = 0;
-        var v = perf.vel_stall_clean_mph;
+        var v = inputs.vel_stall_clean_mph;
         var vh = 0;
         var vmax = 0;
         var vt = 0;
@@ -274,88 +211,88 @@
             insertCell(row, "Stopping to avoid possible infinite loop.");
             row.children[0].colSpan = 5;
         }
-        fp = rcmax * perf.useful_load_lb / 33000 / perf.bhp *
+        fp = rcmax * inputs.useful_load_lb / 33000 / inputs.bhp *
                 (1 - (vel_stall_flaps_mph / vmax));
-        wv2 = perf.gross_lb * Math.pow(v, 2);
+        wv2 = inputs.gross_lb * Math.pow(v, 2);
 
         document.getElementById("fp").innerHTML = fp.toFixed(4);
         document.getElementById("wv2").innerHTML = wv2.toFixed(2);
         document.getElementById("rcmax").innerHTML = rcmax.toFixed(2);
         document.getElementById("vmax").innerHTML = vmax.toFixed(2);
         document.getElementById("useful_load").innerHTML =
-                perf.useful_load_lb.toFixed(2);
+                inputs.useful_load_lb.toFixed(2);
     }
 
-    function updateInputFields(perf) {
+    function updateInputFields(inputs) {
         var form = document.getElementById("input");
-        form.elements.name.value = perf.name;
-        form.elements.bhp.value = perf.bhp;
-        form.elements.wing_span_ft.value = perf.wing_span_ft;
-        form.elements.prop_dia_in.value = perf.prop_dia_in;
-        form.elements.gross_lb.value = perf.gross_lb;
-        form.elements.vel_max_mph.value = perf.vel_max_mph;
-        form.elements.vel_stall_clean_mph.value = perf.vel_stall_clean_mph;
-        form.elements.useful_load_lb.value = perf.useful_load_lb;
-        form.elements.prop_max_rpm.value = perf.prop_max_rpm;
-        form.elements.cl_max_clean.value = perf.cl_max_clean;
-        form.elements.cl_max_flap.value = perf.cl_max_flap;
-        form.elements.plane_efficiency.value = perf.plane_efficiency;
-        form.elements.altitude_ft.value = perf.altitude_ft;
+        form.elements.name.value = inputs.name;
+        form.elements.bhp.value = inputs.bhp;
+        form.elements.wing_span_ft.value = inputs.wing_span_ft;
+        form.elements.prop_dia_in.value = inputs.prop_dia_in;
+        form.elements.gross_lb.value = inputs.gross_lb;
+        form.elements.vel_max_mph.value = inputs.vel_max_mph;
+        form.elements.vel_stall_clean_mph.value = inputs.vel_stall_clean_mph;
+        form.elements.useful_load_lb.value = inputs.useful_load_lb;
+        form.elements.prop_max_rpm.value = inputs.prop_max_rpm;
+        form.elements.cl_max_clean.value = inputs.cl_max_clean;
+        form.elements.cl_max_flap.value = inputs.cl_max_flap;
+        form.elements.plane_efficiency.value = inputs.plane_efficiency;
+        form.elements.altitude_ft.value = inputs.altitude_ft;
     }
 
     function getPerformanceValues(form) {
-        var perf = {};
-        perf.name = Number(form.elements.name.value);
-        perf.bhp = Number(form.elements.bhp.value);
-        perf.wing_span_ft = Number(form.elements.wing_span_ft.value);
-        perf.prop_dia_in = Number(form.elements.prop_dia_in.value);
-        perf.gross_lb = Number(form.elements.gross_lb.value);
-        perf.vel_max_mph = Number(form.elements.vel_max_mph.value);
-        perf.vel_stall_clean_mph = Number(
+        var inputs = {};
+        inputs.name = Number(form.elements.name.value);
+        inputs.bhp = Number(form.elements.bhp.value);
+        inputs.wing_span_ft = Number(form.elements.wing_span_ft.value);
+        inputs.prop_dia_in = Number(form.elements.prop_dia_in.value);
+        inputs.gross_lb = Number(form.elements.gross_lb.value);
+        inputs.vel_max_mph = Number(form.elements.vel_max_mph.value);
+        inputs.vel_stall_clean_mph = Number(
             form.elements.vel_stall_clean_mph.value
         );
-        perf.useful_load_lb = Number(form.elements.useful_load_lb.value);
-        perf.prop_max_rpm = Number(form.elements.prop_max_rpm.value);
-        perf.cl_max_clean = Number(form.elements.cl_max_clean.value);
-        perf.cl_max_flap = Number(form.elements.cl_max_flap.value);
-        perf.plane_efficiency = Number(form.elements.plane_efficiency.value);
-        perf.altitude_ft = Number(form.elements.altitude_ft.value);
-        return perf;
+        inputs.useful_load_lb = Number(form.elements.useful_load_lb.value);
+        inputs.prop_max_rpm = Number(form.elements.prop_max_rpm.value);
+        inputs.cl_max_clean = Number(form.elements.cl_max_clean.value);
+        inputs.cl_max_flap = Number(form.elements.cl_max_flap.value);
+        inputs.plane_efficiency = Number(form.elements.plane_efficiency.value);
+        inputs.altitude_ft = Number(form.elements.altitude_ft.value);
+        return inputs;
     }
 
-    function recalculatePerformance(form) {
-        var perf = getPerformanceValues(form);
-        main(perf);
+    function iecalculateonputsormance(form) {
+        var inputs = getPerformanceValues(form);
+        main(inputs);
     }
     function inputFromCsv(arr) {
-        var inputPerf = {};
-        inputPerf.name = arr[1][1];
-        inputPerf.vel_stall_clean_mph = Number(arr[2][1]);
-        inputPerf.cl_max_clean = Number(arr[3][1]);
-        inputPerf.cl_max_flap = Number(arr[4][1]);
-        inputPerf.gross_lb = Number(arr[5][1]);
-        inputPerf.useful_load_lb = Number(arr[6][1]);
-        inputPerf.wing_span_ft = Number(arr[7][1]);
-        inputPerf.plane_efficiency = Number(arr[8][1]);
-        inputPerf.bhp = Number(arr[9][1]);
-        inputPerf.vel_max_mph = Number(arr[10][1]);
-        inputPerf.prop_dia_in = Number(arr[11][1]);
-        inputPerf.prop_max_rpm = Number(arr[12][1]);
-        inputPerf.altitude_ft = Number(arr[13][1]);
-        return inputPerf;
+        var inputs = {};
+        inputs.name = arr[1][1];
+        inputs.vel_stall_clean_mph = Number(arr[2][1]);
+        inputs.cl_max_clean = Number(arr[3][1]);
+        inputs.cl_max_flap = Number(arr[4][1]);
+        inputs.gross_lb = Number(arr[5][1]);
+        inputs.useful_load_lb = Number(arr[6][1]);
+        inputs.wing_span_ft = Number(arr[7][1]);
+        inputs.plane_efficiency = Number(arr[8][1]);
+        inputs.bhp = Number(arr[9][1]);
+        inputs.vel_max_mph = Number(arr[10][1]);
+        inputs.prop_dia_in = Number(arr[11][1]);
+        inputs.prop_max_rpm = Number(arr[12][1]);
+        inputs.altitude_ft = Number(arr[13][1]);
+        return inputs;
     }
 
     function loadButtonHandler() {
         csv.load("saved-data/" + craft + ".csv");
         csv.parse(function (arr) {
-            var inputPerf = inputFromCsv(arr);
-            updateInputFields(inputPerf);
-            main(inputPerf);
+            var inputs = inputFromCsv(arr);
+            updateInputFields(inputs);
+            main(inputs);
         });
     }
 
     function inputChangeHandler(evt) {
-        recalculatePerformance(evt.target.form);
+        iecalculateonputsormance(evt.target.form);
     }
 
     var loadButton = document.querySelector(".js-loadfile");
@@ -368,6 +305,6 @@
         input.addEventListener("change", inputChangeHandler);
     });
 
-    updateInputFields(performanceData[craft]);
-    main(performanceData[craft]);
+    updateInputFields(inputsormanceData[craft]);
+    main(inputsormanceData[craft]);
 }());
