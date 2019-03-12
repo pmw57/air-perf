@@ -297,7 +297,6 @@
 
     var loadButton = document.querySelector(".js-loadfile");
     loadButton.addEventListener("click", loadButtonHandler);
-    loadButton.click();
 
     var form = document.getElementById("input");
     var inputs = form.querySelectorAll("input");
@@ -305,6 +304,10 @@
         input.addEventListener("change", inputChangeHandler);
     });
 
-    updateInputFields(inputsormanceData[craft]);
-    main(inputsormanceData[craft]);
+    const loadFromCSV = true;
+    if (loadFromCSV) {
+        return loadButton.click();
+    }
+    updateInputFields(performanceData[craft]);
+    main(performanceData[craft]);
 }());
