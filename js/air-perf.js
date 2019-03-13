@@ -53,7 +53,40 @@
             altitude_ft: 0
         }
     };
-    // end of user editable custom variables
+    const precision = {
+        // outputs
+        "wing_load_lb_ft": 2,
+        "vel_stall_flaps_mph": 2,
+        "wing_area_ft": 2,
+        "wing_aspect": 2,
+        "wing_chord_ft": 2,
+        "wing_span_effective": 2,
+        "wing_chord_effective": 2,
+        "wing_load_effective": 2,
+        "drag_area_ft": 2,
+        "cd_drag": 4,
+        "vel_sink_min_ft": 2,
+        "pwr_min_req_hp": 2,
+        "rate_sink_min_ft": 2,
+        "ld_max": 2,
+        "drag_min": 2,
+        "cl_min_sink": 2,
+        "rate_climb_ideal": 2,
+        "prop_tip_mach": 2,
+        "prop_vel_ref": 2,
+        "static_thrust_ideal": 2,
+        // results
+        "v": 1,
+        "rc": 1,
+        "eta": 2,
+        "rs": 1,
+        "rec": 0,
+        "fp": 4,
+        "wv2": 0,
+        "rcmax": 2,
+        "vmax": 2,
+        "useful_load": 2
+    };
 
     function getPerformanceValues(form) {
         var inputs = {};
@@ -123,7 +156,7 @@
         var static_thrust_ideal = 10.41 *
                 Math.pow(inputs.bhp * prop_dia_ft, 2.0 / 3);
 
-        const outputs = {
+        return {
             "wing_load_lb_ft": wing_load_lb_ft,
             "vel_stall_flaps_mph": vel_stall_flaps_mph,
             "wing_area_ft": wing_area_ft,
@@ -145,7 +178,6 @@
             "prop_vel_ref": prop_vel_ref,
             "static_thrust_ideal": static_thrust_ideal
         };
-        return outputs;
     }
     function calculateResults(inputs, outputs) {
         var results = {
@@ -193,13 +225,14 @@
             results.runaway = true;
             return;
         }
-        results.rcmax = rcmax;
-        results.vmax = vmax;
-        results.fp = rcmax * inputs.useful_load_lb / 33000 / inputs.bhp *
-                (1 - (outputs.vel_stall_flaps_mph / vmax));
-        results.wv2 = inputs.gross_lb * Math.pow(v, 2);
-        results.useful_load = inputs.useful_load_lb;
-        return results;
+        return Object.assign(results, {
+            rcmax,
+            vmax,
+            fp: rcmax * inputs.useful_load_lb / 33000 / inputs.bhp *
+                    (1 - (outputs.vel_stall_flaps_mph / vmax)),
+            wv2: inputs.gross_lb * Math.pow(v, 2),
+            useful_load: inputs.useful_load_lb
+        });
     }
     function insertCell(row, value) {
         var content = document.createTextNode(value);
@@ -224,15 +257,13 @@
         var table = results.querySelector("table");
         table.tBodies[0].innerHTML = "";
     }
-    function showResult(v, rc, eta, rs, rec) {
+    function showResult(result) {
         var results = document.getElementById("results");
         var table = results.querySelector("table");
         var row = table.tBodies[0].insertRow(-1);
-        insertCell(row, v);
-        insertCell(row, rc);
-        insertCell(row, eta);
-        insertCell(row, rs);
-        insertCell(row, rec);
+        result.forEach(function (value) {
+            insertCell(row, value);
+        });
     }
     function tooManyResults() {
         var results = document.getElementById("results");
@@ -244,13 +275,13 @@
     function updateResults(results, precision) {
         clearResults();
         results.data.forEach(function (result) {
-            showResult(
+            showResult([
                 result.v.toFixed(precision.v),
                 result.rc.toFixed(precision.rc),
                 result.eta.toFixed(precision.eta),
                 result.rs.toFixed(precision.rs),
                 result.rec.toFixed(precision.rec)
-            );
+            ]);
         });
         if (results.runaway) {
             return tooManyResults();
@@ -268,40 +299,6 @@
     function main(inputs) {
         const outputs = calculateOutputs(inputs);
         const results = calculateResults(inputs, outputs);
-        const precision = {
-            // outputs
-            "wing_load_lb_ft": 2,
-            "vel_stall_flaps_mph": 2,
-            "wing_area_ft": 2,
-            "wing_aspect": 2,
-            "wing_chord_ft": 2,
-            "wing_span_effective": 2,
-            "wing_chord_effective": 2,
-            "wing_load_effective": 2,
-            "drag_area_ft": 2,
-            "cd_drag": 4,
-            "vel_sink_min_ft": 2,
-            "pwr_min_req_hp": 2,
-            "rate_sink_min_ft": 2,
-            "ld_max": 2,
-            "drag_min": 2,
-            "cl_min_sink": 2,
-            "rate_climb_ideal": 2,
-            "prop_tip_mach": 2,
-            "prop_vel_ref": 2,
-            "static_thrust_ideal": 2,
-            // results
-            "v": 1,
-            "rc": 1,
-            "eta": 2,
-            "rs": 1,
-            "rec": 0,
-            "fp": 4,
-            "wv2": 0,
-            "rcmax": 2,
-            "vmax": 2,
-            "useful_load": 2
-        };
         updateScreen({inputs, outputs, results}, precision);
     }
     function calculatePerformance(form) {
@@ -309,21 +306,21 @@
         main(inputs);
     }
     function inputFromCsv(arr) {
-        var inputs = {};
-        inputs.name = arr[1][1];
-        inputs.vel_stall_clean_mph = Number(arr[2][1]);
-        inputs.cl_max_clean = Number(arr[3][1]);
-        inputs.cl_max_flap = Number(arr[4][1]);
-        inputs.gross_lb = Number(arr[5][1]);
-        inputs.useful_load_lb = Number(arr[6][1]);
-        inputs.wing_span_ft = Number(arr[7][1]);
-        inputs.plane_efficiency = Number(arr[8][1]);
-        inputs.bhp = Number(arr[9][1]);
-        inputs.vel_max_mph = Number(arr[10][1]);
-        inputs.prop_dia_in = Number(arr[11][1]);
-        inputs.prop_max_rpm = Number(arr[12][1]);
-        inputs.altitude_ft = Number(arr[13][1]);
-        return inputs;
+        return {
+            name: arr[1][1],
+            vel_stall_clean_mph: Number(arr[2][1]),
+            cl_max_clean: Number(arr[3][1]),
+            cl_max_flap: Number(arr[4][1]),
+            gross_lb: Number(arr[5][1]),
+            useful_load_lb: Number(arr[6][1]),
+            wing_span_ft: Number(arr[7][1]),
+            plane_efficiency: Number(arr[8][1]),
+            bhp: Number(arr[9][1]),
+            vel_max_mph: Number(arr[10][1]),
+            prop_dia_in: Number(arr[11][1]),
+            prop_max_rpm: Number(arr[12][1]),
+            altitude_ft: Number(arr[13][1])
+        };
     }
 
     function loadButtonHandler() {
@@ -350,7 +347,8 @@
 
     const loadFromCSV = true;
     if (loadFromCSV) {
-        return loadButton.click();
+        loadButton.click();
+    } else {
+        main(performanceData[craft]);
     }
-    main(performanceData[craft]);
 }());
