@@ -65,13 +65,13 @@
         "wing_load_effective": 2,
         "drag_area_ft": 2,
         "cd_drag": 4,
-        "vel_sink_min_ft": 2,
+        "vel_sink_min_ft": 1,
         "pwr_min_req_hp": 2,
-        "rate_sink_min_ft": 2,
+        "rate_sink_min_ft": 1,
         "ld_max": 2,
         "drag_min": 2,
         "cl_min_sink": 2,
-        "rate_climb_ideal": 2,
+        "rate_climb_ideal": 0,
         "prop_tip_mach": 2,
         "prop_vel_ref": 2,
         "static_thrust_ideal": 2,
@@ -296,14 +296,14 @@
         updateOutputs(outputs, precision);
         updateResults(results, precision);
     }
-    function main(inputs) {
+    function main(inputs, precision) {
         const outputs = calculateOutputs(inputs);
         const results = calculateResults(inputs, outputs);
         updateScreen({inputs, outputs, results}, precision);
     }
     function calculatePerformance(form) {
         var inputs = getPerformanceValues(form);
-        main(inputs);
+        main(inputs, precision);
     }
     function inputFromCsv(arr) {
         return {
@@ -328,7 +328,7 @@
         csv.parse(function (arr) {
             var inputs = inputFromCsv(arr);
             updateInputs(inputs);
-            main(inputs);
+            main(inputs, precision);
         });
     }
 
@@ -349,6 +349,6 @@
     if (loadFromCSV) {
         loadButton.click();
     } else {
-        main(performanceData[craft]);
+        main(performanceData[craft], precision);
     }
 }());
