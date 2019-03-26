@@ -4,6 +4,9 @@
     "use strict";
 
     const craft = "henry_x-1";
+    const inputs = {};
+    const outputs = {};
+    const results = {};
     var vel_delta = 1.00; // airspeed increment for each iteration
 
     var performanceData = {
@@ -89,7 +92,6 @@
     };
 
     function getPerformanceValues(form) {
-        var inputs = {};
         inputs.name = Number(form.elements.name.value);
         inputs.bhp = Number(form.elements.bhp.value);
         inputs.wing_span_ft = Number(form.elements.wing_span_ft.value);
@@ -180,9 +182,7 @@
         };
     }
     function calculateResults(inputs, outputs) {
-        var results = {
-            data: []
-        };
+        results.data = [];
         var eta = 1;
         var rc = 1;
         var rc1 = 0;
@@ -253,21 +253,21 @@
         });
     }
     function clearResults() {
-        var results = document.getElementById("results");
-        var table = results.querySelector("table");
+        var resultSection = document.getElementById("results");
+        var table = resultSection.querySelector("table");
         table.tBodies[0].innerHTML = "";
     }
     function showResult(result) {
-        var results = document.getElementById("results");
-        var table = results.querySelector("table");
+        var resultSection = document.getElementById("results");
+        var table = resultSection.querySelector("table");
         var row = table.tBodies[0].insertRow(-1);
         result.forEach(function (value) {
             insertCell(row, value);
         });
     }
     function tooManyResults() {
-        var results = document.getElementById("results");
-        var table = results.querySelector("table");
+        var resultSection = document.getElementById("results");
+        var table = resultSection.querySelector("table");
         var row = table.tBodies[0].insertRow(-1);
         insertCell(row, "Stopping to avoid possible infinite loop.");
         row.children[0].colSpan = 5;
@@ -297,12 +297,12 @@
         updateResults(results, precision);
     }
     function main(inputs, precision) {
-        const outputs = calculateOutputs(inputs);
-        const results = calculateResults(inputs, outputs);
+        Object.assign(outputs, calculateOutputs(inputs));
+        Object.assign(results, calculateResults(inputs, outputs));
         updateScreen({inputs, outputs, results}, precision);
     }
     function calculatePerformance(form) {
-        var inputs = getPerformanceValues(form);
+        Object.assign(inputs, getPerformanceValues(form));
         main(inputs, precision);
     }
     function inputFromCsv(arr) {
@@ -326,7 +326,7 @@
     function loadButtonHandler() {
         csv.load("saved-data/" + craft + ".csv");
         csv.parse(function (arr) {
-            var inputs = inputFromCsv(arr);
+            Object.assign(inputs, inputFromCsv(arr));
             updateInputs(inputs);
             main(inputs, precision);
         });
@@ -340,8 +340,8 @@
     loadButton.addEventListener("click", loadButtonHandler);
 
     var form = document.getElementById("input");
-    var inputs = form.querySelectorAll("input");
-    inputs.forEach(function (input) {
+    const formInputs = form.querySelectorAll("input");
+    formInputs.forEach(function (input) {
         input.addEventListener("change", inputChangeHandler);
     });
 
