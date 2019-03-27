@@ -322,22 +322,31 @@
             altitude_ft: Number(arr[13][1])
         };
     }
-
-    function loadButtonHandler() {
-        csv.load("saved-data/" + craft + ".csv");
+    function loadFromCsv() {
         csv.parse(function (arr) {
             Object.assign(inputs, inputFromCsv(arr));
             updateInputs(inputs);
             main(inputs, precision);
         });
     }
+    function loadFileHandler(evt) {
+        var inputField = evt.target;
+        var file = inputField.files[0];
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function contentLoaded(readerEvent) {
+            var content = readerEvent.target.result;
+            csv.set(content);
+            loadFromCsv();
+        };
+    }
 
     function inputChangeHandler(evt) {
         calculatePerformance(evt.target.form);
     }
 
-    var loadButton = document.querySelector(".js-loadfile");
-    loadButton.addEventListener("click", loadButtonHandler);
+    var loadFile = document.querySelector(".js-loadfile");
+    loadFile.addEventListener("change", loadFileHandler);
 
     var form = document.getElementById("input");
     const formInputs = form.querySelectorAll("input");
@@ -347,7 +356,8 @@
 
     const loadFromCSV = true;
     if (loadFromCSV) {
-        loadButton.click();
+        csv.load("saved-data/" + craft + ".csv");
+        loadFromCsv();
     } else {
         main(performanceData[craft], precision);
     }

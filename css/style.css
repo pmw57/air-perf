@@ -8,7 +8,7 @@ form p {
 	margin-top: 0;
 	margin-bottom: 0;
 }
-label {
+form label {
 	float: left;
 	text-align: right;
 	margin-right: 15px;

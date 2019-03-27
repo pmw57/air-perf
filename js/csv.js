@@ -2,9 +2,13 @@
 var csv = (function makeCsv() {
     "use strict";
 
-    var fetchCsv = {};
+    var fetchCsv = undefined;
     var csvText = "";
 
+    function setText(content) {
+        fetchCsv = undefined;
+        csvText = content;
+    }
     function loadText(filename) {
         function textHandler(text) {
             csvText = text;
@@ -29,16 +33,26 @@ var csv = (function makeCsv() {
         }
     }
     function parseText(callback) {
-        fetchCsv.then(function () {
-            var arr = csvText.split("\n").map(function (line) {
-                return line.split(",");
-            });
-            callback(arr);
+        var arr = csvText.split("\n").map(function (line) {
+            return line.split(",");
         });
+        callback(arr);
+    }
+    function parseWrapper(callback) {
+        return function wrapper() {
+            parseText(callback);
+        };
+    }
+    function parseHandler(callback) {
+        if (typeof fetchCsv === "object") {
+            return fetchCsv.then(parseWrapper(callback));
+        }
+        parseText(callback);
     }
     return {
+        set: setText,
         load: loadText,
         get: getText,
-        parse: parseText
+        parse: parseHandler
     };
 }());
