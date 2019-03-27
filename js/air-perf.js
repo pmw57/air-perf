@@ -3,59 +3,11 @@
 (function iife() {
     "use strict";
 
-    const craft = "henry_x-1";
     const inputs = {};
     const outputs = {};
     const results = {};
     var vel_delta = 1.00; // airspeed increment for each iteration
 
-    var performanceData = {
-        thorp_t18: {
-            name: "Thorp T-18",
-            vel_stall_clean_mph: 67.00, // VS1
-            cl_max_clean: 1.53,
-            cl_max_flap: 2.10,
-            gross_lb: 1500.00,
-            useful_load_lb: 600.00,
-            plane_efficiency: 0.744,
-            bhp: 150.00,
-            vel_max_mph: 180.00,
-            prop_dia_in: 6 * 12,
-            wing_span_ft: 20 + 10 / 12,
-            prop_max_rpm: 2700.00,
-            altitude_ft: 0
-        },
-        aerocar_imp: {
-            name: "Aerocar Imp",
-            vel_stall_clean_mph: 67.00, // VS1
-            cl_max_clean: 1.53,
-            cl_max_flap: 2.10,
-            gross_lb: 1500.00,
-            useful_load_lb: 600.00,
-            plane_efficiency: 0.744,
-            bhp: 0.00,
-            vel_max_mph: 180.00,
-            prop_dia_in: 72.00,
-            wing_span_ft: 20.83,
-            prop_max_rpm: 2700.00,
-            altitude_ft: 0
-        },
-        thorp_t18_tiger: {
-            name: "Thorp T-18 Tiger",
-            vel_stall_clean_mph: 65.00, // VS1
-            cl_max_clean: 1.53,
-            cl_max_flap: 2.10,
-            gross_lb: 1506.00,
-            useful_load_lb: 600.00,
-            plane_efficiency: 0.744,
-            bhp: 180.00,
-            vel_max_mph: 200.00,
-            prop_dia_in: 5 * 12 + 3,
-            wing_span_ft: 20 + 10 / 12,
-            prop_max_rpm: 2700.00,
-            altitude_ft: 0
-        }
-    };
     const precision = {
         // outputs
         "wing_load_lb_ft": 2,
@@ -354,11 +306,6 @@
         input.addEventListener("change", inputChangeHandler);
     });
 
-    const loadFromCSV = true;
-    if (loadFromCSV) {
-        csv.load("saved-data/" + craft + ".csv");
-        loadFromCsv();
-    } else {
-        main(performanceData[craft], precision);
-    }
+    csv.load("saved-data/default.csv");
+    loadFromCsv();
 }());
