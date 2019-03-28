@@ -290,6 +290,8 @@
             var content = readerEvent.target.result;
             csv.set(content);
             loadFromCsv();
+            const saveInput = document.querySelector(".js-savefile");
+            saveInput.value = file.name;
         };
     }
 
