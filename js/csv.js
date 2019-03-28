@@ -2,11 +2,11 @@
 var csv = (function makeCsv() {
     "use strict";
 
-    var fetchCsv = undefined;
+    var promise = undefined;
     var csvText = "";
 
     function setText(content) {
-        fetchCsv = undefined;
+        promise = undefined;
         csvText = content;
     }
     function loadText(filename) {
@@ -16,8 +16,8 @@ var csv = (function makeCsv() {
         function responseHandler(response) {
             return response.text().then(textHandler);
         }
-        fetchCsv = window.fetch(filename).then(responseHandler);
-        return fetchCsv;
+        promise = window.fetch(filename).then(responseHandler);
+        return promise;
     }
     function getText(filename, callback) {
         if (typeof filename === "string") {
@@ -27,7 +27,7 @@ var csv = (function makeCsv() {
         }
         if (typeof filename === "function") {
             callback = filename;
-            fetchCsv.then(function () {
+            promise.then(function () {
                 callback(csvText);
             });
         }
@@ -48,8 +48,8 @@ var csv = (function makeCsv() {
         };
     }
     function parseHandler(callback) {
-        if (typeof fetchCsv === "object") {
-            return fetchCsv.then(parseWrapper(callback));
+        if (typeof promise === "object") {
+            return promise.then(parseWrapper(callback));
         }
         parseText(callback);
     }
