@@ -307,9 +307,5 @@
         input.addEventListener("change", inputChangeHandler);
     });
 
-    var promise = csv.load("saved-data/default.csv");
-    promise.then(function() {
-        var csvArr = csv.toArray();
-        updateInputsFromCsv(csvArr);
-    });
+    csv.load("saved-data/default.csv", updateInputsFromCsv);
 }());

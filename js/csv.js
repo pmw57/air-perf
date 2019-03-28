@@ -9,7 +9,7 @@ var csv = (function makeCsv() {
         promise = undefined;
         csvText = content;
     }
-    function loadText(filename) {
+    function loadText(filename, callback) {
         function textHandler(text) {
             csvText = text;
         }
@@ -17,6 +17,12 @@ var csv = (function makeCsv() {
             return response.text().then(textHandler);
         }
         promise = window.fetch(filename).then(responseHandler);
+        if (typeof callback === "function") {
+            promise.then(function callWithArray() {
+                var csvArr = csv.toArray();
+                callback(csvArr);
+            });
+        }
         return promise;
     }
     function getText(filename, callback) {
@@ -58,5 +64,6 @@ var csv = (function makeCsv() {
         load: loadText,
         get: getText,
         parse: parseHandler
+        toArray: convertToArray,
     };
 }());
