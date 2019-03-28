@@ -44,26 +44,10 @@ var csv = (function makeCsv() {
     function convertToArray() {
         return csvText.split("\n").map(splitByComma);
     }
-    function parseText(callback) {
-        var arr = convertToArray();
-        callback(arr);
-    }
-    function parseWrapper(callback) {
-        return function wrapper() {
-            parseText(callback);
-        };
-    }
-    function parseHandler(callback) {
-        if (typeof promise === "object") {
-            return promise.then(parseWrapper(callback));
-        }
-        parseText(callback);
-    }
     return {
         set: setText,
         load: loadText,
         get: getText,
-        parse: parseHandler
         toArray: convertToArray,
     };
 }());
