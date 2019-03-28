@@ -44,10 +44,30 @@ var csv = (function makeCsv() {
     function convertToArray() {
         return csvText.split("\n").map(splitByComma);
     }
+    function loadHandler(evt, callback) {
+        var inputField = evt.target;
+        var file = inputField.files[0];
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function contentLoaded(readerEvent) {
+            var content = readerEvent.target.result;
+            csv.set(content);
+            var csvArr = csv.toArray();
+            callback(csvArr);
+            const saveInput = document.querySelector(".js-savefile");
+            saveInput.value = file.name;
+        };
+    }
+    function loadWrapper(callback) {
+        return function handler(evt) {
+            return loadHandler(evt, callback);
+        };
+    }
     return {
         set: setText,
         load: loadText,
         get: getText,
         toArray: convertToArray,
+        loadWrapper: loadWrapper
     };
 }());

@@ -279,27 +279,14 @@
         updateInputs(inputs);
         main(inputs, precision);
     }
-    function loadFileHandler(evt) {
-        var inputField = evt.target;
-        var file = inputField.files[0];
-        var reader = new FileReader();
-        reader.readAsText(file, "UTF-8");
-        reader.onload = function contentLoaded(readerEvent) {
-            var content = readerEvent.target.result;
-            csv.set(content);
-            var csvArr = csv.toArray();
-            updateInputsFromCsv(csvArr);
-            const saveInput = document.querySelector(".js-savefile");
-            saveInput.value = file.name;
-        };
-    }
 
     function inputChangeHandler(evt) {
         calculatePerformance(evt.target.form);
     }
 
     var loadFile = document.querySelector(".js-loadfile");
-    loadFile.addEventListener("change", loadFileHandler);
+    var loadHandler = csv.loadWrapper(updateInputsFromCsv);
+    loadFile.addEventListener("change", loadHandler);
 
     var form = document.getElementById("input");
     const formInputs = form.querySelectorAll("input");
