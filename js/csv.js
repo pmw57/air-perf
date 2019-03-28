@@ -32,10 +32,14 @@ var csv = (function makeCsv() {
             });
         }
     }
+    function splitByComma(line) {
+        return line.split(",");
+    }
+    function convertToArray() {
+        return csvText.split("\n").map(splitByComma);
+    }
     function parseText(callback) {
-        var arr = csvText.split("\n").map(function (line) {
-            return line.split(",");
-        });
+        var arr = convertToArray();
         callback(arr);
     }
     function parseWrapper(callback) {

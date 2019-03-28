@@ -274,12 +274,10 @@
             altitude_ft: Number(arr[13][1])
         };
     }
-    function loadFromCsv() {
-        csv.parse(function (arr) {
-            Object.assign(inputs, inputFromCsv(arr));
-            updateInputs(inputs);
-            main(inputs, precision);
-        });
+    function updateInputsFromCsv(csvArr) {
+        Object.assign(inputs, inputFromCsv(csvArr));
+        updateInputs(inputs);
+        main(inputs, precision);
     }
     function loadFileHandler(evt) {
         var inputField = evt.target;
@@ -289,7 +287,8 @@
         reader.onload = function contentLoaded(readerEvent) {
             var content = readerEvent.target.result;
             csv.set(content);
-            loadFromCsv();
+            var csvArr = csv.toArray();
+            updateInputsFromCsv(csvArr);
             const saveInput = document.querySelector(".js-savefile");
             saveInput.value = file.name;
         };
@@ -308,6 +307,9 @@
         input.addEventListener("change", inputChangeHandler);
     });
 
-    csv.load("saved-data/default.csv");
-    loadFromCsv();
+    var promise = csv.load("saved-data/default.csv");
+    promise.then(function() {
+        var csvArr = csv.toArray();
+        updateInputsFromCsv(csvArr);
+    });
 }());
