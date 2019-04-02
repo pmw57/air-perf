@@ -258,25 +258,24 @@
         main(inputs, precision);
     }
     function inputFromCsv(arr) {
+        const inputsFromCsv = {};
         var heading = arr[0][0].trim();
         if (heading !== "Input parameters") {
             return;
         }
-        return {
-            name: arr[1][1],
-            vel_stall_clean_mph: Number(arr[2][1]),
-            cl_max_clean: Number(arr[3][1]),
-            cl_max_flap: Number(arr[4][1]),
-            gross_lb: Number(arr[5][1]),
-            useful_load_lb: Number(arr[6][1]),
-            wing_span_ft: Number(arr[7][1]),
-            plane_efficiency: Number(arr[8][1]),
-            bhp: Number(arr[9][1]),
-            vel_max_mph: Number(arr[10][1]),
-            prop_dia_in: Number(arr[11][1]),
-            prop_max_rpm: Number(arr[12][1]),
-            altitude_ft: Number(arr[13][1])
-        };
+        var index = 1;
+        while (arr[index].length > 1) {
+            const key = arr[index][0];
+            const value = arr[index][1];
+            const num = Number(value);
+            if (!Number.isNaN(num)) {
+                inputsFromCsv[key] = num;
+            } else {
+                inputsFromCsv[key] = value;
+            }
+            index += 1;
+        }
+        return inputsFromCsv;
     }
     function updateInputsFromCsv(csvArr) {
         Object.assign(inputs, inputFromCsv(csvArr));
