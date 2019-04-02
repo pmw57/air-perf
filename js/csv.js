@@ -63,11 +63,53 @@ var csv = (function makeCsv() {
             return loadHandler(evt, callback);
         };
     }
+    function commaSeparated([key, value]) {
+        return key + "," + value;
+    }
+    function csvInputs(inputs) {
+        var csv = Object.entries(inputs).map(commaSeparated);
+        return ["Input parameters", ...csv, ""];
+    }
+    function csvOutputs(outputs) {
+        var csv = Object.entries(outputs).map(commaSeparated);
+        return ["Outputs parameters", ...csv, ""];
+    }
+    function csvResults(results) {
+        var performance = results.data.map(function (item) {
+            // eta: 0.3558142859727815
+            // rc: 430.01543159205403
+            // rec: 2604060
+            // rs: 1448.6839983442321
+            // v: 25
+            return [item.v, item.rc, item.eta, item.rs, item.rec];
+        });
+
+        var resultsSummary = JSON.parse(JSON.stringify(results));
+        delete resultsSummary.data;
+        var summary = Object.entries(resultsSummary).map(commaSeparated);
+
+        return [
+            "Results",
+            ["v(mph)", "rc(fpm)", "eta", "rs(fpm)", "re=rho*v*c/mu"],
+            ...performance,
+            "",
+            ...summary,
+            ""
+        ];
+    }
+    function stringify({inputs, outputs, results}) {
+        return [
+            ...csvInputs(inputs),
+            ...csvOutputs(outputs),
+            ...csvResults(results)
+        ].join("\n");
+    }
     return {
         set: setText,
         load: loadText,
         get: getText,
         toArray: convertToArray,
-        loadWrapper: loadWrapper
+        loadWrapper: loadWrapper,
+        stringify: stringify
     };
 }());
