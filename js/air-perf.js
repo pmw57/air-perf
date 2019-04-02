@@ -258,6 +258,10 @@
         main(inputs, precision);
     }
     function inputFromCsv(arr) {
+        var heading = arr[0][0].trim();
+        if (heading !== "Input parameters") {
+            return;
+        }
         return {
             name: arr[1][1],
             vel_stall_clean_mph: Number(arr[2][1]),
@@ -276,6 +280,10 @@
     }
     function updateInputsFromCsv(csvArr) {
         Object.assign(inputs, inputFromCsv(csvArr));
+        if (Object.entries(inputs).length === 0) {
+            window.alert("File format is invalid.");
+            return;
+        }
         updateInputs(inputs);
         main(inputs, precision);
     }
