@@ -44,7 +44,7 @@
     };
 
     function getPerformanceValues(form) {
-        inputs.name = Number(form.elements.name.value);
+        inputs.name = form.elements.name.value;
         inputs.bhp = Number(form.elements.bhp.value);
         inputs.wing_span_ft = Number(form.elements.wing_span_ft.value);
         inputs.prop_dia_in = Number(form.elements.prop_dia_in.value);
