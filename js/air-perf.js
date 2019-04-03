@@ -43,23 +43,15 @@
         "useful_load": 2
     };
 
+    function isValidNumber(num) {
+        return Number.isNaN(num) === false;
+    }
     function getPerformanceValues(form) {
-        inputs.name = form.elements.name.value;
-        inputs.bhp = Number(form.elements.bhp.value);
-        inputs.wing_span_ft = Number(form.elements.wing_span_ft.value);
-        inputs.prop_dia_in = Number(form.elements.prop_dia_in.value);
-        inputs.gross_lb = Number(form.elements.gross_lb.value);
-        inputs.vel_max_mph = Number(form.elements.vel_max_mph.value);
-        inputs.vel_stall_clean_mph = Number(
-            form.elements.vel_stall_clean_mph.value
-        );
-        inputs.useful_load_lb = Number(form.elements.useful_load_lb.value);
-        inputs.prop_max_rpm = Number(form.elements.prop_max_rpm.value);
-        inputs.cl_max_clean = Number(form.elements.cl_max_clean.value);
-        inputs.cl_max_flap = Number(form.elements.cl_max_flap.value);
-        inputs.plane_efficiency = Number(form.elements.plane_efficiency.value);
-        inputs.altitude_ft = Number(form.elements.altitude_ft.value);
-        return inputs;
+        Array.from(form.elements).forEach(function (field) {
+            inputs[field.name] = isValidNumber(field.value)
+                ? Number(field.value)
+                : field.value;
+        });
     }
     function wing_load(cl_max_clean, vel_stall_clean_mph) {
         var load = cl_max_clean * Math.pow(vel_stall_clean_mph, 2) / 391;
@@ -256,9 +248,6 @@
     function calculatePerformance(form) {
         Object.assign(inputs, getPerformanceValues(form));
         main(inputs, precision);
-    }
-    function isValidNumber(num) {
-        return Number.isNaN(num) === false;
     }
     function keyNumberReducer(obj, item) {
         const key = item[0];
