@@ -48,11 +48,12 @@
         return Number.isNaN(num) === false;
     }
     function getPerformanceValues(form) {
-        Array.from(form.elements).forEach(function (field) {
-            inputs[field.name] = isValidNumber(field.value)
+        return Array.from(form.elements).reduce(function (obj, field) {
+            obj[field.name] = isValidNumber(field.value)
                 ? Number(field.value)
                 : field.value;
-        });
+            return obj;
+        }, {});
     }
     function wing_load(cl_max_clean, vel_stall_clean_mph) {
         var load = cl_max_clean * Math.pow(vel_stall_clean_mph, 2) / 391;
