@@ -43,7 +43,8 @@
         "useful_load": 2
     };
 
-    function isValidNumber(num) {
+    function isValidNumber(value) {
+        const num = Number(value);
         return Number.isNaN(num) === false;
     }
     function getPerformanceValues(form) {
@@ -252,9 +253,8 @@
     function keyNumberReducer(obj, item) {
         const key = item[0];
         const value = item[1];
-        const num = Number(value);
-        obj[key] = isValidNumber(num)
-            ? num
+        obj[key] = isValidNumber(value)
+            ? Number(value)
             : value;
         return obj;
     }
