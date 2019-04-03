@@ -257,25 +257,30 @@
         Object.assign(inputs, getPerformanceValues(form));
         main(inputs, precision);
     }
+    function isValidNumber(num) {
+        return Number.isNaN(num) === false;
+    }
+    function keyNumberReducer(obj, item) {
+        const key = item[0];
+        const value = item[1];
+        const num = Number(value);
+        obj[key] = isValidNumber(num)
+            ? num
+            : value;
+        return obj;
+    }
     function inputFromCsv(arr) {
-        const inputsFromCsv = {};
         var heading = arr[0][0].trim();
         if (heading !== "Input parameters") {
             return;
         }
-        var index = 1;
-        while (arr[index].length > 1) {
-            const key = arr[index][0];
-            const value = arr[index][1];
-            const num = Number(value);
-            if (!Number.isNaN(num)) {
-                inputsFromCsv[key] = num;
-            } else {
-                inputsFromCsv[key] = value;
-            }
-            index += 1;
+        var lastItem = arr.findIndex(function (item, index) {
+            return index > 0 && item.length < 2;
+        });
+        if (lastItem === -1) {
+            lastItem = arr.length;
         }
-        return inputsFromCsv;
+        return arr.slice(1, lastItem).reduce(keyNumberReducer, {});
     }
     function updateInputsFromCsv(csvArr) {
         Object.assign(inputs, inputFromCsv(csvArr));
