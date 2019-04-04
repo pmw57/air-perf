@@ -105,26 +105,26 @@
                 Math.pow(inputs.bhp * prop_dia_ft, 2.0 / 3);
 
         return {
-            "wing_load_lb_ft": wing_load_lb_ft,
-            "vel_stall_flaps_mph": vel_stall_flaps_mph,
-            "wing_area_ft": wing_area_ft,
-            "wing_aspect": wing_aspect,
-            "wing_chord_ft": wing_chord_ft,
-            "wing_span_effective": wing_span_effective,
-            "wing_chord_effective": wing_chord_effective,
-            "wing_load_effective": wing_load_effective,
-            "drag_area_ft": drag_area_ft,
-            "cd_drag": cd_drag,
-            "vel_sink_min_ft": vel_sink_min_ft,
-            "pwr_min_req_hp": pwr_min_req_hp,
-            "rate_sink_min_ft": rate_sink_min_ft,
-            "ld_max": ld_max,
-            "drag_min": drag_min,
-            "cl_min_sink": cl_min_sink,
-            "rate_climb_ideal": rate_climb_ideal,
-            "prop_tip_mach": prop_tip_mach,
-            "prop_vel_ref": prop_vel_ref,
-            "static_thrust_ideal": static_thrust_ideal
+            wing_load_lb_ft,
+            vel_stall_flaps_mph,
+            wing_area_ft,
+            wing_aspect,
+            wing_chord_ft,
+            wing_span_effective,
+            wing_chord_effective,
+            wing_load_effective,
+            drag_area_ft,
+            cd_drag,
+            vel_sink_min_ft,
+            pwr_min_req_hp,
+            rate_sink_min_ft,
+            ld_max,
+            drag_min,
+            cl_min_sink,
+            rate_climb_ideal,
+            prop_tip_mach,
+            prop_vel_ref,
+            static_thrust_ideal
         };
     }
     function calculateResults(inputs, outputs) {
