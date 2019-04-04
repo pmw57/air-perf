@@ -4,11 +4,11 @@ h3 {
 #perf {
 	position: relative;
 }
-form p {
+#perf p {
 	margin-top: 0;
 	margin-bottom: 0;
 }
-form label {
+#perf label {
 	float: left;
 	text-align: right;
 	margin-right: 15px;
