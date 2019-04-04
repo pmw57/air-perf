@@ -1,4 +1,5 @@
 /*jslint browser */
+/*global saveAs*/
 var csv = (function makeCsv() {
     "use strict";
 
@@ -24,6 +25,11 @@ var csv = (function makeCsv() {
             });
         }
         return promise;
+    }
+    function saveText(csvText, filename) {
+        saveAs(new window.Blob([csvText], {
+            type: "text/csv"
+        }), filename);
     }
     function getText(filename, callback) {
         if (typeof filename === "string") {
@@ -107,6 +113,7 @@ var csv = (function makeCsv() {
     return {
         set: setText,
         load: loadText,
+        save: saveText,
         get: getText,
         toArray: convertToArray,
         loadWrapper: loadWrapper,

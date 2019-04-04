@@ -282,6 +282,12 @@
         main(inputs, precision);
     }
 
+    function saveButtonHandler() {
+        const csvContent = csv.stringify({inputs, outputs, results});
+        const filename = document.querySelector(".js-savefile").value;
+        csv.save(csvContent, filename);
+    }
+
     function inputChangeHandler(evt) {
         calculatePerformance(evt.target.form);
     }
@@ -289,6 +295,9 @@
     var loadFile = document.querySelector(".js-loadfile");
     var loadHandler = csv.loadWrapper(updateInputsFromCsv);
     loadFile.addEventListener("change", loadHandler);
+
+    var saveButton = document.querySelector(".js-savebutton");
+    saveButton.addEventListener("click", saveButtonHandler);
 
     var form = document.getElementById("input");
     const formInputs = form.querySelectorAll("input");
