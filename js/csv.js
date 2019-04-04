@@ -67,12 +67,12 @@ var csv = (function makeCsv() {
         return key + "," + value;
     }
     function csvInputs(inputs) {
-        var csv = Object.entries(inputs).map(commaSeparated);
-        return ["Input parameters", ...csv, ""];
+        var inputCsv = Object.entries(inputs).map(commaSeparated);
+        return ["Input parameters", ...inputCsv, ""];
     }
     function csvOutputs(outputs) {
-        var csv = Object.entries(outputs).map(commaSeparated);
-        return ["Outputs parameters", ...csv, ""];
+        var outputCsv = Object.entries(outputs).map(commaSeparated);
+        return ["Outputs parameters", ...outputCsv, ""];
     }
     function csvResults(results) {
         var performance = results.data.map(function (item) {
