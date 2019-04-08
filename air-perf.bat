@@ -1,2 +1,0 @@
-@echo off
-live-server
