@@ -304,6 +304,4 @@
     formInputs.forEach(function (input) {
         input.addEventListener("change", inputChangeHandler);
     });
-
-    csv.load("saved-data/default.csv", updateInputsFromCsv);
 }());
