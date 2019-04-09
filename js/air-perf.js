@@ -295,6 +295,7 @@
         csv.save(csvContent, filename);
     }
     function saveButtonHandler(evt) {
+        evt.preventDefault();
         const formSelector = evt.target.getAttribute("ref");
         const form = document.querySelector(formSelector);
         const filename = document.querySelector(".js-savefile").value;
