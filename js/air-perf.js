@@ -3,9 +3,6 @@
 (function iife() {
     "use strict";
 
-    const inputs = {};
-    const outputs = {};
-    const results = {};
     var vel_delta = 1.00; // airspeed increment for each iteration
 
     const precision = {
@@ -103,8 +100,7 @@
                 Math.pow(inputs.bhp / Math.pow(prop_dia_ft, 2), 1.0 / 3);
         var static_thrust_ideal = 10.41 *
                 Math.pow(inputs.bhp * prop_dia_ft, 2.0 / 3);
-
-        return {
+        var outputs = {
             wing_load_lb_ft,
             vel_stall_flaps_mph,
             wing_area_ft,
@@ -126,8 +122,10 @@
             prop_vel_ref,
             static_thrust_ideal
         };
+        return outputs;
     }
     function calculateResults(inputs, outputs) {
+        var results = {};
         results.data = [];
         var eta = 1;
         var rc = 1;
@@ -243,11 +241,19 @@
         updateResults(results, precision);
     }
     function main(inputs, precision) {
-        Object.assign(outputs, calculateOutputs(inputs));
-        Object.assign(results, calculateResults(inputs, outputs));
+        const outputs = calculateOutputs(inputs);
+        const results = calculateResults(inputs, outputs);
         updateScreen({inputs, outputs, results}, precision);
     }
+    function getInputsFromForm(form) {
+        var fields = Array.from(form.elements);
+        return fields.reduce(function (inputs, field) {
+            inputs[field.name] = field.value;
+            return inputs;
+        }, {});
+    }
     function calculatePerformance(form) {
+        const inputs = getInputsFromForm(form);
         Object.assign(inputs, getPerformanceValues(form));
         main(inputs, precision);
     }
@@ -273,7 +279,7 @@
         return arr.slice(1, lastItem).reduce(keyNumberReducer, {});
     }
     function updateInputsFromCsv(csvArr) {
-        Object.assign(inputs, inputFromCsv(csvArr));
+        const inputs = inputFromCsv(csvArr);
         if (Object.entries(inputs).length === 0) {
             window.alert("File format is invalid.");
             return;
@@ -281,15 +287,21 @@
         updateInputs(inputs);
         main(inputs, precision);
     }
-
-    function saveButtonHandler() {
+    function saveButtonHandler(evt) {
+        const saveButton = evt.target;
+        const formSelector = saveButton.getAttribute("ref");
+        const form = document.querySelector(formSelector);
+        const inputs = getInputsFromForm(form);
+        const outputs = calculateOutputs(inputs);
+        const results = calculateResults(inputs, outputs);
         const csvContent = csv.stringify({inputs, outputs, results});
         const filename = document.querySelector(".js-savefile").value;
         csv.save(csvContent, filename);
     }
-
     function inputChangeHandler(evt) {
-        calculatePerformance(evt.target.form);
+        const formField = evt.target;
+        const form = formField.form;
+        calculatePerformance(form);
     }
 
     var loadFile = document.querySelector(".js-loadfile");
