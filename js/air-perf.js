@@ -30,6 +30,7 @@
         // results
         "v": 1,
         "rc": 1,
+        "vy": 1,
         "eta": 2,
         "rs": 1,
         "rec": 0,
@@ -132,6 +133,7 @@
         var rc1 = 0;
         var rc2 = 0;
         var rcmax = 0;
+        var vy = 0;
         var rec = 0;
         var rsh = 0;
         var rmu = 1;
@@ -158,7 +160,10 @@
             rc2 = rc;
             rec = sig * v * outputs.wing_chord_ft * 9324 / rmu;
             if (rc > 0) {
-                rcmax = Math.max(rc, rcmax);
+                if (rc > rcmax) {
+                    rcmax = Math.max(rc, rcmax);
+                    vy = v;
+                }
                 vmax = Math.max(v, vmax);
                 results.data.push({v, rc, eta, rs, rec});
                 v = v + vel_delta * rc2 / (rc2 - rc1);
@@ -171,6 +176,7 @@
         }
         return Object.assign(results, {
             rcmax,
+            vy,
             vmax,
             fp: rcmax * inputs.useful_load_lb / 33000 / inputs.bhp *
                     (1 - (outputs.vel_stall_flaps_mph / vmax)),
@@ -230,7 +236,8 @@
         if (results.runaway) {
             return tooManyResults();
         }
-        ["fp", "wv2", "rcmax", "vmax", "useful_load"].forEach(function (prop) {
+        const performance = ["fp", "wv2", "rcmax", "vy", "vmax", "useful_load"];
+        performance.forEach(function (prop) {
             const num = results[prop].toFixed(precision[prop]);
             document.getElementById(prop).innerHTML = num;
         });
