@@ -287,16 +287,18 @@
         updateInputs(inputs);
         main(inputs, precision);
     }
-    function saveButtonHandler(evt) {
-        const saveButton = evt.target;
-        const formSelector = saveButton.getAttribute("ref");
-        const form = document.querySelector(formSelector);
+    function saveFormToFile(form, filename) {
         const inputs = getInputsFromForm(form);
         const outputs = calculateOutputs(inputs);
         const results = calculateResults(inputs, outputs);
         const csvContent = csv.stringify({inputs, outputs, results});
-        const filename = document.querySelector(".js-savefile").value;
         csv.save(csvContent, filename);
+    }
+    function saveButtonHandler(evt) {
+        const formSelector = evt.target.getAttribute("ref");
+        const form = document.querySelector(formSelector);
+        const filename = document.querySelector(".js-savefile").value;
+        saveFormToFile(form, filename);
     }
     function inputChangeHandler(evt) {
         const formField = evt.target;

@@ -30,3 +30,7 @@ table {
 	margin-top: 2em;
 	margin-left: 2em;
 }
+#results label {
+	position: absolute;
+	left: 16em;
+}

@@ -82,11 +82,6 @@ var csv = (function makeCsv() {
     }
     function csvResults(results) {
         var performance = results.data.map(function (item) {
-            // eta: 0.3558142859727815
-            // rc: 430.01543159205403
-            // rec: 2604060
-            // rs: 1448.6839983442321
-            // v: 25
             return [item.v, item.rc, item.eta, item.rs, item.rec];
         });
 
@@ -96,10 +91,10 @@ var csv = (function makeCsv() {
 
         return [
             "Results",
+            ...summary,
+            "",
             ["v(mph)", "rc(fpm)", "eta", "rs(fpm)", "re=rho*v*c/mu"],
             ...performance,
-            "",
-            ...summary,
             ""
         ];
     }
