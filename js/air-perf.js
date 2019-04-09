@@ -47,9 +47,11 @@
     }
     function getPerformanceValues(form) {
         return Array.from(form.elements).reduce(function (obj, field) {
-            obj[field.name] = isValidNumber(field.value)
+            obj[field.name] = (
+                isValidNumber(field.value)
                 ? Number(field.value)
-                : field.value;
+                : field.value
+            );
             return obj;
         }, {});
     }
@@ -267,9 +269,11 @@
     function keyNumberReducer(obj, item) {
         const key = item[0];
         const value = item[1];
-        obj[key] = isValidNumber(value)
+        obj[key] = (
+            isValidNumber(value)
             ? Number(value)
-            : value;
+            : value
+        );
         return obj;
     }
     function inputFromCsv(arr) {
