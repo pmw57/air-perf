@@ -14,7 +14,7 @@
         "wing_chord_ft": 2,
         "wing_span_effective": 2,
         "wing_chord_effective": 2,
-        "wing_load_effective": 2,
+        "span_load_effective": 2,
         "drag_area_ft": 2,
         "cd_drag": 4,
         "vel_sink_min_ft": 1,
@@ -80,17 +80,18 @@
         var wing_chord_ft = inputs.wing_span_ft / wing_aspect;
         var wing_span_effective = inputs.wing_span_ft *
                 Math.sqrt(inputs.plane_efficiency);
-        var wing_chord_effective = wing_area_ft / wing_span_effective;
-        var wing_load_effective = inputs.gross_lb / wing_span_effective;
+        var wing_chord_effective = wing_chord_ft /
+                Math.sqrt(inputs.plane_efficiency);
+        var span_load_effective = inputs.gross_lb / wing_span_effective;
         var drag_area_ft = 0.8 * inputs.bhp *
                 146625 / Math.pow(inputs.vel_max_mph, 3);
 
         var cd_drag = drag_area_ft / wing_area_ft;
         var vel_sink_min_ft = 11.29 *
-                Math.sqrt(wing_load_effective) /
+                Math.sqrt(span_load_effective) /
                 Math.sqrt(Math.sqrt(drag_area_ft));
         var pwr_min_req_hp = 0.03922 * Math.sqrt(Math.sqrt(drag_area_ft)) *
-                wing_load_effective * Math.sqrt(wing_load_effective);
+                span_load_effective * Math.sqrt(span_load_effective);
         var rate_sink_min_ft = 33000 * pwr_min_req_hp / inputs.gross_lb;
         var ld_max = 0.8862 * wing_span_effective / Math.sqrt(drag_area_ft);
         var drag_min = inputs.gross_lb / ld_max;
@@ -111,7 +112,7 @@
             wing_chord_ft,
             wing_span_effective,
             wing_chord_effective,
-            wing_load_effective,
+            span_load_effective,
             drag_area_ft,
             cd_drag,
             vel_sink_min_ft,
