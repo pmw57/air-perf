@@ -14,6 +14,13 @@ h3 {
 	margin-right: 15px;
 	width: 15em;
 }
+.symbol {
+	color: navy;
+}
+.units {
+	color: navy;
+	font-size: smaller;
+}
 #summary {
 	position: absolute;
 	top: 0;
