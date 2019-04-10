@@ -257,7 +257,11 @@
     function getInputsFromForm(form) {
         var fields = Array.from(form.elements);
         return fields.reduce(function (inputs, field) {
-            inputs[field.name] = field.value;
+            inputs[field.name] = (
+                isValidNumber(field.value)
+                ? Number(field.value)
+                : field.value
+            );
             return inputs;
         }, {});
     }
