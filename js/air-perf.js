@@ -92,7 +92,8 @@
                 Math.sqrt(Math.sqrt(drag_area_ft));
         var pwr_min_req_hp = 0.03922 * Math.sqrt(Math.sqrt(drag_area_ft)) *
                 span_load_effective * Math.sqrt(span_load_effective);
-        var rate_sink_min_ft = 33000 * pwr_min_req_hp / inputs.gross_lb;
+        var rate_sink_min_ft = 1294 * Math.sqrt(inputs.gross_lb) *
+                Math.pow(drag_area_ft, 1 / 4) / Math.pow(wing_span_effective, 3/2);
         var ld_max = 0.8862 * wing_span_effective / Math.sqrt(drag_area_ft);
         var drag_min = inputs.gross_lb / ld_max;
         var cl_min_sink = 3.07 * Math.sqrt(drag_area_ft) / wing_chord_effective;
