@@ -16,7 +16,7 @@
         "wing_chord_effective": 2,
         "span_load_effective": 2,
         "drag_area_ft": 2,
-        "cd_drag": 4,
+        "zerolift_drag_coefficient": 4,
         "vel_sink_min_ft": 1,
         "pwr_min_req_hp": 2,
         "rate_sink_min_ft": 1,
@@ -86,7 +86,7 @@
         var drag_area_ft = 0.8 * inputs.bhp *
                 146625 / Math.pow(inputs.vel_max_mph, 3);
 
-        var cd_drag = drag_area_ft / wing_area_ft;
+        var zerolift_drag_coefficient = drag_area_ft / wing_area_ft;
         var vel_sink_min_ft = 11.29 *
                 Math.sqrt(span_load_effective) /
                 Math.sqrt(Math.sqrt(drag_area_ft));
@@ -114,7 +114,7 @@
             wing_chord_effective,
             span_load_effective,
             drag_area_ft,
-            cd_drag,
+            zerolift_drag_coefficient,
             vel_sink_min_ft,
             pwr_min_req_hp,
             rate_sink_min_ft,
