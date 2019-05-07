@@ -93,9 +93,11 @@
         var pwr_min_req_hp = 0.03922 * Math.sqrt(Math.sqrt(drag_area_ft)) *
                 span_load_effective * Math.sqrt(span_load_effective);
         var rate_sink_min_ft = 1294 * Math.sqrt(inputs.gross_lb) *
-                Math.pow(drag_area_ft, 1 / 4) / Math.pow(wing_span_effective, 3/2);
+                Math.pow(drag_area_ft, 1 / 4) /
+                Math.pow(wing_span_effective, 3 / 2);
         var ld_max = 0.8862 * wing_span_effective / Math.sqrt(drag_area_ft);
-        var drag_min = 2 * Math.sqrt(drag_area_ft / Math.PI) * inputs.gross_lb / wing_span_effective;
+        var drag_min = 2 * Math.sqrt(drag_area_ft / Math.PI) *
+                inputs.gross_lb / wing_span_effective;
         var cl_min_sink = 3.07 * Math.sqrt(drag_area_ft) / wing_chord_effective;
         var rate_climb_ideal = 33000 * inputs.bhp / inputs.gross_lb;
         var prop_dia_ft = inputs.prop_dia_in / 12;
