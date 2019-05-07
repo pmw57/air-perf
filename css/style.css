@@ -22,6 +22,14 @@ h3 {
 	color: navy;
 	font-size: smaller;
 }
+form sup, form sub {
+	vertical-align: baseline;
+	position: relative;
+	top: -0.4em;
+}
+form sub { 
+	top: 0.4em; 
+}
 #summary {
 	position: absolute;
 	top: 0;
