@@ -7,12 +7,13 @@ h3 {
 #perf p {
 	margin-top: 0;
 	margin-bottom: 0;
+	clear: left;
 }
 #perf label {
 	float: left;
 	text-align: right;
-	margin-right: 15px;
-	width: 15em;
+	margin-right: 1em;
+	width: 16em;
 }
 .symbol {
 	color: navy;
@@ -36,8 +37,4 @@ table {
 #results {
 	margin-top: 2em;
 	margin-left: 2em;
-}
-#results label {
-	position: absolute;
-	left: 16em;
 }

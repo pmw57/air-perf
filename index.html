@@ -18,29 +18,29 @@
         <form id="input">
             <p><label for="name">Aircraft name </label>
                 <input id="name" name="name" autocomplete="off"></p>
-            <p><label for="vel_stall_clean_mph">Stall speed without flaps (mph) </label>
+            <p><label for="vel_stall_clean_mph">Stall speed without flaps <span class="symbol">V<sub>s,1</sub></span> <span class="units">mph</span></label>
                 <input type="number" id="vel_stall_clean_mph" name="vel_stall_clean_mph" autocomplete="off"></p>
-            <p><label for="cl_max_clean">Maximum lift coefficient </label>
+            <p><label for="cl_max_clean">Maximum lift coefficient <span class="symbol">C<sub>L,max</sub></span> <span class="units"></span></label>
                 <input type="number" step="0.1" id="cl_max_clean" name="cl_max_clean" autocomplete="off"></p>
-            <p><label for="cl_max_flap">Maximum lift coeff with flaps </label>
+            <p><label for="cl_max_flap">Maximum lift coeff with flaps <span class="symbol">C<sub>L,maxf</sub></span> <span class="units"></span></label>
                 <input type="number" step="0.1" name="cl_max_flap" autocomplete="off"></p>
-            <p><label for="gross_lb">Gross weight (lb) </label>
+            <p><label for="gross_lb">Gross weight <span class="symbol">W</span> <span class="units">lb</span></label>
                 <input type="number" step="20" id="gross_lb" name="gross_lb" autocomplete="off"></p>
-            <p><label for="useful_load_lb">Useful load (lb) </label>
+            <p><label for="useful_load_lb">Useful load <span class="symbol">W<sub>u</sub></span> <span class="units">lb</span></label>
                 <input type="number" step="20" id="useful_load_lb" name="useful_load_lb" autocomplete="off"></p>
-            <p><label for="wing_span_ft">Wing span (ft) </label>
+            <p><label for="wing_span_ft">Wing span <span class="symbol">b</span> <span class="units">ft</span></label>
                 <input type="number" step="0.5" id="wing_span_ft" name="wing_span_ft" autocomplete="off"></p>
-            <p><label for="plane_efficiency">Airplane efficiency factor </label>
+            <p><label for="plane_efficiency">Airplane efficiency factor <span class="symbol">e</span> <span class="units"></span></label>
                 <input type="number" step="0.025" id="plane_efficiency" name="plane_efficiency" autocomplete="off"></p>
-            <p><label for="bhp">Engine brake horsepower (bhp) </label>
+            <p><label for="bhp">Engine brake horsepower <span class="symbol">BHP</span> <span class="units">hp</span></label>
                 <input type="number" step="5" id="bhp" name="bhp" autocomplete="off"></p>
-            <p><label for="vel_max_mph">Maximum level speed (mph) </label>
+            <p><label for="vel_max_mph">Maximum level speed <span class="symbol">V<sub>max</sub></span> <span class="units">mph</span></label>
                 <input type="number" step="5" id="vel_max_mph" name="vel_max_mph" autocomplete="off"></p>
-            <p><label for="prop_dia_in">Propeller diameter (in) </label>
+            <p><label for="prop_dia_in">Propeller diameter <span class="symbol">D<sub>p</sub></span> <span class="units">in</span></label>
                 <input type="number" step="3" id="prop_dia_in" name="prop_dia_in" autocomplete="off"></p>
-            <p><label for="prop_max_rpm">Propeller RPM </label>
+            <p><label for="prop_max_rpm">Propeller RPM <span class="symbol">rpm</span> <span class="units"></span></label>
                 <input type="number" step="100" id="prop_max_rpm" name="prop_max_rpm" autocomplete="off"></p>
-            <p><label for="altitude_ft">Altitude (ft) </label>
+            <p><label for="altitude_ft">Altitude <span class="symbol">h</span> <span class="units">ft</span></label>
                 <input type="number" step="500" id="altitude_ft" name="altitude_ft" autocomplete="off"></p>
         </form>
     </div>
@@ -72,12 +72,12 @@
 </div>
 <div id="results">
     <ul>
-        <li>performance parameter <label>fp = <span id="fp"></span></label></li>
-        <li>kinetic energy parameter <label>wv2 = <span id="wv2"></span></label></li>
-        <li>maximum rate of climb <label>rcmax = <span id="rcmax"></span></label></li>
-        <li>best rate of climb velocity<label>vy = <span id="vy"></span></label></li>
-        <li>maximum speed <label>vmax = <span id="vmax"></span></label></li>
-        <li>useful load <label>lb = <span id="useful_load"></span></label></li>
+        <li>performance parameter <span class="symbol">F<sub>p</sub></span> <span class="units"></span> = </li>
+        <li>kinetic energy parameter <span class="symbol">WV<sub>max</sub><sup>2</sup></span> <span class="units">lb mph<sup>2</sup></span> = </li>
+        <li>maximum rate of climb <span class="symbol">R<sub>C,max</sub></span> <span class="units">fpm</span> = </li>
+        <li>best rate of climb velocity <span class="symbol">V<sub>y</sub></span> <span class="units">mph</span> = </li>
+        <li>maximum speed <span class="symbol">v<sub>max</sub></span> <span class="units">mph</span> = </li>
+        <li>useful load <span class="symbol">W<sub>u</sub></span> <span class="units">lb</span> = </li>
     </ul>
     <table>
         <thead>
