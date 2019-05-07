@@ -55,27 +55,12 @@
             return obj;
         }, {});
     }
-    function wing_load(cl_max_clean, vel_stall_clean_mph) {
-        var load = cl_max_clean * Math.pow(vel_stall_clean_mph, 2) / 391;
-        return load; // lb per ft
-    }
-    function vel_stall_flaps(wing_load_lb_ft, cl_max_flap) {
-        var stall_speed = Math.sqrt(wing_load_lb_ft * 391 / cl_max_flap); // VS0
-        return stall_speed; // mph
-    }
-    function wing_area(gross_lb, wing_load_lb_ft) {
-        return gross_lb / wing_load_lb_ft;
-    }
     function calculateOutputs(inputs) {
-        var wing_load_lb_ft = wing_load(
-            inputs.cl_max_clean,
-            inputs.vel_stall_clean_mph
-        );
-        var vel_stall_flaps_mph = vel_stall_flaps(
-            wing_load_lb_ft,
-            inputs.cl_max_flap
-        );
-        var wing_area_ft = wing_area(inputs.gross_lb, wing_load_lb_ft);
+        var wing_load_lb_ft = inputs.cl_max_clean *
+                Math.pow(inputs.vel_stall_clean_mph, 2) / 391;
+        var vel_stall_flaps_mph = Math.sqrt(wing_load_lb_ft * 391 /
+                inputs.cl_max_flap);
+        var wing_area_ft = inputs.gross_lb / wing_load_lb_ft;
         var wing_aspect = Math.pow(inputs.wing_span_ft, 2) / wing_area_ft;
         var wing_chord_ft = inputs.wing_span_ft / wing_aspect;
         var wing_span_effective = inputs.wing_span_ft *
