@@ -68,7 +68,7 @@
         var wing_load_lb_ft = density_ratio * inputs.cl_max_clean *
                 Math.pow(inputs.vel_stall_clean_mph, 2) / 391;
         var vel_stall_flaps_mph = Math.sqrt(wing_load_lb_ft * 391 /
-                inputs.cl_max_flap);
+                (density_ratio * inputs.cl_max_flap));
         var wing_area_ft = inputs.gross_lb / wing_load_lb_ft;
         var wing_aspect = Math.pow(inputs.wing_span_ft, 2) / wing_area_ft;
         var wing_chord_ft = inputs.wing_span_ft / wing_aspect;
