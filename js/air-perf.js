@@ -55,8 +55,17 @@
             return obj;
         }, {});
     }
+    function densityRatio(altitude) {
+        if (altitude < 36240) {
+            return Math.pow(1 - altitude / 145800, 4.265);
+        }
+        if (altitude < 82000) {
+            return 1.688 * Math.exp(-altitude / 20808);
+        }
+    }
     function calculateOutputs(inputs) {
-        var wing_load_lb_ft = inputs.cl_max_clean *
+        var density_ratio = densityRatio(inputs.altitude_ft);
+        var wing_load_lb_ft = density_ratio * inputs.cl_max_clean *
                 Math.pow(inputs.vel_stall_clean_mph, 2) / 391;
         var vel_stall_flaps_mph = Math.sqrt(wing_load_lb_ft * 391 /
                 inputs.cl_max_flap);
