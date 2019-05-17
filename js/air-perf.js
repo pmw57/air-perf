@@ -83,9 +83,10 @@
         var zerolift_drag_coefficient = drag_area_ft / wing_area_ft;
         var vel_sink_min_ft = 11.285 *
                 Math.sqrt(span_load_effective) /
-        var pwr_min_req_hp = 0.03922 * Math.sqrt(Math.sqrt(drag_area_ft)) *
-                span_load_effective * Math.sqrt(span_load_effective);
                 (Math.sqrt(density_ratio) * Math.pow(drag_area_ft, 1 / 4));
+        var pwr_min_req_hp = 0.03921 *
+                Math.sqrt(density_ratio) * Math.pow(drag_area_ft, 1 / 4) *
+                Math.pow(span_load_effective, 3 / 2);
         var rate_sink_min_ft = 1294 * Math.sqrt(inputs.gross_lb) *
                 Math.pow(drag_area_ft, 1 / 4) /
                 Math.pow(wing_span_effective, 3 / 2);
