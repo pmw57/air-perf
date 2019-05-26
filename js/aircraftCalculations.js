@@ -1,73 +1,48 @@
-function densityRatio(altitude) {
-    if (altitude < 36240) {
-        return Math.pow(1 - altitude / 145800, 4.265);
-    }
-    if (altitude < 82000) {
-        return 1.688 * Math.exp(-altitude / 20808);
-    }
-}
-function calculateOutputs(inputs) {
-    var density_ratio = densityRatio(inputs.altitude_ft);
-    var wing_load_lb_ft = density_ratio * inputs.cl_max_clean *
-            Math.pow(inputs.vel_stall_clean_mph, 2) / 391;
-    var vel_stall_flaps_mph = Math.sqrt(wing_load_lb_ft * 391 /
-            (density_ratio * inputs.cl_max_flap));
-    var wing_area_ft = inputs.gross_lb / wing_load_lb_ft;
-    var wing_aspect = Math.pow(inputs.wing_span_ft, 2) / wing_area_ft;
-    var wing_chord_ft = inputs.wing_span_ft / wing_aspect;
-    var wing_span_effective = inputs.wing_span_ft *
-            Math.sqrt(inputs.plane_efficiency);
-    var wing_chord_effective = wing_chord_ft /
-            Math.sqrt(inputs.plane_efficiency);
-    var span_load_effective = inputs.gross_lb / wing_span_effective;
-    var drag_area_ft = 0.8 * inputs.bhp *
-            146625 / Math.pow(inputs.vel_max_mph, 3);
+import formulas from "./aircraftFormulas.js";
 
-    var zerolift_drag_coefficient = drag_area_ft / wing_area_ft;
-    var vel_sink_min_ft = 11.285 *
-            Math.sqrt(span_load_effective) /
-            (Math.sqrt(density_ratio) * Math.pow(drag_area_ft, 1 / 4));
-    var pwr_min_req_hp = 0.03921 *
-            Math.sqrt(density_ratio) * Math.pow(drag_area_ft, 1 / 4) *
-            Math.pow(span_load_effective, 3 / 2);
-    var rate_sink_min_ft = 1294 * Math.sqrt(inputs.gross_lb) *
-            Math.pow(drag_area_ft, 1 / 4) /
-            Math.pow(wing_span_effective, 3 / 2);
-    var ld_max = 0.8862 * wing_span_effective / Math.sqrt(drag_area_ft);
-    var drag_min = 2 * Math.sqrt(drag_area_ft / Math.PI) *
-            inputs.gross_lb / wing_span_effective;
-    var cl_min_sink = 3.07 * Math.sqrt(drag_area_ft) / wing_chord_effective;
-    var rate_climb_ideal = 33000 * inputs.bhp / inputs.gross_lb;
+function calculateOutputs(inputs) {
+    var forceBalance = formulas.forceBalance;
+    var inducedDrag = formulas.inducedDrag;
+    var minSinkRate = formulas.minSinkRate;
+    var maxLiftDragRatio = formulas.maxLiftDragRatio;
+    var levelFlight = formulas.levelFlight;
+    var climbingFlight = formulas.climbingFlight;
+    var propEfficiency = formulas.propEfficiency;
+    var propAdvanced = formulas.propAdvanced;
+    var atmosphere = formulas.atmosphere;
+    var sigma = atmosphere.densityRatio(inputs.altitude_ft);
+    var ws_lbft = forceBalance.ws(sigma, inputs.cl_max_clean, inputs.vs1);
+    var vs0 = forceBalance.vs0(ws_lbft, sigma, inputs.cl_max_flap);
+    var s_ft = forceBalance.s(inputs.gross_lb, ws_lbft);
+    var ar = inducedDrag.ar(inputs.wing_span_ft, s_ft);
+    var c_ft = inducedDrag.c(inputs.wing_span_ft, ar);
+    var be = minSinkRate.be(inputs.wing_span_ft, inputs.plane_efficiency);
+    var ce = minSinkRate.ce(c_ft, inputs.plane_efficiency);
+    var wbe = minSinkRate.wbe(inputs.gross_lb, be);
+    var ad_ft = minSinkRate.ad(inputs.bhp, inputs.vel_max_mph);
     var prop_dia_ft = inputs.prop_dia_in / 12;
-    var prop_tip_mach = inputs.prop_max_rpm * prop_dia_ft *
-            0.05236 / 1100;
-    var prop_vel_ref = 41.9 *
-            Math.pow(inputs.bhp / Math.pow(prop_dia_ft, 2), 1.0 / 3);
-    var static_thrust_ideal = 10.41 *
-            Math.pow(inputs.bhp * prop_dia_ft, 2.0 / 3);
-    var outputs = {
-        wing_load_lb_ft,
-        vel_stall_flaps_mph,
-        wing_area_ft,
-        wing_aspect,
-        wing_chord_ft,
-        wing_span_effective,
-        wing_chord_effective,
-        span_load_effective,
-        drag_area_ft,
-        zerolift_drag_coefficient,
-        vel_sink_min_ft,
-        pwr_min_req_hp,
-        rate_sink_min_ft,
-        ld_max,
-        drag_min,
-        cl_min_sink,
-        rate_climb_ideal,
-        prop_tip_mach,
-        prop_vel_ref,
-        static_thrust_ideal
+    return {
+        wing_load_lb_ft: ws_lbft,
+        vs0: vs0,
+        wing_area_ft: s_ft,
+        wing_aspect: ar,
+        wing_chord_ft: c_ft,
+        wing_span_effective: be,
+        wing_chord_effective: ce,
+        span_load_effective: wbe,
+        drag_area_ft: ad_ft,
+        zerolift_drag_coefficient: ad_ft / s_ft,
+        vel_sink_min_ft: minSinkRate.vminsink(wbe, sigma, ad_ft, 1 / 4),
+        pwr_min_req_hp: levelFlight.thpmin(sigma, ad_ft, wbe),
+        rate_sink_min_ft: minSinkRate.rsmin(inputs.gross_lb, ad_ft, be),
+        ld_max: maxLiftDragRatio.ldmax(be, ad_ft),
+        drag_min: maxLiftDragRatio.dmin(ad_ft, inputs.gross_lb, be),
+        cl_min_sink: minSinkRate.clmins(ad_ft, ce),
+        rate_climb_ideal: climbingFlight.rc(inputs.bhp, inputs.gross_lb),
+        prop_tip_mach: inputs.prop_max_rpm * prop_dia_ft * 0.05236 / 1100,
+        prop_vel_ref: propEfficiency.vp(inputs.bhp, prop_dia_ft),
+        static_thrust_ideal: propAdvanced.ts(inputs.bhp, prop_dia_ft)
     };
-    return outputs;
 }
 function calculateResults(inputs, outputs) {
     var results = {};
@@ -87,7 +62,7 @@ function calculateResults(inputs, outputs) {
     // var t = 518.7 - 0.00356 * inputs.altitude_ft;
     var t1 = 1.0 / 3;
     var t2 = 0;
-    var v = inputs.vel_stall_clean_mph;
+    var v = inputs.vs1;
     var vh = 0;
     var vmax = 0;
     var vt = 0;
@@ -123,8 +98,9 @@ function calculateResults(inputs, outputs) {
         rcmax,
         vy,
         vmax,
-        fp: rcmax * inputs.useful_load_lb / 33000 / inputs.bhp *
-                (1 - (outputs.vel_stall_flaps_mph / vmax)),
+        fp: rcmax * inputs.useful_load_lb / 33000 / inputs.bhp * (
+            1 - ((outputs.vs0) / vmax)
+        ),
         wv2: inputs.gross_lb * Math.pow(v, 2),
         useful_load: inputs.useful_load_lb
     });

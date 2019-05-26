@@ -1,5 +1,5 @@
 /*jslint browser */
-import {describe, beforeEach, it} from "mocha";
+import {describe, it} from "mocha";
 import {assert} from "chai";
 import aircraftCalcs from "../js/aircraftCalculations.js";
 
@@ -8,7 +8,7 @@ describe("Output test", function () {
         var output = aircraftCalcs.outputs({
             altitude_ft: 0,
             cl_max_clean: 1.53,
-            vel_stall_clean_mph: 67
+            vs1: 67
         });
         assert.closeTo(output.wing_load_lb_ft, 17.57, 0.01);
     });
@@ -16,7 +16,7 @@ describe("Output test", function () {
         var output = aircraftCalcs.outputs({
             altitude_ft: 10000,
             cl_max_clean: 1.53,
-            vel_stall_clean_mph: 67
+            vs1: 67
         });
         assert.closeTo(output.wing_load_lb_ft, 12.97, 0.01);
     });
@@ -24,7 +24,7 @@ describe("Output test", function () {
         var output = aircraftCalcs.outputs({
             altitude_ft: 10000,
             cl_max_clean: 1.53,
-            vel_stall_clean_mph: 77.95
+            vs1: 77.95
         });
         assert.closeTo(output.wing_load_lb_ft, 17.57, 0.01);
     });

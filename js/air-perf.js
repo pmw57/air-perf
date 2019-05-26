@@ -3,12 +3,10 @@
 import aircraftCalcs from "./aircraftCalculations.js";
 
 (function iife() {
-    "use strict";
-
     const precision = {
         // outputs
         "wing_load_lb_ft": 2,
-        "vel_stall_flaps_mph": 2,
+        "vs0": 2,
         "wing_area_ft": 2,
         "wing_aspect": 2,
         "wing_chord_ft": 2,
