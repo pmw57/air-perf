@@ -58,8 +58,7 @@ window.airperf = (function iife() {
         var cell = row.insertCell().appendChild(content);
         return cell;
     }
-    function updateInputs(inputs) {
-        var form = document.getElementById("input");
+    function updateInputs(inputs, form) {
         var elements = form.elements;
         Object.entries(inputs).forEach(function ([key]) {
             elements[key].value = inputs[key];
@@ -111,15 +110,16 @@ window.airperf = (function iife() {
             document.getElementById(prop).innerHTML = num;
         });
     }
-    function updateScreen({inputs, outputs, results}, precision) {
-        updateInputs(inputs);
+    function updateScreen({inputs, outputs, results}, precision, form) {
+        updateInputs(inputs, form);
         updateOutputs(outputs, precision);
         updateResults(results, precision);
     }
     function main(inputs, precision) {
         const outputs = aircraftCalcs.outputs(inputs);
         const results = aircraftCalcs.results(inputs, outputs);
-        updateScreen({inputs, outputs, results}, precision);
+        var form = document.getElementById("input");
+        updateScreen({inputs, outputs, results}, precision, form);
     }
     function getInputsFromForm(form) {
         var fields = Array.from(form.elements);
@@ -162,11 +162,12 @@ window.airperf = (function iife() {
     }
     function updateInputsFromCsv(csvArr) {
         const inputs = inputFromCsv(csvArr);
+        const form = document.getElementById("input");
         if (Object.entries(inputs).length === 0) {
             window.alert("File format is invalid.");
             return;
         }
-        updateInputs(inputs);
+        updateInputs(inputs, form);
         main(inputs, precision);
     }
     function saveFormToFile(form, filename) {
