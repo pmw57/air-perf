@@ -26,6 +26,9 @@ function insertCell(row, value) {
 function updateInputs(inputs, form) {
     const elements = form.elements;
     Object.entries(inputs).forEach(function ([key]) {
+        if (!elements[key]) {
+            throw new ReferenceError(key + " field not found");
+        }
         elements[key].value = inputs[key];
     });
 }
