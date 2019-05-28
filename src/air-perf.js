@@ -2,41 +2,7 @@
 /*global csv */
 import aircraftCalcs from "./aircraftCalculations.js";
 
-const precision = {
-    // outputs
-    "wing_load_lb_ft": 2,
-    "vs0": 2,
-    "wing_area_ft": 2,
-    "wing_aspect": 2,
-    "wing_chord_ft": 2,
-    "wing_span_effective": 2,
-    "wing_chord_effective": 2,
-    "span_load_effective": 2,
-    "drag_area_ft": 2,
-    "zerolift_drag_coefficient": 4,
-    "vel_sink_min_ft": 1,
-    "pwr_min_req_hp": 2,
-    "rate_sink_min_ft": 1,
-    "ld_max": 2,
-    "drag_min": 2,
-    "cl_min_sink": 2,
-    "rate_climb_ideal": 0,
-    "prop_tip_mach": 2,
-    "prop_vel_ref": 2,
-    "static_thrust_ideal": 2,
-    // results
-    "v": 1,
-    "rc": 1,
-    "vy": 1,
-    "eta": 2,
-    "rs": 1,
-    "rec": 0,
-    "fp": 4,
-    "wv2": 0,
-    "rcmax": 2,
-    "vmax": 2,
-    "useful_load": 2
-};
+let precision = {};
 
 function isValidNumber(value) {
     const num = Number(value);
@@ -192,15 +158,16 @@ function inputChangeHandler(evt) {
     calculatePerformance(form);
 }
 
-function init(document) {
-    var loadFile = document.querySelector(".js-loadfile");
-    var loadHandler = csv.loadWrapper(updateInputsFromCsv);
+function init(document, precisionObj) {
+    precision = Object.assign({}, precisionObj);
+    const loadFile = document.querySelector(".js-loadfile");
+    const loadHandler = csv.loadWrapper(updateInputsFromCsv);
     loadFile.addEventListener("change", loadHandler);
 
-    var saveButton = document.querySelector(".js-savebutton");
+    const saveButton = document.querySelector(".js-savebutton");
     saveButton.addEventListener("click", saveButtonHandler);
 
-    var form = document.getElementById("input");
+    const form = document.getElementById("input");
     const formInputs = form.querySelectorAll("input");
     formInputs.forEach(function (input) {
         input.addEventListener("change", inputChangeHandler);
