@@ -7,11 +7,11 @@ Replace stage-0 with @babel/preset-env
 
 > npm i-D npm-run-all
 
-    "watchify": "watchify js/air-perf.js -o dist/air-perf.js -dv",
-    "serve": "serve public",
-    "start": "npm-run-all --parallel watchify serve"
+    "test:watch": "mocha --require @babel/polyfill --require @babel/register --watch",
+    "watchify": "watchify src/air-perf.js -o dist/air-perf.js -dv --standalone airperf",
+    "test": "npm-run-all --parallel watchify test:watch"
 
-Then, run test:watch script from IDE console.
+Then, run test from IDE console.
 
-> npm run test:watch
+> npm run test
 

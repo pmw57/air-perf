@@ -8,9 +8,8 @@
   },
   "scripts": {
     "test:watch": "mocha --require @babel/polyfill --require @babel/register --watch",
-    "test": "mocha --require @babel/polyfill --require @babel/register",
     "watchify": "watchify src/air-perf.js -o dist/air-perf.js -dv --standalone airperf",
-    "start": "npm-run-all --parallel watchify test:watch"
+    "test": "npm-run-all --parallel watchify test:watch"
   },
   "browserify": {
     "transform": [
