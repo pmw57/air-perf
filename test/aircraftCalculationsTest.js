@@ -1,7 +1,7 @@
 /*jslint browser */
 import {describe, it} from "mocha";
 import {assert} from "chai";
-import aircraftCalcs from "../js/aircraftCalculations.js";
+import aircraftCalcs from "../src/aircraftCalculations.js";
 
 describe("Output test", function () {
     it("has a sealevel wing load", function () {

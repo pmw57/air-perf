@@ -9,7 +9,7 @@
   "scripts": {
     "test:watch": "mocha --require @babel/polyfill --require @babel/register --watch",
     "test": "mocha --require @babel/polyfill --require @babel/register",
-    "watchify": "watchify js/air-perf.js -o dist/air-perf.js -dv",
+    "watchify": "watchify src/air-perf.js -o dist/air-perf.js -dv",
     "serve": "serve public",
     "start": "npm-run-all --parallel watchify serve"
   },

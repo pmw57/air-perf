@@ -1,7 +1,7 @@
 /*jslint browser */
 import {describe, it} from "mocha";
 import {assert} from "chai";
-import formulas from "../js/aircraftFormulas.js";
+import formulas from "../src/aircraftFormulas.js";
 
 describe("Formula tests", function () {
     it("has a sealevel wing load", function () {
