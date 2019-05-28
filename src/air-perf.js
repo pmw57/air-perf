@@ -19,42 +19,39 @@ function getPerformanceValues(form) {
     }, {});
 }
 function insertCell(row, value) {
-    var content = document.createTextNode(value);
-    var cell = row.insertCell().appendChild(content);
+    const content = document.createTextNode(value);
+    const cell = row.insertCell().appendChild(content);
     return cell;
 }
 function updateInputs(inputs, form) {
-    var elements = form.elements;
+    const elements = form.elements;
     Object.entries(inputs).forEach(function ([key]) {
-        // if (!elements[key]) {
-        //     return;
-        // }
         elements[key].value = inputs[key];
     });
 }
 function updateOutputs(outputs, precision) {
     Object.entries(outputs).forEach(function ([key, value]) {
-        var el = document.getElementById(key);
+        const el = document.getElementById(key);
         el.innerHTML = value.toFixed(precision[key]);
     });
 }
 function clearResults() {
-    var resultSection = document.getElementById("results");
-    var table = resultSection.querySelector("table");
+    const resultSection = document.getElementById("results");
+    const table = resultSection.querySelector("table");
     table.tBodies[0].innerHTML = "";
 }
 function showResult(result) {
-    var resultSection = document.getElementById("results");
-    var table = resultSection.querySelector("table");
-    var row = table.tBodies[0].insertRow(-1);
+    const resultSection = document.getElementById("results");
+    const table = resultSection.querySelector("table");
+    const row = table.tBodies[0].insertRow(-1);
     result.forEach(function (value) {
         insertCell(row, value);
     });
 }
 function tooManyResults() {
-    var resultSection = document.getElementById("results");
-    var table = resultSection.querySelector("table");
-    var row = table.tBodies[0].insertRow(-1);
+    const resultSection = document.getElementById("results");
+    const table = resultSection.querySelector("table");
+    const row = table.tBodies[0].insertRow(-1);
     insertCell(row, "Stopping to avoid possible infinite loop.");
     row.children[0].colSpan = 5;
 }
@@ -86,11 +83,11 @@ function updateScreen({inputs, outputs, results}, precision, form) {
 function main(inputs, precision) {
     const outputs = aircraftCalcs.outputs(inputs);
     const results = aircraftCalcs.results(inputs, outputs);
-    var form = document.getElementById("input");
+    const form = document.getElementById("input");
     updateScreen({inputs, outputs, results}, precision, form);
 }
 function getInputsFromForm(form) {
-    var fields = Array.from(form.elements);
+    const fields = Array.from(form.elements);
     return fields.reduce(function (inputs, field) {
         inputs[field.name] = (
             isValidNumber(field.value)
@@ -116,11 +113,11 @@ function keyNumberReducer(obj, item) {
     return obj;
 }
 function inputFromCsv(arr) {
-    var heading = arr[0][0].trim();
+    const heading = arr[0][0].trim();
     if (heading !== "Input parameters") {
         return;
     }
-    var lastItem = arr.findIndex(function (item, index) {
+    let lastItem = arr.findIndex(function (item, index) {
         return index > 0 && item.length < 2;
     });
     if (lastItem === -1) {
