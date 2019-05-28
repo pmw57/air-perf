@@ -2,7 +2,7 @@
 /*global csv */
 import aircraftCalcs from "./aircraftCalculations.js";
 
-(function iife() {
+window.airperf = (function iife() {
     const precision = {
         // outputs
         "wing_load_lb_ft": 2,
@@ -62,9 +62,6 @@ import aircraftCalcs from "./aircraftCalculations.js";
         var form = document.getElementById("input");
         var elements = form.elements;
         Object.entries(inputs).forEach(function ([key]) {
-            // if (!elements[key]) {
-            //     throw new ReferenceError(key + " form field not found");
-            // }
             elements[key].value = inputs[key];
         });
     }
@@ -192,16 +189,22 @@ import aircraftCalcs from "./aircraftCalculations.js";
         calculatePerformance(form);
     }
 
-    var loadFile = document.querySelector(".js-loadfile");
-    var loadHandler = csv.loadWrapper(updateInputsFromCsv);
-    loadFile.addEventListener("change", loadHandler);
+    function init(document) {
+        var loadFile = document.querySelector(".js-loadfile");
+        var loadHandler = csv.loadWrapper(updateInputsFromCsv);
+        loadFile.addEventListener("change", loadHandler);
 
-    var saveButton = document.querySelector(".js-savebutton");
-    saveButton.addEventListener("click", saveButtonHandler);
+        var saveButton = document.querySelector(".js-savebutton");
+        saveButton.addEventListener("click", saveButtonHandler);
 
-    var form = document.getElementById("input");
-    const formInputs = form.querySelectorAll("input");
-    formInputs.forEach(function (input) {
-        input.addEventListener("change", inputChangeHandler);
-    });
+        var form = document.getElementById("input");
+        const formInputs = form.querySelectorAll("input");
+        formInputs.forEach(function (input) {
+            input.addEventListener("change", inputChangeHandler);
+        });
+    }
+    return {
+        init,
+        updateInputs
+    };
 }());
