@@ -10,8 +10,7 @@
     "test:watch": "mocha --require @babel/polyfill --require @babel/register --watch",
     "test": "mocha --require @babel/polyfill --require @babel/register",
     "watchify": "watchify src/air-perf.js -o dist/air-perf.js -dv --standalone airperf",
-    "serve": "serve public",
-    "start": "npm-run-all --parallel watchify serve"
+    "start": "npm-run-all --parallel watchify test:watch"
   },
   "browserify": {
     "transform": [
@@ -45,7 +44,6 @@
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
     "npm-run-all": "^4.1.5",
-    "serve": "^11.0.0",
     "watchify": "^3.11.1"
   },
   "dependencies": {
