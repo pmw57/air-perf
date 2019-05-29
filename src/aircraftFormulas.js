@@ -31,8 +31,8 @@ var aircraftFormulas = {
         wbe(w_lb, be) {
             return w_lb / be;
         },
-        ad(bhp, vmax_mph) {
-            return 0.8 * bhp * 146625 / Math.pow(vmax_mph, 3);
+        ad(sigma, bhp, vmax_mph) {
+            return sigma * 0.8 * bhp * 146625 / Math.pow(vmax_mph, 3);
         },
         rsmin(w_lb, ad_ft, be) {
             return 1294 * Math.sqrt(w_lb) * Math.pow(ad_ft, 1 / 4) /

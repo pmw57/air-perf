@@ -19,7 +19,7 @@ function calculateOutputs(inputs) {
     var be = minSinkRate.be(inputs.wing_span_ft, inputs.plane_efficiency);
     var ce = minSinkRate.ce(c_ft, inputs.plane_efficiency);
     var wbe = minSinkRate.wbe(inputs.gross_lb, be);
-    var ad_ft = minSinkRate.ad(inputs.bhp, inputs.vel_max_mph);
+    var ad_ft = minSinkRate.ad(sigma, inputs.bhp, inputs.vel_max_mph);
     var prop_dia_ft = inputs.prop_dia_in / 12;
     return {
         wing_load_lb_ft: ws_lbft,

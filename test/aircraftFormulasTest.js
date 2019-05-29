@@ -32,6 +32,20 @@ describe("Formula tests", function () {
         var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
         assert.closeTo(vprop, 67.42, 0.01);
     });
+    it("has a sealevel drag area", function () {
+        var sigma = 1;
+        var bhp = 150;
+        var vmax = 180;
+        var ad = formulas.minSinkRate.ad(sigma, bhp, vmax);
+        assert.closeTo(ad, 3.02, 0.01);
+    });
+    it("has a different drag area at 40,000 feet", function () {
+        var sigma = 0.25;
+        var bhp = 150;
+        var vmax = 180;
+        var ad = formulas.minSinkRate.ad(sigma, bhp, vmax);
+        assert.closeTo(ad, 0.75, 0.1);
+    });
     it("has a sealevel ideal static thrust", function () {
         var sigma = 1;
         var bhp = 150;
