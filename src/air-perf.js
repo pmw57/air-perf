@@ -1,6 +1,7 @@
 /*jslint browser */
 /*global csv */
 import aircraftCalcs from "./aircraftCalculations.js";
+import view from "./aircraftView.js";
 
 let precision = {};
 
@@ -8,29 +9,24 @@ function isValidNumber(value) {
     const num = Number(value);
     return Number.isNaN(num) === false;
 }
-function getPerformanceValues(form) {
-    return Array.from(form.elements).reduce(function (obj, field) {
-        obj[field.name] = (
-            isValidNumber(field.value)
-            ? Number(field.value)
-            : field.value
-        );
+function numberOrValue(value) {
+    return (
+        isValidNumber(value)
+        ? Number(value)
+        : value
+    );
+}
+function convertToNumbers(values) {
+    return Object.entries(values).map(function ([key, value]) {
+        return [key, numberOrValue(value)];
+    }).reduce(function (obj, [key, value]) {
+        obj[key] = value;
         return obj;
     }, {});
 }
-function insertCell(row, value) {
-    const content = document.createTextNode(value);
-    const cell = row.insertCell().appendChild(content);
-    return cell;
-}
-function updateInputs(inputs, form) {
-    const elements = form.elements;
-    Object.entries(inputs).forEach(function ([key]) {
-        if (!elements[key]) {
-            throw new ReferenceError(key + " field not found");
-        }
-        elements[key].value = inputs[key];
-    });
+function getInputValues() {
+    const values = view.getValues();
+    return convertToNumbers(values);
 }
 function updateOutputs(outputs, precision) {
     Object.entries(outputs).forEach(function ([key, value]) {
@@ -42,6 +38,11 @@ function clearResults() {
     const resultSection = document.getElementById("results");
     const table = resultSection.querySelector("table");
     table.tBodies[0].innerHTML = "";
+}
+function insertCell(row, value) {
+    const content = document.createTextNode(value);
+    const cell = row.insertCell().appendChild(content);
+    return cell;
 }
 function showResult(result) {
     const resultSection = document.getElementById("results");
@@ -78,31 +79,18 @@ function updateResults(results, precision) {
         document.getElementById(prop).innerHTML = num;
     });
 }
-function updateScreen({inputs, outputs, results}, precision, form) {
-    updateInputs(inputs, form);
+function updateScreen({inputs, outputs, results}, precision) {
+    view.renderInputs(inputs);
     updateOutputs(outputs, precision);
     updateResults(results, precision);
 }
 function main(inputs, precision) {
     const outputs = aircraftCalcs.outputs(inputs);
     const results = aircraftCalcs.results(inputs, outputs);
-    const form = document.getElementById("input");
-    updateScreen({inputs, outputs, results}, precision, form);
+    updateScreen({inputs, outputs, results}, precision);
 }
-function getInputsFromForm(form) {
-    const fields = Array.from(form.elements);
-    return fields.reduce(function (inputs, field) {
-        inputs[field.name] = (
-            isValidNumber(field.value)
-            ? Number(field.value)
-            : field.value
-        );
-        return inputs;
-    }, {});
-}
-function calculatePerformance(form) {
-    const inputs = getInputsFromForm(form);
-    Object.assign(inputs, getPerformanceValues(form));
+function calculatePerformance() {
+    const inputs = getInputValues();
     main(inputs, precision);
 }
 function keyNumberReducer(obj, item) {
@@ -130,16 +118,14 @@ function inputFromCsv(arr) {
 }
 function updateInputsFromCsv(csvArr) {
     const inputs = inputFromCsv(csvArr);
-    const form = document.getElementById("input");
     if (Object.entries(inputs).length === 0) {
         window.alert("File format is invalid.");
         return;
     }
-    updateInputs(inputs, form);
     main(inputs, precision);
 }
-function saveFormToFile(form, filename) {
-    const inputs = getInputsFromForm(form);
+function saveToFile(filename) {
+    const inputs = getInputValues();
     const outputs = aircraftCalcs.outputs(inputs);
     const results = aircraftCalcs.results(inputs, outputs);
     const csvContent = csv.stringify({inputs, outputs, results});
@@ -147,15 +133,11 @@ function saveFormToFile(form, filename) {
 }
 function saveButtonHandler(evt) {
     evt.preventDefault();
-    const formSelector = evt.target.getAttribute("ref");
-    const form = document.querySelector(formSelector);
     const filename = document.querySelector(".js-savefile").value;
-    saveFormToFile(form, filename);
+    saveToFile(filename);
 }
 function inputChangeHandler(evt) {
-    const formField = evt.target;
-    const form = formField.form;
-    calculatePerformance(form);
+    calculatePerformance();
 }
 
 function init(document, precisionObj) {
@@ -172,8 +154,9 @@ function init(document, precisionObj) {
     formInputs.forEach(function (input) {
         input.addEventListener("change", inputChangeHandler);
     });
+    view.init(form);
 }
-
+const updateInputs = view.updateInputs;
 export {
     init,
     updateInputs
