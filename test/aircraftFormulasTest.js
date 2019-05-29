@@ -32,6 +32,20 @@ describe("Formula tests", function () {
         var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
         assert.closeTo(vprop, 67.42, 0.01);
     });
+    it("has a sealevel ideal static thrust", function () {
+        var sigma = 1;
+        var bhp = 150;
+        var dp = 6;
+        var ts = formulas.propAdvanced.ts(sigma, bhp, dp);
+        assert.closeTo(ts, 970.39, 0.01);
+    });
+    it("has a sealevel ideal static thrust", function () {
+        var sigma = 0.25;
+        var bhp = 150;
+        var dp = 6;
+        var ts = formulas.propAdvanced.ts(sigma, bhp, dp);
+        assert.closeTo(ts, 611.3, 0.1);
+    });
     it("has a higher vprop at 40,000 feet", function () {
         var sigma = 0.25;
         var bhp = 150;

@@ -70,8 +70,8 @@ var aircraftFormulas = {
         }
     },
     propAdvanced: {
-        ts(bhp, pd_ft) {
-            return 10.41 * Math.pow(bhp * pd_ft, 2.0 / 3);
+        ts(sigma, bhp, dp_ft) {
+            return 10.41 * Math.pow(sigma, 1 / 3) * Math.pow(bhp * dp_ft, 2.0 / 3);
         }
     },
     propTipSpeed: {

@@ -41,7 +41,7 @@ function calculateOutputs(inputs) {
         rate_climb_ideal: climbingFlight.rc(inputs.bhp, inputs.gross_lb),
         prop_tip_mach: inputs.prop_max_rpm * prop_dia_ft * 0.05236 / 1100,
         prop_vel_ref: propEfficiency.vprop(inputs.bhp, sigma, prop_dia_ft),
-        static_thrust_ideal: propAdvanced.ts(inputs.bhp, prop_dia_ft)
+        static_thrust_ideal: propAdvanced.ts(sigma, inputs.bhp, prop_dia_ft)
     };
 }
 function calculateResults(inputs, outputs) {
