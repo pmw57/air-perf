@@ -65,8 +65,8 @@ var aircraftFormulas = {
         }
     },
     propEfficiency: {
-        vp(bhp, dp_ft) {
-            return 41.9 * Math.pow(bhp / Math.pow(dp_ft, 2), 1.0 / 3);
+        vprop(bhp, sigma, dp_ft) {
+            return 41.9 * Math.pow(bhp / (sigma * Math.pow(dp_ft, 2)), 1.0 / 3);
         }
     },
     propAdvanced: {

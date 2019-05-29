@@ -25,4 +25,18 @@ describe("Formula tests", function () {
         var ws = formulas.forceBalance.ws(sigma, clmax, vs1);
         assert.closeTo(ws, 17.57, 0.1);
     });
+    it("has a sealevel vprop", function () {
+        var sigma = 1;
+        var bhp = 150;
+        var dp = 6;
+        var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
+        assert.closeTo(vprop, 67.42, 0.01);
+    });
+    it("has a higher vprop at 40,000 feet", function () {
+        var sigma = 0.25;
+        var bhp = 150;
+        var dp = 6;
+        var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
+        assert.closeTo(vprop, 107, 0.1);
+    });
 });
