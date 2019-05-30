@@ -45,6 +45,7 @@ function calculateOutputs(inputs) {
     };
 }
 function calculateResults(inputs, outputs) {
+    var reynolds = formulas.reynolds;
     var results = {};
     results.data = [];
     var vel_delta = 1.00; // airspeed increment for each iteration
@@ -59,7 +60,6 @@ function calculateResults(inputs, outputs) {
     var rmu = 1;
     var rs = 0;
     var sig = Math.pow(1 - inputs.altitude_ft / 145800, 4.265);
-    // var t = 518.7 - 0.00356 * inputs.altitude_ft;
     var t1 = 1.0 / 3;
     var t2 = 0;
     var v = inputs.vs1;
@@ -78,7 +78,7 @@ function calculateResults(inputs, outputs) {
         ) * 0.85;
         rc = outputs.rate_climb_ideal * eta - rs;
         rc2 = rc;
-        rec = sig * v * outputs.wing_chord_ft * 9324 / rmu;
+        rec = reynolds.re(v, outputs.wing_chord_ft, inputs.altitude_ft);
         if (rc > 0) {
             if (rc > rcmax) {
                 rcmax = Math.max(rc, rcmax);
