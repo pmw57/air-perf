@@ -91,3 +91,45 @@ describe("Atmosphere", function () {
         assert.closeTo(formulas.atmosphere.temperature(40000), -70, 0.01);
     });
 });
+describe("Reynolds number", function () {
+    it("has mu (viscosity) at sealevel temperature", function () {
+        var f = 58.7;
+        var rankine = f + 460;
+        var mu = formulas.reynolds.mu(rankine);
+        assert.closeTo(mu, 3.737e-7, 0.001e-7);
+    });
+    it("has mu (viscosity) at lower temperature", function () {
+        var f = 10;
+        var rankine = f + 460;
+        var mu = formulas.reynolds.mu(rankine);
+        assert.closeTo(mu, 3.458e-7, 0.001e-7);
+    });
+    it("figures out reynolds number at sealevel", function () {
+        var v = 67;
+        var l = 4;
+        var altitude = 0;
+        var re = formulas.reynolds.re(v, l, altitude);
+        assert.closeTo(re, 2500000, 1000);
+    });
+    it("figures out reynolds number at 40,000 feet", function () {
+        var v = 67;
+        var l = 4;
+        var altitude = 40000;
+        var re = formulas.reynolds.re(v, l, altitude);
+        assert.closeTo(re, 776745, 1000);
+    });
+    it("verify reynolds T-18 cruise", function () {
+        var v = 180;
+        var l = 4;
+        var altitude = 0;
+        var re = formulas.reynolds.re(v, l, altitude);
+        assert.closeTo(re, 6700000, 100000);
+    });
+    it("verify reynolds T-18 stall", function () {
+        var v = 67;
+        var l = 4;
+        var altitude = 0;
+        var re = formulas.reynolds.re(v, l, altitude);
+        assert.closeTo(re, 2500000, 1000);
+    });
+});

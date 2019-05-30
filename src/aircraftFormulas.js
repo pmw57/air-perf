@@ -107,8 +107,25 @@ var aircraftFormulas = {
         }
     },
     atmosphere,
+    reynolds: (function iife() {
+        function mu(rankine) {
+            // 198.6 from the book results in a too high value of 3.7385
+            // Using Sutherland's constant of 198.7 we get a more appropriate value of 3.737
+            return 2.270 * Math.pow(rankine, 3 / 2) /
+                    (rankine + 198.7) * Math.pow(10, -8);
         }
-    }
+        function re(vel, len, altitude) {
+            var f = atmosphere.temperature(altitude);
+            var rankine = f + 460;
+            var rho = atmosphere.rho(altitude);
+            var viscosity = mu(rankine);
+            return rho * vel * len / viscosity * 5280 / 3600;
+        }
+        return {
+            mu,
+            re
+        };
+    }())
 };
 
 export default Object.freeze(aircraftFormulas);
