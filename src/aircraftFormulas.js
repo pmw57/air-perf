@@ -1,4 +1,4 @@
-var forceBalance = {
+const forceBalance = {
     ws(sigma, clmax, vs1) {
         return sigma * clmax * Math.pow(vs1, 2) / 391;
     },
@@ -9,7 +9,7 @@ var forceBalance = {
         return Math.sqrt(ws_lbft * 391 / (sigma * clmaxf));
     }
 };
-var inducedDrag =  {
+const inducedDrag =  {
     ar(b_ft, s_ft) {
         return Math.pow(b_ft, 2) / s_ft;
     },
@@ -17,7 +17,7 @@ var inducedDrag =  {
         return ws_lbft / ar;
     }
 };
-var minSinkRate = {
+const minSinkRate = {
     ce(c_ft, e) {
         return c_ft / Math.sqrt(e);
     },
@@ -43,7 +43,7 @@ var minSinkRate = {
         );
     }
 };
-var maxLiftDragRatio = {
+const maxLiftDragRatio = {
     ldmax(be, ad_ft) {
         return 0.8862 * be / Math.sqrt(ad_ft);
     },
@@ -51,34 +51,34 @@ var maxLiftDragRatio = {
         return 2 * Math.sqrt(ad_ft / Math.PI) * w_lb / be;
     }
 };
-var levelFlight = {
+const levelFlight = {
     thpmin(sigma, ad_ft, wbe) {
         return 0.03921 * (
             Math.pow(ad_ft, 1 / 4) / Math.sqrt(sigma)
         ) * Math.pow(wbe, 3 / 2);
     }
 };
-var climbingFlight = {
+const climbingFlight = {
     rc(bhp, w_lb) {
         return 33000 * bhp / w_lb;
     }
 };
-var propEfficiency = {
+const propEfficiency = {
     vprop(bhp, sigma, dp_ft) {
         return 41.9 * Math.pow(bhp / (sigma * Math.pow(dp_ft, 2)), 1.0 / 3);
     }
 };
-var propAdvanced = {
+const propAdvanced = {
     ts(sigma, bhp, dp_ft) {
         return 10.41 * Math.pow(sigma, 1 / 3) * Math.pow(bhp * dp_ft, 2.0 / 3);
     }
 };
-var propTipSpeed = {
+const propTipSpeed = {
     mp(propMax_rpm, dp_ft) {
         return propMax_rpm * dp_ft * 0.05236 / 1100;
     }
 };
-var createAtmosphere = function createAtmosphere() {
+const createAtmosphere = function createAtmosphere() {
     function densityRatio(altitude) {
         if (altitude < 36240) {
             return Math.pow(1 - altitude / 145800, 4.265);
@@ -88,14 +88,14 @@ var createAtmosphere = function createAtmosphere() {
         }
     }
     function temperature(altitude) {
-        var lapseRate = 3.56 / 1000;
-        var rankineSealevel = 518.7;
-        var rankine = rankineSealevel - lapseRate * altitude;
-        var f = rankine - 460;
+        const lapseRate = 3.56 / 1000;
+        const rankineSealevel = 518.7;
+        const rankine = rankineSealevel - lapseRate * altitude;
+        const f = rankine - 460;
         return Math.max(f, -70);
     }
     function density(altitude) {
-        var rhoSl = 0.002377;
+        const rhoSl = 0.002377;
         return densityRatio(altitude) * rhoSl;
     }
     return {
@@ -104,8 +104,8 @@ var createAtmosphere = function createAtmosphere() {
         density
     };
 }
-var atmosphere = createAtmosphere();
-var reynolds = (function iife() {
+const atmosphere = createAtmosphere();
+const reynolds = (function iife() {
     function mu(rankine) {
         // 198.6 from the book results in a too high value of 3.7385
         // Using Sutherland's constant of 198.7 we get a more appropriate value of 3.737
@@ -113,10 +113,10 @@ var reynolds = (function iife() {
                 (rankine + 198.7) * Math.pow(10, -8);
     }
     function re(vel, len, altitude) {
-        var f = atmosphere.temperature(altitude);
-        var rankine = f + 460;
-        var rho = atmosphere.density(altitude);
-        var viscosity = mu(rankine);
+        const f = atmosphere.temperature(altitude);
+        const rankine = f + 460;
+        const rho = atmosphere.density(altitude);
+        const viscosity = mu(rankine);
         return rho * vel * len / viscosity * 5280 / 3600;
     }
     return {

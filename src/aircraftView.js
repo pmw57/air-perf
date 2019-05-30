@@ -1,5 +1,5 @@
-var view = (function iife() {
-    var props = {};
+const view = (function iife() {
+    const props = {};
     function renderInputs(inputs) {
         const elements = props.form.elements;
         Object.entries(inputs).forEach(function ([key]) {
