@@ -10,7 +10,7 @@ function calculateOutputs(inputs) {
     var propEfficiency = formulas.propEfficiency;
     var propAdvanced = formulas.propAdvanced;
     var atmosphere = formulas.atmosphere;
-    var sigma = atmosphere.sigma(inputs.altitude_ft);
+    var sigma = atmosphere.densityRatio(inputs.altitude_ft);
     var ws_lbft = forceBalance.ws(sigma, inputs.cl_max_clean, inputs.vs1);
     var vs0 = forceBalance.vs0(ws_lbft, sigma, inputs.cl_max_flap);
     var s_ft = forceBalance.s(inputs.gross_lb, ws_lbft);

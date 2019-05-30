@@ -1,5 +1,5 @@
 function createAtmosphere() {
-    function sigma(altitude) { // density ratio
+    function densityRatio(altitude) {
         if (altitude < 36240) {
             return Math.pow(1 - altitude / 145800, 4.265);
         }
@@ -14,14 +14,14 @@ function createAtmosphere() {
         var f = rankine - 460;
         return Math.max(f, -70);
     }
-    function rho(altitude) { // density
+    function density(altitude) {
         var rhoSl = 0.002377;
-        return sigma(altitude) * rhoSl;
+        return densityRatio(altitude) * rhoSl;
     }
     return {
-        sigma,
+        densityRatio,
         temperature,
-        rho
+        density
     };
 }
 var atmosphere = createAtmosphere();
@@ -117,7 +117,7 @@ var aircraftFormulas = {
         function re(vel, len, altitude) {
             var f = atmosphere.temperature(altitude);
             var rankine = f + 460;
-            var rho = atmosphere.rho(altitude);
+            var rho = atmosphere.density(altitude);
             var viscosity = mu(rankine);
             return rho * vel * len / viscosity * 5280 / 3600;
         }

@@ -70,16 +70,16 @@ describe("Formula tests", function () {
 });
 describe("Atmosphere", function () {
     it("has sigma at sealevel", function () {
-        assert.equal(formulas.atmosphere.sigma(0), 1);
+        assert.equal(formulas.atmosphere.densityRatio(0), 1);
     });
     it("has sigma at 40,000 feet", function () {
-        assert.closeTo(formulas.atmosphere.sigma(40000), 0.25, 0.01);
+        assert.closeTo(formulas.atmosphere.densityRatio(40000), 0.25, 0.01);
     });
-    it("has rho at sealevel", function () {
-        assert.equal(formulas.atmosphere.rho(0), 0.002377);
+    it("has density at sealevel", function () {
+        assert.equal(formulas.atmosphere.density(0), 0.002377);
     });
-    it("has rho at 40000", function () {
-        assert.closeTo(formulas.atmosphere.rho(40000), 0.00005, 0.001);
+    it("has density at 40000", function () {
+        assert.closeTo(formulas.atmosphere.density(40000), 0.00005, 0.001);
     });
     it("has average temperature at sealevel", function () {
         assert.closeTo(formulas.atmosphere.temperature(0), 58.7, 0.01);
