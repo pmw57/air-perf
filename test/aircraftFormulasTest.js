@@ -1,5 +1,5 @@
 /*jslint browser */
-import {describe, it} from "mocha";
+import {describe, it, xit} from "mocha";
 import {assert} from "chai";
 import formulas from "../src/aircraftFormulas.js";
 
@@ -27,12 +27,16 @@ describe("Formula tests", function () {
             assert.closeTo(ws, 17.57, 0.1);
         });
         xit("has wing area", function () {
+            return;
         });
         xit("has stall speed in landing configuration", function () {
+            return;
         });
         xit("has aspect ratio", function () {
+            return;
         });
         xit("has chord", function () {
+            return;
         });
     });
     describe("minimum sink rate", function () {
@@ -53,16 +57,20 @@ describe("Formula tests", function () {
     });
     describe("max lift drag ratio", function () {
         xit("has max lift drag ratio", function () {
+            return;
         });
         xit("has minimum drag", function () {
+            return;
         });
     });
     describe("level flight", function () {
         xit("has minimum power", function () {
+            return;
         });
     });
     describe("climbing flight", function () {
         xit("has rate of climb", function () {
+            return;
         });
     });
     describe("propeller efficiency", function () {
@@ -100,6 +108,7 @@ describe("advanced propeller", function () {
 });
 describe("prop tip speed", function () {
     xit("has propeller mach", function () {
+        return;
     });
 });
 describe("Atmosphere", function () {

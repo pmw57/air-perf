@@ -1,5 +1,5 @@
 /*jslint browser */
-import {describe, it} from "mocha";
+import {describe, it, xit} from "mocha";
 import {assert} from "chai";
 import aircraftCalcs from "../src/aircraftCalculations.js";
 
@@ -79,8 +79,8 @@ describe("Output test", function () {
         assert.isFinite(output.static_thrust_ideal);
     });
 });
-xdescribe("Results test", function () {
+describe("Results test", function () {
     xit("", function () {
-
+        return;
     });
 });

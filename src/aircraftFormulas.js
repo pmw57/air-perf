@@ -9,7 +9,7 @@ const forceBalance = {
         return Math.sqrt(ws_lbft * 391 / (sigma * clmaxf));
     }
 };
-const inducedDrag =  {
+const inducedDrag = {
     ar(b_ft, s_ft) {
         return Math.pow(b_ft, 2) / s_ft;
     },
@@ -103,14 +103,16 @@ const createAtmosphere = function createAtmosphere() {
         temperature,
         density
     };
-}
+};
 const atmosphere = createAtmosphere();
 const reynolds = (function iife() {
     function mu(rankine) {
         // 198.6 from the book results in a too high value of 3.7385
-        // Using Sutherland's constant of 198.7 we get a more appropriate value of 3.737
-        return 2.270 * Math.pow(rankine, 3 / 2) /
-                (rankine + 198.7) * Math.pow(10, -8);
+        // Using Sutherland's constant of 198.7 we get a more appropriate
+        // value of 3.737...
+        return 2.270 * Math.pow(rankine, 3 / 2) / (
+            rankine + 198.7
+        ) * Math.pow(10, -8);
     }
     function re(vel, len, altitude) {
         const f = atmosphere.temperature(altitude);
