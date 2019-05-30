@@ -68,3 +68,26 @@ describe("Formula tests", function () {
         assert.closeTo(vprop, 107, 0.1);
     });
 });
+describe("Atmosphere", function () {
+    it("has sigma at sealevel", function () {
+        assert.equal(formulas.atmosphere.sigma(0), 1);
+    });
+    it("has sigma at 40,000 feet", function () {
+        assert.closeTo(formulas.atmosphere.sigma(40000), 0.25, 0.01);
+    });
+    it("has rho at sealevel", function () {
+        assert.equal(formulas.atmosphere.rho(0), 0.002377);
+    });
+    it("has rho at 40000", function () {
+        assert.closeTo(formulas.atmosphere.rho(40000), 0.00005, 0.001);
+    });
+    it("has average temperature at sealevel", function () {
+        assert.closeTo(formulas.atmosphere.temperature(0), 58.7, 0.01);
+    });
+    it("has lower temperature at 10,000 feet", function () {
+        assert.closeTo(formulas.atmosphere.temperature(10000), 23.1, 0.01);
+    });
+    it("has lowest temperature at beyond 36,240 feet", function () {
+        assert.closeTo(formulas.atmosphere.temperature(40000), -70, 0.01);
+    });
+});

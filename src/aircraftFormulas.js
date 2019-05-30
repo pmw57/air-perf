@@ -1,3 +1,30 @@
+function createAtmosphere() {
+    function sigma(altitude) { // density ratio
+        if (altitude < 36240) {
+            return Math.pow(1 - altitude / 145800, 4.265);
+        }
+        if (altitude < 82000) {
+            return 1.688 * Math.exp(-altitude / 20808);
+        }
+    }
+    function temperature(altitude) {
+        var lapseRate = 3.56 / 1000;
+        var rankineSealevel = 518.7;
+        var rankine = rankineSealevel - lapseRate * altitude;
+        var f = rankine - 460;
+        return Math.max(f, -70);
+    }
+    function rho(altitude) { // density
+        var rhoSl = 0.002377;
+        return sigma(altitude) * rhoSl;
+    }
+    return {
+        sigma,
+        temperature,
+        rho
+    };
+}
+var atmosphere = createAtmosphere();
 var aircraftFormulas = {
     forceBalance: {
         ws(sigma, clmax, vs1) {
@@ -79,14 +106,7 @@ var aircraftFormulas = {
             return propMax_rpm * dp_ft * 0.05236 / 1100;
         }
     },
-    atmosphere: {
-        densityRatio(altitude) {
-            if (altitude < 36240) {
-                return Math.pow(1 - altitude / 145800, 4.265);
-            }
-            if (altitude < 82000) {
-                return 1.688 * Math.exp(-altitude / 20808);
-            }
+    atmosphere,
         }
     }
 };
