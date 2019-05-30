@@ -4,48 +4,85 @@ import {assert} from "chai";
 import formulas from "../src/aircraftFormulas.js";
 
 describe("Formula tests", function () {
-    it("has a sealevel wing load", function () {
-        var sigma = 1;
-        var clmax = 1.53;
-        var vs1 = 67;
-        var ws = formulas.forceBalance.ws(sigma, clmax, vs1);
-        assert.closeTo(ws, 17.57, 0.01);
+    describe("force balance", function () {
+        it("has a sealevel wing load", function () {
+            var sigma = 1;
+            var clmax = 1.53;
+            var vs1 = 67;
+            var ws = formulas.forceBalance.ws(sigma, clmax, vs1);
+            assert.closeTo(ws, 17.57, 0.01);
+        });
+        it("changes wing load with altitude", function () {
+            var sigma = 0.75;
+            var clmax = 1.53;
+            var vs1 = 67;
+            var ws = formulas.forceBalance.ws(sigma, clmax, vs1);
+            assert.closeTo(ws, 13.17, 0.01);
+        });
+        it("has same wing load at faster speed", function () {
+            var sigma = 0.75;
+            var clmax = 1.53;
+            var vs1 = 77.5;
+            var ws = formulas.forceBalance.ws(sigma, clmax, vs1);
+            assert.closeTo(ws, 17.57, 0.1);
+        });
+        xit("has wing area", function () {
+        });
+        xit("has stall speed in landing configuration", function () {
+        });
+        xit("has aspect ratio", function () {
+        });
+        xit("has chord", function () {
+        });
     });
-    it("changes wing load with altitude", function () {
-        var sigma = 0.75;
-        var clmax = 1.53;
-        var vs1 = 67;
-        var ws = formulas.forceBalance.ws(sigma, clmax, vs1);
-        assert.closeTo(ws, 13.17, 0.01);
+    describe("minimum sink rate", function () {
+        it("has a sealevel drag area", function () {
+            var sigma = 1;
+            var bhp = 150;
+            var vmax = 180;
+            var ad = formulas.minSinkRate.ad(sigma, bhp, vmax);
+            assert.closeTo(ad, 3.02, 0.01);
+        });
+        it("has a different drag area at 40,000 feet", function () {
+            var sigma = 0.25;
+            var bhp = 150;
+            var vmax = 180;
+            var ad = formulas.minSinkRate.ad(sigma, bhp, vmax);
+            assert.closeTo(ad, 0.75, 0.1);
+        });
     });
-    it("has same wing load at faster speed", function () {
-        var sigma = 0.75;
-        var clmax = 1.53;
-        var vs1 = 77.5;
-        var ws = formulas.forceBalance.ws(sigma, clmax, vs1);
-        assert.closeTo(ws, 17.57, 0.1);
+    describe("max lift drag ratio", function () {
+        xit("has max lift drag ratio", function () {
+        });
+        xit("has minimum drag", function () {
+        });
     });
-    it("has a sealevel vprop", function () {
-        var sigma = 1;
-        var bhp = 150;
-        var dp = 6;
-        var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
-        assert.closeTo(vprop, 67.42, 0.01);
+    describe("level flight", function () {
+        xit("has minimum power", function () {
+        });
     });
-    it("has a sealevel drag area", function () {
-        var sigma = 1;
-        var bhp = 150;
-        var vmax = 180;
-        var ad = formulas.minSinkRate.ad(sigma, bhp, vmax);
-        assert.closeTo(ad, 3.02, 0.01);
+    describe("climbing flight", function () {
+        xit("has rate of climb", function () {
+        });
     });
-    it("has a different drag area at 40,000 feet", function () {
-        var sigma = 0.25;
-        var bhp = 150;
-        var vmax = 180;
-        var ad = formulas.minSinkRate.ad(sigma, bhp, vmax);
-        assert.closeTo(ad, 0.75, 0.1);
+    describe("propeller efficiency", function () {
+        it("has a sealevel vprop", function () {
+            var sigma = 1;
+            var bhp = 150;
+            var dp = 6;
+            var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
+            assert.closeTo(vprop, 67.42, 0.01);
+        });
+        it("has a higher vprop at 40,000 feet", function () {
+            var sigma = 0.25;
+            var bhp = 150;
+            var dp = 6;
+            var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
+            assert.closeTo(vprop, 107, 0.1);
+        });
     });
+});
+describe("advanced propeller", function () {
     it("has a sealevel ideal static thrust", function () {
         var sigma = 1;
         var bhp = 150;
@@ -60,19 +97,16 @@ describe("Formula tests", function () {
         var ts = formulas.propAdvanced.ts(sigma, bhp, dp);
         assert.closeTo(ts, 611.3, 0.1);
     });
-    it("has a higher vprop at 40,000 feet", function () {
-        var sigma = 0.25;
-        var bhp = 150;
-        var dp = 6;
-        var vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
-        assert.closeTo(vprop, 107, 0.1);
+});
+describe("prop tip speed", function () {
+    xit("has propeller mach", function () {
     });
 });
 describe("Atmosphere", function () {
-    it("has sigma at sealevel", function () {
+    it("has density ratio at sealevel", function () {
         assert.equal(formulas.atmosphere.densityRatio(0), 1);
     });
-    it("has sigma at 40,000 feet", function () {
+    it("has density ratio at 40,000 feet", function () {
         assert.closeTo(formulas.atmosphere.densityRatio(40000), 0.25, 0.01);
     });
     it("has density at sealevel", function () {
@@ -92,13 +126,13 @@ describe("Atmosphere", function () {
     });
 });
 describe("Reynolds number", function () {
-    it("has mu (viscosity) at sealevel temperature", function () {
+    it("has viscosity at sealevel temperature", function () {
         var f = 58.7;
         var rankine = f + 460;
         var mu = formulas.reynolds.mu(rankine);
         assert.closeTo(mu, 3.737e-7, 0.001e-7);
     });
-    it("has mu (viscosity) at lower temperature", function () {
+    it("has viscosity at lower temperature", function () {
         var f = 10;
         var rankine = f + 460;
         var mu = formulas.reynolds.mu(rankine);

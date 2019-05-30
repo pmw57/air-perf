@@ -79,3 +79,8 @@ describe("Output test", function () {
         assert.isFinite(output.static_thrust_ideal);
     });
 });
+xdescribe("Results test", function () {
+    xit("", function () {
+
+    });
+});
