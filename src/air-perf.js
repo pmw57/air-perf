@@ -28,66 +28,10 @@ function getInputValues() {
     const values = view.getValues();
     return convertToNumbers(values);
 }
-function updateOutputs(outputs, precision) {
-    Object.entries(outputs).forEach(function ([key, value]) {
-        const el = document.getElementById(key);
-        el.innerHTML = value.toFixed(precision[key]);
-    });
-}
-function clearResults() {
-    const resultSection = document.getElementById("results");
-    const table = resultSection.querySelector("table");
-    table.tBodies[0].innerHTML = "";
-}
-function insertCell(row, value) {
-    const content = document.createTextNode(value);
-    const cell = row.insertCell().appendChild(content);
-    return cell;
-}
-function showResult(result) {
-    const resultSection = document.getElementById("results");
-    const table = resultSection.querySelector("table");
-    const row = table.tBodies[0].insertRow(-1);
-    result.forEach(function (value) {
-        insertCell(row, value);
-    });
-}
-function tooManyResults() {
-    const resultSection = document.getElementById("results");
-    const table = resultSection.querySelector("table");
-    const row = table.tBodies[0].insertRow(-1);
-    insertCell(row, "Stopping to avoid possible infinite loop.");
-    row.children[0].colSpan = 5;
-}
-function updateResults(results, precision) {
-    clearResults();
-    results.data.forEach(function (result) {
-        showResult([
-            result.v.toFixed(precision.v),
-            result.rc.toFixed(precision.rc),
-            result.eta.toFixed(precision.eta),
-            result.rs.toFixed(precision.rs),
-            result.rec.toFixed(precision.rec)
-        ]);
-    });
-    if (results.runaway) {
-        return tooManyResults();
-    }
-    const performance = ["fp", "wv2", "rcmax", "vy", "vmax", "useful_load"];
-    performance.forEach(function (prop) {
-        const num = results[prop].toFixed(precision[prop]);
-        document.getElementById(prop).innerHTML = num;
-    });
-}
-function updateScreen({inputs, outputs, results}, precision) {
-    view.renderInputs(inputs);
-    updateOutputs(outputs, precision);
-    updateResults(results, precision);
-}
 function main(inputs, precision) {
     const outputs = aircraftCalcs.outputs(inputs);
     const results = aircraftCalcs.results(inputs, outputs);
-    updateScreen({inputs, outputs, results}, precision);
+    view.render({inputs, outputs, results}, precision);
 }
 function calculatePerformance() {
     const inputs = getInputValues();
