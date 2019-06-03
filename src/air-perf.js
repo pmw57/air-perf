@@ -79,7 +79,7 @@ function saveButtonHandler(evt) {
     const filename = document.querySelector(".js-savefile").value;
     saveToFile(filename);
 }
-function inputChangeHandler(evt) {
+function inputChangeHandler() {
     calculatePerformance();
 }
 
