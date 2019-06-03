@@ -4,10 +4,10 @@ import {assert} from "chai";
 import view from "../src/aircraftView.js";
 
 describe("Air performance test", function () {
-    var inputs = {vs1: "67"};
     var outputs = {};
     var results = {};
     it("updates an input", function () {
+        var inputs = {vs1: "67"};
         var form = {elements: {vs1: {value: ""}}};
         view.init(form);
         view.renderInputs(inputs);
@@ -21,10 +21,10 @@ describe("Air performance test", function () {
             view.renderInputs(inputs);
         }, ReferenceError);
     });
-    xit("updates an output", function () {
-
+    it.skip("updates an output", function () {
+        return;
     });
-    xit("updates a result", function () {
-
+    it.skip("updates a result", function () {
+        return;
     });
 });
