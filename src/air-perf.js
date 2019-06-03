@@ -1,5 +1,4 @@
 /*jslint browser */
-/*global csv */
 import aircraftCalcs from "./aircraftCalculations.js";
 import view from "./aircraftView.js";
 
@@ -72,8 +71,8 @@ function saveToFile(filename) {
     const inputs = getInputValues();
     const outputs = aircraftCalcs.outputs(inputs);
     const results = aircraftCalcs.results(inputs, outputs);
-    const csvContent = csv.stringify({inputs, outputs, results});
-    csv.save(csvContent, filename);
+    const csvContent = window.csv.stringify({inputs, outputs, results});
+    window.csv.save(csvContent, filename);
 }
 function saveButtonHandler(evt) {
     evt.preventDefault();
@@ -87,7 +86,7 @@ function inputChangeHandler(evt) {
 function init(document, precisionObj) {
     precision = Object.assign({}, precisionObj);
     const loadFile = document.querySelector(".js-loadfile");
-    const loadHandler = csv.loadWrapper(updateInputsFromCsv);
+    const loadHandler = window.csv.loadWrapper(updateInputsFromCsv);
     loadFile.addEventListener("change", loadHandler);
 
     const saveButton = document.querySelector(".js-savebutton");
