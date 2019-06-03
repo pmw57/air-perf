@@ -34,8 +34,8 @@ const minSinkRate = {
         return sigma * 0.8 * bhp * 146625 / Math.pow(vmax_mph, 3);
     },
     rsmin(w_lb, ad_ft, be) {
-        return 1294 * Math.sqrt(w_lb) * Math.pow(ad_ft, 1 / 4) /
-        Math.pow(be, 3 / 2);
+        return 1294 * Math.sqrt(w_lb) *
+                Math.pow(ad_ft, 1 / 4) / Math.pow(be, 3 / 2);
     },
     vminsink(wbe, sigma, ad_ft) {
         return 11.285 * Math.sqrt(wbe) / (
