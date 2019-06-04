@@ -37,10 +37,12 @@ describe("Air performance test", function () {
             };
         });
         it("updates an output", function () {
-            const outputs = {vs0: "57.19"};
+            const vs0 = 57.19;
+            const outputs = {vs0};
             const precision = {vs0: 2};
             view.init(undefined, doc);
             view.renderOutputs(outputs, precision);
+            assert.equal(els["#vs0"].innerHTML, vs0);
         });
     });
     it.skip("updates a result", function () {
