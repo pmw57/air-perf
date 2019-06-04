@@ -60,7 +60,7 @@ const view = (function iife() {
                 Number(result.rec).toFixed(precision.rec)
             ]);
         });
-        if (otherResults.runaway) {
+        if (data.length > 1000) {
             return tooManyResults();
         }
         Object.entries(otherResults).forEach(function ([prop, value]) {

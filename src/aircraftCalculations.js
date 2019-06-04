@@ -57,8 +57,7 @@ function calculateResults(inputs, outputs) {
 
     let rc = 1;
     let v = inputs.vs1;
-    let counter = 0;
-    while (rc > 0 && counter < 1000) {
+    while (rc > 0 && results.data.length < 1000) {
         const sigma = atmosphere.densityRatio(inputs.altitude_ft);
         const ad = outputs.drag_area_ft;
         const be = outputs.wing_span_effective;
@@ -79,11 +78,6 @@ function calculateResults(inputs, outputs) {
             results.data.push({v, rc, eta, rs: rs, rec});
             v += 1;
         }
-        counter += 1;
-    }
-    if (counter >= 1000) {
-        results.runaway = true;
-        return;
     }
     return Object.assign(results, {
         fp: results.rcmax * inputs.useful_load_lb / 33000 / inputs.bhp * (
