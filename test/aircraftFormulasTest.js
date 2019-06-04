@@ -65,6 +65,15 @@ describe("Formula tests", function () {
             const ad = formulas.minSinkRate.ad(sigma, bhp, vmax);
             assert.closeTo(ad, 0.75, 0.1);
         });
+        it("has rate of sink", function () {
+            const sigma = 1;
+            const ad = 3.02;
+            const v = 67;
+            const w = 1500;
+            const be = 17.97;
+            const rs = formulas.minSinkRate.rs(sigma, ad, v, w, be);
+            assert.closeTo(rs, 895.61, 0.01);
+        });
     });
     describe("max lift drag ratio", function () {
         const maxLiftDragRatio = formulas.maxLiftDragRatio;

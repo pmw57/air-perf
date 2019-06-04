@@ -46,47 +46,38 @@ function calculateOutputs(inputs) {
     };
 }
 function calculateResults(inputs, outputs) {
+    const atmosphere = formulas.atmosphere;
+    const minSinkRate = formulas.minSinkRate;
     const reynolds = formulas.reynolds;
     const results = {
+        rcmax: 0,
+        vmax: 0,
         data: []
     };
-    const vel_delta = 1.00; // airspeed increment for each iteration
-    const rc1 = 0;
-    const t1 = 1.0 / 3;
-    let eta = 1;
+
     let rc = 1;
-    let rc2 = 0;
-    let rcmax = 0;
-    let vy = 0;
-    let rec = 0;
-    let rsh = 0;
-    let rs = 0;
-    let t2 = 0;
     let v = inputs.vs1;
-    let vh = 0;
-    let vmax = 0;
-    let vt = 0;
     let counter = 0;
     while (rc > 0 && counter < 1000) {
-        vh = v / outputs.vel_sink_min_ft;
-        rsh = 0.25 * (Math.pow(vh, 4) + 3) / vh;
-        rs = rsh * outputs.rate_sink_min_ft;
-        vt = v / outputs.prop_vel_ref;
-        t2 = Math.sqrt(1 + 0.23271 * Math.pow(vt, 3));
-        eta = 0.92264 * vt * (
-            Math.pow(1 + t2, t1) - Math.pow(t2 - 1, t1)
+        const sigma = atmosphere.densityRatio(inputs.altitude_ft);
+        const ad = outputs.drag_area_ft;
+        const be = outputs.wing_span_effective;
+        const rs = minSinkRate.rs(sigma, ad, v, inputs.gross_lb, be);
+        const vt = v / outputs.prop_vel_ref;
+        const t2 = Math.sqrt(1 + 0.23271 * Math.pow(vt, 3));
+        const eta = 0.92264 * vt * (
+            Math.pow(1 + t2, 1 / 3) - Math.pow(t2 - 1, 1 / 3)
         ) * 0.85;
         rc = outputs.rate_climb_ideal * eta - rs;
-        rc2 = rc;
-        rec = reynolds.re(v, outputs.wing_chord_ft, inputs.altitude_ft);
+        const rec = reynolds.re(v, outputs.wing_chord_ft, inputs.altitude_ft);
         if (rc > 0) {
-            if (rc > rcmax) {
-                rcmax = Math.max(rc, rcmax);
-                vy = v;
+            if (rc > results.rcmax) {
+                results.rcmax = Math.max(rc, results.rcmax);
+                results.vy = v;
             }
-            vmax = Math.max(v, vmax);
-            results.data.push({v, rc, eta, rs, rec});
-            v = v + vel_delta * rc2 / (rc2 - rc1);
+            results.vmax = Math.max(v, results.vmax);
+            results.data.push({v, rc, eta, rs: rs, rec});
+            v += 1;
         }
         counter += 1;
     }
@@ -95,11 +86,8 @@ function calculateResults(inputs, outputs) {
         return;
     }
     return Object.assign(results, {
-        rcmax,
-        vy,
-        vmax,
-        fp: rcmax * inputs.useful_load_lb / 33000 / inputs.bhp * (
-            1 - ((outputs.vs0) / vmax)
+        fp: results.rcmax * inputs.useful_load_lb / 33000 / inputs.bhp * (
+            1 - ((outputs.vs0) / results.vmax)
         ),
         wv2: inputs.gross_lb * Math.pow(v, 2),
         useful_load: inputs.useful_load_lb

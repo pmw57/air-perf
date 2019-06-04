@@ -41,6 +41,11 @@ const minSinkRate = {
         return 11.285 * Math.sqrt(wbe) / (
             Math.sqrt(sigma) * Math.pow(ad_ft, 1 / 4)
         );
+    },
+    rs(sigma, ad, v, w, be) {
+        return 88 * (sigma * ad * Math.pow(v, 3) / (391 * w) + (
+            391 * w / (Math.PI * sigma * v * Math.pow(be, 2))
+        ));
     }
 };
 const maxLiftDragRatio = {

@@ -88,19 +88,19 @@ describe("calculation tests", function () {
             results = aircraftCalcs.results(inputs, outputs);
         });
         it("has performance parameter", function () {
-            assert.closeTo(results.fp, 0.14, 0.01);
+            assert.closeTo(results.fp, 0.12, 0.01);
         });
         it("has max rate of climb", function () {
-            assert.closeTo(results.rcmax, 1641, 1);
+            assert.closeTo(results.rcmax, 1500, 1);
         });
         it("has useful load", function () {
             assert.equal(results.useful_load, 600);
         });
         it("has max velocity", function () {
-            assert.closeTo(results.vmax, 227, 0.1);
+            assert.closeTo(results.vmax, 213, 0.1);
         });
         it("has kinetic energy", function () {
-            assert.closeTo(results.wv2, 78000000, 100000);
+            assert.closeTo(results.wv2, 68600000, 100000);
         });
         it("has data", function () {
             assert.isAbove(results.data.length, 10);
