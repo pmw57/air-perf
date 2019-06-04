@@ -9,9 +9,6 @@ describe("Air performance test", function () {
         return {value: ""};
     }
     beforeEach(function () {
-        els = {
-            "#vs0": newElement()
-        };
         doc = {
             querySelector: function querySelector(selector) {
                 if (selector === "#vs0") {
@@ -46,6 +43,9 @@ describe("Air performance test", function () {
     });
     describe("outputs", function () {
         it("updates an output", function () {
+            els = {
+                "#vs0": newElement()
+            };
             const vs0 = 57.19;
             const outputs = {vs0};
             const precision = {vs0: 2};
