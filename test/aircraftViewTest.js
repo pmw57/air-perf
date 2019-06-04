@@ -2,7 +2,7 @@ import {describe, beforeEach, it} from "mocha";
 import {assert} from "chai";
 import view from "../src/aircraftView.js";
 
-describe("Air performance test", function () {
+describe("Aircraft view tests", function () {
     let els;
     let doc;
     function newElement() {
