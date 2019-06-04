@@ -56,9 +56,15 @@ describe("Air performance test", function () {
     });
     it("updates a result", function () {
         const results = {
+            fp: 3,
+            wv2: 4,
+            rcmax: 5,
+            vy: 6,
+            vmax: 7,
+            useful_load: 8,
             data: []
         };
-        Object.assign(els, {
+        els = {
             tbody: {},
             "#fp": newElement(),
             "#wv2": newElement(),
@@ -66,9 +72,15 @@ describe("Air performance test", function () {
             "#vy": newElement(),
             "#vmax": newElement(),
             "#useful_load": newElement()
-        });
+        };
         const precision = {};
         view.init(undefined, doc);
         view.renderResults(results, precision);
+        assert.equal(els["#fp"].innerHTML, "3");
+        assert.equal(els["#wv2"].innerHTML, "4");
+        assert.equal(els["#rcmax"].innerHTML, "5");
+        assert.equal(els["#vy"].innerHTML, "6");
+        assert.equal(els["#vmax"].innerHTML, "7");
+        assert.equal(els["#useful_load"].innerHTML, "8");
     });
 });
