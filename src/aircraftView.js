@@ -50,11 +50,11 @@ const view = (function iife() {
         clearResults();
         results.data.forEach(function (result) {
             showResult([
-                result.v.toFixed(precision.v),
-                result.rc.toFixed(precision.rc),
-                result.eta.toFixed(precision.eta),
-                result.rs.toFixed(precision.rs),
-                result.rec.toFixed(precision.rec)
+                Number(result.v).toFixed(precision.v),
+                Number(result.rc).toFixed(precision.rc),
+                Number(result.eta).toFixed(precision.eta),
+                Number(result.rs).toFixed(precision.rs),
+                Number(result.rec).toFixed(precision.rec)
             ]);
         });
         if (results.runaway) {
@@ -62,8 +62,8 @@ const view = (function iife() {
         }
         const performance = ["fp", "wv2", "rcmax", "vy", "vmax", "useful_load"];
         performance.forEach(function (prop) {
-            const num = results[prop].toFixed(precision[prop]);
-            props.doc.getElementById(prop).innerHTML = num;
+            const num = Number(results[prop]).toFixed(precision[prop]);
+            props.doc.querySelector("#" + prop).innerHTML = num;
         });
     }
     function render({inputs, outputs, results}, precision) {

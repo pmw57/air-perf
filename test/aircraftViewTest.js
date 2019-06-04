@@ -3,7 +3,37 @@ import {assert} from "chai";
 import view from "../src/aircraftView.js";
 
 describe("Air performance test", function () {
-    var results = {};
+    let els;
+    let doc;
+    function newElement() {
+        return {value: ""};
+    }
+    beforeEach(function () {
+        els = {
+            "#vs0": newElement(),
+            tbody: {},
+            "#fp": newElement(),
+            "#wv2": newElement(),
+            "#rcmax": newElement(),
+            "#vy": newElement(),
+            "#vmax": newElement(),
+            "#useful_load": newElement()
+        };
+        doc = {
+            querySelector: function querySelector(selector) {
+                if (selector === "#vs0") {
+                    return els[selector];
+                }
+                if (selector === "#results") {
+                    return {querySelector};
+                }
+                if (selector === "table") {
+                    return {tBodies: [els.tbody]};
+                }
+                return els[selector];
+            }
+        };
+    });
     describe("inputs", function () {
         it("updates an input", function () {
             const inputs = {vs1: "67"};
@@ -22,20 +52,6 @@ describe("Air performance test", function () {
         });
     });
     describe("outputs", function () {
-        let els;
-        let doc;
-        beforeEach(function () {
-            els = {
-                "#vs0": {value: ""}
-            };
-            doc = {
-                querySelector: function (selector) {
-                    if (selector === "#vs0") {
-                        return els[selector];
-                    }
-                }
-            };
-        });
         it("updates an output", function () {
             const vs0 = 57.19;
             const outputs = {vs0};
@@ -45,7 +61,12 @@ describe("Air performance test", function () {
             assert.equal(els["#vs0"].innerHTML, vs0);
         });
     });
-    it.skip("updates a result", function () {
-        return;
+    it("updates a result", function () {
+        const results = {
+            data: []
+        };
+        const precision = {};
+        view.init(undefined, doc);
+        view.renderResults(results, precision);
     });
 });
