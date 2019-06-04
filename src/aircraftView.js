@@ -1,4 +1,3 @@
-/*jslint browser */
 const view = (function iife() {
     const props = {};
     function renderInputs(inputs) {
@@ -18,22 +17,22 @@ const view = (function iife() {
     }
     function renderOutputs(outputs, precision) {
         Object.entries(outputs).forEach(function ([key, value]) {
-            const el = document.getElementById(key);
-            el.innerHTML = value.toFixed(precision[key]);
+            const el = props.doc.querySelector("#" + key);
+            el.innerHTML = Number(value).toFixed(precision[key]);
         });
     }
     function clearResults() {
-        const resultSection = document.getElementById("results");
+        const resultSection = props.doc.querySelector("#results");
         const table = resultSection.querySelector("table");
         table.tBodies[0].innerHTML = "";
     }
     function insertCell(row, value) {
-        const content = document.createTextNode(value);
+        const content = props.doc.createTextNode(value);
         const cell = row.insertCell().appendChild(content);
         return cell;
     }
     function showResult(result) {
-        const resultSection = document.getElementById("results");
+        const resultSection = props.doc.querySelector("#results");
         const table = resultSection.querySelector("table");
         const row = table.tBodies[0].insertRow(-1);
         result.forEach(function (value) {
@@ -41,7 +40,7 @@ const view = (function iife() {
         });
     }
     function tooManyResults() {
-        const resultSection = document.getElementById("results");
+        const resultSection = props.doc.querySelector("#results");
         const table = resultSection.querySelector("table");
         const row = table.tBodies[0].insertRow(-1);
         insertCell(row, "Stopping to avoid possible infinite loop.");
@@ -64,7 +63,7 @@ const view = (function iife() {
         const performance = ["fp", "wv2", "rcmax", "vy", "vmax", "useful_load"];
         performance.forEach(function (prop) {
             const num = results[prop].toFixed(precision[prop]);
-            document.getElementById(prop).innerHTML = num;
+            props.doc.getElementById(prop).innerHTML = num;
         });
     }
     function render({inputs, outputs, results}, precision) {
@@ -72,7 +71,8 @@ const view = (function iife() {
         renderOutputs(outputs, precision);
         renderResults(results, precision);
     }
-    function init(formToUse) {
+    function init(formToUse, doc) {
+        props.doc = doc;
         props.form = formToUse;
     }
     return {

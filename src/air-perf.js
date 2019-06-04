@@ -97,7 +97,7 @@ function init(document, precisionObj) {
     formInputs.forEach(function (input) {
         input.addEventListener("change", inputChangeHandler);
     });
-    view.init(form);
+    view.init(form, document);
 }
 const updateInputs = view.updateInputs;
 export {

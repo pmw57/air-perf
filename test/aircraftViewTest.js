@@ -1,10 +1,8 @@
-/*jslint browser */
-import {describe, it} from "mocha";
+import {describe, beforeEach, it} from "mocha";
 import {assert} from "chai";
 import view from "../src/aircraftView.js";
 
 describe("Air performance test", function () {
-    var outputs = {};
     var results = {};
     describe("inputs", function () {
         it("updates an input", function () {
@@ -23,8 +21,27 @@ describe("Air performance test", function () {
             }, ReferenceError);
         });
     });
-    it.skip("updates an output", function () {
-        return;
+    describe("outputs", function () {
+        let els;
+        let doc;
+        beforeEach(function () {
+            els = {
+                "#vs0": {value: ""}
+            };
+            doc = {
+                querySelector: function (selector) {
+                    if (selector === "#vs0") {
+                        return els[selector];
+                    }
+                }
+            };
+        });
+        it("updates an output", function () {
+            const outputs = {vs0: "57.19"};
+            const precision = {vs0: 2};
+            view.init(undefined, doc);
+            view.renderOutputs(outputs, precision);
+        });
     });
     it.skip("updates a result", function () {
         return;
