@@ -10,14 +10,7 @@ describe("Air performance test", function () {
     }
     beforeEach(function () {
         els = {
-            "#vs0": newElement(),
-            tbody: {},
-            "#fp": newElement(),
-            "#wv2": newElement(),
-            "#rcmax": newElement(),
-            "#vy": newElement(),
-            "#vmax": newElement(),
-            "#useful_load": newElement()
+            "#vs0": newElement()
         };
         doc = {
             querySelector: function querySelector(selector) {
@@ -65,6 +58,15 @@ describe("Air performance test", function () {
         const results = {
             data: []
         };
+        Object.assign(els, {
+            tbody: {},
+            "#fp": newElement(),
+            "#wv2": newElement(),
+            "#rcmax": newElement(),
+            "#vy": newElement(),
+            "#vmax": newElement(),
+            "#useful_load": newElement()
+        });
         const precision = {};
         view.init(undefined, doc);
         view.renderResults(results, precision);
