@@ -54,33 +54,35 @@ describe("Air performance test", function () {
             assert.equal(els["#vs0"].innerHTML, vs0);
         });
     });
-    it("updates a result", function () {
-        const results = {
-            fp: 3,
-            wv2: 4,
-            rcmax: 5,
-            vy: 6,
-            vmax: 7,
-            useful_load: 8,
-            data: []
-        };
-        els = {
-            tbody: {},
-            "#fp": newElement(),
-            "#wv2": newElement(),
-            "#rcmax": newElement(),
-            "#vy": newElement(),
-            "#vmax": newElement(),
-            "#useful_load": newElement()
-        };
-        const precision = {};
-        view.init(undefined, doc);
-        view.renderResults(results, precision);
-        assert.equal(els["#fp"].innerHTML, "3");
-        assert.equal(els["#wv2"].innerHTML, "4");
-        assert.equal(els["#rcmax"].innerHTML, "5");
-        assert.equal(els["#vy"].innerHTML, "6");
-        assert.equal(els["#vmax"].innerHTML, "7");
-        assert.equal(els["#useful_load"].innerHTML, "8");
+    describe("results", function () {
+        it("updates a result", function () {
+            const results = {
+                fp: 3,
+                wv2: 4,
+                rcmax: 5,
+                vy: 6,
+                vmax: 7,
+                useful_load: 8,
+                data: []
+            };
+            els = {
+                tbody: {},
+                "#fp": newElement(),
+                "#wv2": newElement(),
+                "#rcmax": newElement(),
+                "#vy": newElement(),
+                "#vmax": newElement(),
+                "#useful_load": newElement()
+            };
+            const precision = {};
+            view.init(undefined, doc);
+            view.renderResults(results, precision);
+            assert.equal(els["#fp"].innerHTML, "3");
+            assert.equal(els["#wv2"].innerHTML, "4");
+            assert.equal(els["#rcmax"].innerHTML, "5");
+            assert.equal(els["#vy"].innerHTML, "6");
+            assert.equal(els["#vmax"].innerHTML, "7");
+            assert.equal(els["#useful_load"].innerHTML, "8");
+        });
     });
 });
