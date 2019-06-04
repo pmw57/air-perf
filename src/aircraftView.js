@@ -47,8 +47,11 @@ const view = (function iife() {
         row.children[0].colSpan = 5;
     }
     function renderResults(results, precision) {
+        const data = results.data;
+        const otherResults = results;
+        delete otherResults.data;
         clearResults();
-        results.data.forEach(function (result) {
+        data.forEach(function (result) {
             showResult([
                 Number(result.v).toFixed(precision.v),
                 Number(result.rc).toFixed(precision.rc),
@@ -57,12 +60,11 @@ const view = (function iife() {
                 Number(result.rec).toFixed(precision.rec)
             ]);
         });
-        if (results.runaway) {
+        if (otherResults.runaway) {
             return tooManyResults();
         }
-        const performance = ["fp", "wv2", "rcmax", "vy", "vmax", "useful_load"];
-        performance.forEach(function (prop) {
-            const num = Number(results[prop]).toFixed(precision[prop]);
+        Object.entries(otherResults).forEach(function ([prop, value]) {
+            const num = Number(value).toFixed(precision[prop]);
             props.doc.querySelector("#" + prop).innerHTML = num;
         });
     }

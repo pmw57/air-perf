@@ -57,32 +57,20 @@ describe("Aircraft view tests", function () {
     describe("results", function () {
         it("updates a result", function () {
             const results = {
-                fp: 3,
-                wv2: 4,
-                rcmax: 5,
-                vy: 6,
-                vmax: 7,
-                useful_load: 8,
+                key1: 3,
+                key2: 4,
                 data: []
             };
             els = {
                 tbody: {},
-                "#fp": newElement(),
-                "#wv2": newElement(),
-                "#rcmax": newElement(),
-                "#vy": newElement(),
-                "#vmax": newElement(),
-                "#useful_load": newElement()
+                "#key1": newElement(),
+                "#key2": newElement()
             };
             const precision = {};
             view.init(undefined, doc);
             view.renderResults(results, precision);
-            assert.equal(els["#fp"].innerHTML, "3");
-            assert.equal(els["#wv2"].innerHTML, "4");
-            assert.equal(els["#rcmax"].innerHTML, "5");
-            assert.equal(els["#vy"].innerHTML, "6");
-            assert.equal(els["#vmax"].innerHTML, "7");
-            assert.equal(els["#useful_load"].innerHTML, "8");
+            assert.equal(els["#key1"].innerHTML, "3");
+            assert.equal(els["#key2"].innerHTML, "4");
         });
     });
 });
