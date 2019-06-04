@@ -75,7 +75,7 @@ const propAdvanced = {
 };
 const propTipSpeed = {
     mp(propMax_rpm, dp_ft) {
-        return propMax_rpm * dp_ft * 0.05236 / 1100;
+        return Math.PI * dp_ft * propMax_rpm / 60 / 1100;
     }
 };
 const createAtmosphere = function createAtmosphere() {

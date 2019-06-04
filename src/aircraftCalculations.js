@@ -9,6 +9,7 @@ function calculateOutputs(inputs) {
     const climbingFlight = formulas.climbingFlight;
     const propEfficiency = formulas.propEfficiency;
     const propAdvanced = formulas.propAdvanced;
+    const propTipSpeed = formulas.propTipSpeed;
     const atmosphere = formulas.atmosphere;
     const sigma = atmosphere.densityRatio(inputs.altitude_ft);
     const ws_lbft = forceBalance.ws(sigma, inputs.cl_max_clean, inputs.vs1);
@@ -39,7 +40,7 @@ function calculateOutputs(inputs) {
         drag_min: maxLiftDragRatio.dmin(ad_ft, inputs.gross_lb, be),
         cl_min_sink: minSinkRate.clmins(ad_ft, ce),
         rate_climb_ideal: climbingFlight.rc(inputs.bhp, inputs.gross_lb),
-        prop_tip_mach: inputs.prop_max_rpm * prop_dia_ft * 0.05236 / 1100,
+        prop_tip_mach: propTipSpeed.mp(inputs.prop_max_rpm, prop_dia_ft),
         prop_vel_ref: propEfficiency.vprop(inputs.bhp, sigma, prop_dia_ft),
         static_thrust_ideal: propAdvanced.ts(sigma, inputs.bhp, prop_dia_ft)
     };
