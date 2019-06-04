@@ -75,7 +75,7 @@ function calculateResults(inputs, outputs) {
                 results.vy = v;
             }
             results.vmax = Math.max(v, results.vmax);
-            results.data.push({v, rc, eta, rs: rs, rec});
+            results.data.push({v, rc, eta, rs, rec});
             v += 1;
         }
     }
