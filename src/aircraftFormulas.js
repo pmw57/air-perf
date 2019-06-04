@@ -75,7 +75,8 @@ const propAdvanced = {
 };
 const propTipSpeed = {
     mp(propMax_rpm, dp_ft) {
-        return Math.PI * dp_ft * propMax_rpm / 60 / 1100;
+        const speedOfSound = 1100;
+        return Math.PI * dp_ft * propMax_rpm / 60 / speedOfSound;
     }
 };
 const createAtmosphere = function createAtmosphere() {
