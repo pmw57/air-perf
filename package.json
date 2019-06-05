@@ -8,8 +8,8 @@
   },
   "scripts": {
     "watchify": "watchify src/air-perf.js -o dist/air-perf.js -dv --standalone airperf",
-    "test": "mocha 'test/**/*.js'",
-    "test:watch": "npm-run-all --parallel watchify test"
+    "mocha": "mocha 'test/**/*.js'",
+    "test": "npm-run-all --parallel watchify mocha"
   },
   "browserify": {
     "transform": [
