@@ -32,19 +32,12 @@ describe("Aircraft view tests", function () {
             view.renderInputs(inputs);
             assert.equal(inputs.vs1, form.elements.vs1.value);
         });
-        it("throws an error with a non-matching input", function () {
-            const inputs = {shouldntmatch: "67"};
-            const form = {elements: {vs1: {value: ""}}};
-            view.init(form);
-            assert.throws(function () {
-                view.renderInputs(inputs);
-            }, ReferenceError);
-        });
     });
     describe("outputs", function () {
         it("updates an output", function () {
             els = {
-                "#vs0": newElement()
+                "#vs0": newElement(),
+                "#summary": doc
             };
             const vs0 = 57.19;
             const outputs = {vs0};
@@ -58,9 +51,9 @@ describe("Aircraft view tests", function () {
         it("updates a result", function () {
             const results = {
                 key1: 3,
-                key2: 4,
-                data: []
+                key2: 4
             };
+            const table = [];
             els = {
                 tbody: {},
                 "#key1": newElement(),
@@ -68,7 +61,7 @@ describe("Aircraft view tests", function () {
             };
             const precision = {};
             view.init(undefined, doc);
-            view.renderResults(results, precision);
+            view.renderResults({results, table}, precision);
             assert.equal(els["#key1"].innerHTML, "3");
             assert.equal(els["#key2"].innerHTML, "4");
         });
