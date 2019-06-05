@@ -1,12 +1,12 @@
 const view = (function iife() {
     const props = {};
-    function renderInputs(inputs) {
+    function renderInputs(data) {
         const elements = props.form.elements;
-        Object.entries(inputs).forEach(function ([key]) {
+        Object.entries(data).forEach(function ([key]) {
             if (!elements[key]) {
-                throw new ReferenceError(key + " field not found");
+                return;
             }
-            elements[key].value = inputs[key];
+            elements[key].value = data[key];
         });
     }
     function getValues() {
@@ -15,9 +15,13 @@ const view = (function iife() {
             return obj;
         }, {});
     }
-    function renderOutputs(outputs, precision) {
-        Object.entries(outputs).forEach(function ([key, value]) {
-            const el = props.doc.querySelector("#" + key);
+    function renderOutputs(data, precision) {
+        Object.entries(data).forEach(function ([key, value]) {
+            const summary = props.doc.querySelector("#summary");
+            const el = summary.querySelector("#" + key);
+            if (!el) {
+                return;
+            }
             el.innerHTML = Number(value).toFixed(precision[key]);
         });
     }
@@ -46,12 +50,9 @@ const view = (function iife() {
         insertCell(row, "Stopping to avoid possible infinite loop.");
         row.children[0].colSpan = 5;
     }
-    function renderResults(results, precision) {
-        const data = results.data;
-        const otherResults = results;
-        delete otherResults.data;
+    function renderResults({results, table}, precision) {
         clearResults();
-        data.forEach(function (result) {
+        table.forEach(function (result) {
             showResult([
                 Number(result.v).toFixed(precision.v),
                 Number(result.rc).toFixed(precision.rc),
@@ -60,18 +61,18 @@ const view = (function iife() {
                 Number(result.rec).toFixed(precision.rec)
             ]);
         });
-        if (data.length > 1000) {
+        if (table.length >= 1000) {
             return tooManyResults();
         }
-        Object.entries(otherResults).forEach(function ([prop, value]) {
+        Object.entries(results).forEach(function ([prop, value]) {
             const num = Number(value).toFixed(precision[prop]);
             props.doc.querySelector("#" + prop).innerHTML = num;
         });
     }
-    function render({inputs, outputs, results}, precision) {
-        renderInputs(inputs);
-        renderOutputs(outputs, precision);
-        renderResults(results, precision);
+    function render(data, precision) {
+        renderInputs(data);
+        renderOutputs(data, precision);
+        renderResults(data, precision);
     }
     function init(formToUse, doc) {
         props.doc = doc;

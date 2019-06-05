@@ -82,28 +82,28 @@ describe("calculation tests", function () {
         });
     });
     describe("Results test", function () {
-        const outputs = aircraftCalcs.outputs(inputs);
-        let results;
+        let data;
         beforeEach(function () {
-            results = aircraftCalcs.results(inputs, outputs);
+            data = aircraftCalcs.outputs(inputs);
+            data = aircraftCalcs.results(data);
         });
         it("has performance parameter", function () {
-            assert.closeTo(results.fp, 0.12, 0.01);
+            assert.closeTo(data.results.fp, 0.12, 0.01);
         });
         it("has max rate of climb", function () {
-            assert.closeTo(results.rcmax, 1500, 1);
+            assert.closeTo(data.results.rcmax, 1500, 1);
         });
         it("has useful load", function () {
-            assert.equal(results.useful_load, 600);
+            assert.equal(data.results.useful_load, 600);
         });
         it("has max velocity", function () {
-            assert.closeTo(results.vmax, 213, 0.1);
+            assert.closeTo(data.results.vmax, 213, 0.1);
         });
         it("has kinetic energy", function () {
-            assert.closeTo(results.wv2, 68600000, 100000);
+            assert.closeTo(data.results.wv2, 68600000, 100000);
         });
         it("has data", function () {
-            assert.isAbove(results.data.length, 10);
+            assert.isAbove(data.table.length, 10);
         });
     });
 });
