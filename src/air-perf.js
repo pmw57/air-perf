@@ -9,23 +9,20 @@ function isValidNumber(value) {
     return Number.isNaN(num) === false;
 }
 function numberOrValue(value) {
-    return (
-        isValidNumber(value)
-        ? Number(value)
-        : value
-    );
+    if (isValidNumber(value)) {
+        return Number(value);
+    }
+    return value;
 }
-function convertToNumbers(values) {
-    return Object.entries(values).map(function ([key, value]) {
-        return [key, numberOrValue(value)];
-    }).reduce(function (obj, [key, value]) {
-        obj[key] = value;
-        return obj;
-    }, {});
+function convertToNumbers(inputs) {
+    return Object.entries(inputs).reduce(function (converted, [key, value]) {
+        converted[key] = numberOrValue(value);
+        return converted;
+    }, inputs);
 }
 function getInputValues() {
-    const values = view.getValues();
-    return convertToNumbers(values);
+    const inputs = view.getValues();
+    return convertToNumbers(inputs);
 }
 function calculate(data) {
     data = aircraftCalcs.outputs(data);
