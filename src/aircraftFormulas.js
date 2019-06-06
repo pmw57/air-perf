@@ -114,6 +114,13 @@ const propTipSpeed = {
         return Math.PI * dp_ft * propMax_rpm / 60 / speedOfSound;
     }
 };
+const performance = {
+    fp(wu, rcmax, bhp, vmin, vmax) {
+        return wu * rcmax / (33000 * bhp) * (
+            1 - vmin / vmax
+        );
+    }
+};
 const createAtmosphere = function createAtmosphere() {
     function densityRatio(altitude) {
         if (altitude < 36240) {
@@ -173,6 +180,7 @@ export default Object.freeze({
     propEfficiency,
     propAdvanced,
     propTipSpeed,
+    performance,
     reynolds,
     atmosphere
 });

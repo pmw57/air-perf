@@ -183,6 +183,18 @@ describe("prop tip speed", function () {
         assert.closeTo(propTipSpeed.mp(propMax, dp), 0.77, 0.01);
     });
 });
+describe("performance", function () {
+    const performance = formulas.performance;
+    it("has performance rating parameter", function () {
+        const wu = 600;
+        const rcmax = 1483;
+        const bhp = 150;
+        const vmin = 67;
+        const vmax = 174;
+        const fp = performance.fp(wu, rcmax, bhp, vmin, vmax);
+        assert.closeTo(fp, 0.12, 0.01);
+    });
+});
 describe("Atmosphere", function () {
     it("has density ratio at sealevel", function () {
         assert.equal(formulas.atmosphere.densityRatio(0), 1);

@@ -8,6 +8,7 @@ const climbingFlight = formulas.climbingFlight;
 const propEfficiency = formulas.propEfficiency;
 const propAdvanced = formulas.propAdvanced;
 const propTipSpeed = formulas.propTipSpeed;
+const performance = formulas.performance;
 const atmosphere = formulas.atmosphere;
 const reynolds = formulas.reynolds;
 
@@ -54,6 +55,15 @@ function rateOfClimb(data, v) {
     const eta = propEfficiency.etaFromV(v, data.prop_vel_ref);
     return climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
 }
+function flightPerformance(data, rcmax, v) {
+    return performance.fp(
+        data.useful_load_lb,
+        rcmax,
+        data.bhp,
+        data.vs0,
+        v
+    );
+}
 function tableRow(data, v) {
     return {
         v,
@@ -86,9 +96,7 @@ function calculateResults(data) {
         }
         table.push(tableRow(data, v));
     }
-    results.fp = results.rcmax * data.useful_load_lb / 33000 / data.bhp * (
-        1 - ((data.vs1) / v)
-    );
+    results.fp = flightPerformance(data, results.rcmax, v);
     results.wv2 = data.gross_lb * Math.pow(v, 2);
     results.vmax = v;
     results.useful_load = data.useful_load_lb;
