@@ -87,7 +87,7 @@ function calculateResults(data) {
         table.push(tableRow(data, v));
     }
     results.fp = results.rcmax * data.useful_load_lb / 33000 / data.bhp * (
-        1 - ((data.vs0) / v)
+        1 - ((data.vs1) / v)
     );
     results.wv2 = data.gross_lb * Math.pow(v, 2);
     results.vmax = v;
