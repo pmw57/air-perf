@@ -100,10 +100,10 @@ describe("Formula tests", function () {
     });
     describe("climbing flight", function () {
         const climbingFlight = formulas.climbingFlight;
-        it("has rate of climb", function () {
+        it("has max ideal rate of climb", function () {
             const bhp = 150;
             const w = 1500;
-            assert.equal(climbingFlight.rc(bhp, w), 3300);
+            assert.equal(climbingFlight.rcstarmax(bhp, w), 3300);
         });
     });
     describe("propeller efficiency", function () {

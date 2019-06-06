@@ -64,7 +64,7 @@ const levelFlight = {
     }
 };
 const climbingFlight = {
-    rc(bhp, w_lb) {
+    rcstarmax(bhp, w_lb) {
         return 33000 * bhp / w_lb;
     }
 };

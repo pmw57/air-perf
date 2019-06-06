@@ -68,8 +68,8 @@ describe("calculation tests", function () {
         it("has a min coefficient of lift", function () {
             assert.isFinite(output.cl_min_sink);
         });
-        it("has an ideal rate of climb", function () {
-            assert.isFinite(output.rate_climb_ideal);
+        it("has a max ideal rate of climb", function () {
+            assert.isFinite(output.rate_climb_ideal_max);
         });
         it("has a prop tip mach", function () {
             assert.isFinite(output.prop_tip_mach);

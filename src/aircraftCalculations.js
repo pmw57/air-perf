@@ -39,7 +39,7 @@ function calculateOutputs(data) {
         ld_max: maxLiftDragRatio.ldmax(be, ad_ft),
         drag_min: maxLiftDragRatio.dmin(ad_ft, data.gross_lb, be),
         cl_min_sink: minSinkRate.clmins(ad_ft, ce),
-        rate_climb_ideal: climbingFlight.rc(data.bhp, data.gross_lb),
+        rate_climb_ideal_max: climbingFlight.rcstarmax(data.bhp, data.gross_lb),
         prop_tip_mach: propTipSpeed.mp(data.prop_max_rpm, prop_dia_ft),
         prop_vel_ref: propEfficiency.vprop(data.bhp, sigma, prop_dia_ft),
         static_thrust_ideal: propAdvanced.ts(sigma, data.bhp, prop_dia_ft)
@@ -67,7 +67,7 @@ function calculateResults(data) {
         const eta = 0.92264 * vt * (
             Math.pow(1 + t2, 1 / 3) - Math.pow(t2 - 1, 1 / 3)
         ) * 0.85;
-        rc = data.rate_climb_ideal * eta - rs;
+        rc = data.rate_climb_ideal_max * eta - rs;
         const rec = reynolds.re(v, data.wing_chord_ft, data.altitude_ft);
         if (rc > 0) {
             if (rc > results.rcmax) {
