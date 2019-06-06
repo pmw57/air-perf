@@ -63,11 +63,18 @@ const levelFlight = {
         ) * Math.pow(wbe, 3 / 2);
     }
 };
-const climbingFlight = {
-    rcstarmax(bhp, w_lb) {
+const climbingFlight = (function iife() {
+    function rcstarmax(bhp, w_lb) {
         return 33000 * bhp / w_lb;
     }
-};
+    function rc(bhp, w_lb, eta, rs) {
+        return rcstarmax(bhp, w_lb) * eta - rs;
+    }
+    return {
+        rcstarmax,
+        rc
+    };
+}());
 const propEfficiency = {
     vprop(bhp, sigma, dp_ft) {
         return 41.9 * Math.pow(bhp / (sigma * Math.pow(dp_ft, 2)), 1.0 / 3);

@@ -48,6 +48,7 @@ function calculateOutputs(data) {
 function calculateResults(data) {
     const atmosphere = formulas.atmosphere;
     const minSinkRate = formulas.minSinkRate;
+    const climbingFlight = formulas.climbingFlight;
     const reynolds = formulas.reynolds;
     const results = {
         rcmax: 0,
@@ -67,7 +68,7 @@ function calculateResults(data) {
         const eta = 0.92264 * vt * (
             Math.pow(1 + t2, 1 / 3) - Math.pow(t2 - 1, 1 / 3)
         ) * 0.85;
-        rc = data.rate_climb_ideal_max * eta - rs;
+        rc = climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
         const rec = reynolds.re(v, data.wing_chord_ft, data.altitude_ft);
         if (rc > 0) {
             if (rc > results.rcmax) {

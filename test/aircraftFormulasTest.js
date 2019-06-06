@@ -105,6 +105,13 @@ describe("Formula tests", function () {
             const w = 1500;
             assert.equal(climbingFlight.rcstarmax(bhp, w), 3300);
         });
+        it("has a rate of climb", function () {
+            const bhp = 150;
+            const w = 1500;
+            const eta = 0.744;
+            const rs = 1600;
+            assert.closeTo(climbingFlight.rc(bhp, w, eta, rs), 855, 1);
+        });
     });
     describe("propeller efficiency", function () {
         it("has a sealevel vprop", function () {
