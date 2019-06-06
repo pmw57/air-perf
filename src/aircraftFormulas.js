@@ -75,14 +75,30 @@ const climbingFlight = (function iife() {
         rc
     };
 }());
-const propEfficiency = {
-    vprop(bhp, sigma, dp_ft) {
+const propEfficiency = (function () {
+    function vprop(bhp, sigma, dp_ft) {
         return 41.86 * Math.pow(bhp / (sigma * Math.pow(dp_ft, 2)), 1.0 / 3);
-    },
-    vh(v, vprop) {
+    }
+    function vh(v, vprop) {
         return v / vprop;
     }
-};
+    function etastar(vh) {
+        const discriminant = 1 + 2 * Math.PI / 27 * Math.pow(vh, 3);
+        return Math.pow(Math.PI / 4, 1 / 3) * vh * (
+            Math.pow(1 + Math.sqrt(discriminant), 1 / 3) -
+            Math.pow(-1 + Math.sqrt(discriminant), 1 / 3)
+        );
+    }
+    function eta(vh) {
+        return etastar(vh) * 0.85;
+    }
+    return {
+        vprop,
+        vh,
+        etastar,
+        eta
+    };
+}());
 const propAdvanced = {
     ts(sigma, bhp, dp_ft) {
         return 10.41 * Math.pow(sigma, 1 / 3) * Math.pow(bhp * dp_ft, 2.0 / 3);

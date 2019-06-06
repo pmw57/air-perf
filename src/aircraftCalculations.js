@@ -65,10 +65,7 @@ function calculateResults(data) {
         const be = data.wing_span_effective;
         const rs = minSinkRate.rs(sigma, ad, v, data.gross_lb, be);
         const vh = propEfficiency.vh(v, data.prop_vel_ref);
-        const t2 = Math.sqrt(1 + 0.23271 * Math.pow(vh, 3));
-        const eta = 0.92264 * vh * (
-            Math.pow(1 + t2, 1 / 3) - Math.pow(t2 - 1, 1 / 3)
-        ) * 0.85;
+        const eta = propEfficiency.eta(vh);
         rc = climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
         const rec = reynolds.re(v, data.wing_chord_ft, data.altitude_ft);
         if (rc > 0) {
