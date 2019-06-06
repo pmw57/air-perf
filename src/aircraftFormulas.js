@@ -92,11 +92,15 @@ const propEfficiency = (function () {
     function eta(vh) {
         return etastar(vh) * 0.85;
     }
+    function etaFromV(v, vprop) {
+        return eta(vh(v, vprop));
+    }
     return {
         vprop,
         vh,
         etastar,
-        eta
+        eta,
+        etaFromV
     };
 }());
 const propAdvanced = {

@@ -1,16 +1,16 @@
 import formulas from "./aircraftFormulas.js";
+const forceBalance = formulas.forceBalance;
+const inducedDrag = formulas.inducedDrag;
+const minSinkRate = formulas.minSinkRate;
+const maxLiftDragRatio = formulas.maxLiftDragRatio;
+const levelFlight = formulas.levelFlight;
+const climbingFlight = formulas.climbingFlight;
+const propEfficiency = formulas.propEfficiency;
+const propAdvanced = formulas.propAdvanced;
+const propTipSpeed = formulas.propTipSpeed;
+const atmosphere = formulas.atmosphere;
 
 function calculateOutputs(data) {
-    const forceBalance = formulas.forceBalance;
-    const inducedDrag = formulas.inducedDrag;
-    const minSinkRate = formulas.minSinkRate;
-    const maxLiftDragRatio = formulas.maxLiftDragRatio;
-    const levelFlight = formulas.levelFlight;
-    const climbingFlight = formulas.climbingFlight;
-    const propEfficiency = formulas.propEfficiency;
-    const propAdvanced = formulas.propAdvanced;
-    const propTipSpeed = formulas.propTipSpeed;
-    const atmosphere = formulas.atmosphere;
     const sigma = atmosphere.densityRatio(data.altitude_ft);
     const ws_lbft = forceBalance.ws(sigma, data.cl_max_clean, data.vs1);
     const vs0 = forceBalance.vs0(ws_lbft, sigma, data.cl_max_flap);
@@ -45,11 +45,15 @@ function calculateOutputs(data) {
         static_thrust_ideal: propAdvanced.ts(sigma, data.bhp, prop_dia_ft)
     });
 }
+function rateOfClimb(data, v) {
+    const sigma = atmosphere.densityRatio(data.altitude_ft);
+    const ad = data.drag_area_ft;
+    const be = data.wing_span_effective;
+    const rs = minSinkRate.rs(sigma, ad, v, data.gross_lb, be);
+    const eta = propEfficiency.etaFromV(v, data.prop_vel_ref);
+    return climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
+}
 function calculateResults(data) {
-    const atmosphere = formulas.atmosphere;
-    const minSinkRate = formulas.minSinkRate;
-    const climbingFlight = formulas.climbingFlight;
-    const propEfficiency = formulas.propEfficiency;
     const reynolds = formulas.reynolds;
     const results = {
         rcmax: 0,
@@ -60,21 +64,26 @@ function calculateResults(data) {
     let rc = 1;
     let v = data.vs1;
     while (rc > 0 && table.length <= 1000) {
-        const sigma = atmosphere.densityRatio(data.altitude_ft);
-        const ad = data.drag_area_ft;
-        const be = data.wing_span_effective;
-        const rs = minSinkRate.rs(sigma, ad, v, data.gross_lb, be);
-        const vh = propEfficiency.vh(v, data.prop_vel_ref);
-        const eta = propEfficiency.eta(vh);
-        rc = climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
-        const rec = reynolds.re(v, data.wing_chord_ft, data.altitude_ft);
+        rc = rateOfClimb(data, v);
         if (rc > 0) {
             if (rc > results.rcmax) {
                 results.rcmax = Math.max(rc, results.rcmax);
                 results.vy = v;
             }
             results.vmax = Math.max(v, results.vmax);
-            table.push({v, rc, eta, rs, rec});
+            table.push({
+                v,
+                rc,
+                eta: propEfficiency.etaFromV(v, data.prop_vel_ref),
+                rs: minSinkRate.rs(
+                    atmosphere.densityRatio(data.altitude_ft),
+                    data.drag_area_ft,
+                    v,
+                    data.gross_lb,
+                    data.wing_span_effective
+                ),
+                rec: reynolds.re(v, data.wing_chord_ft, data.altitude_ft)
+            });
             v += 1;
         }
     }

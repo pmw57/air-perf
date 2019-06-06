@@ -151,6 +151,12 @@ describe("Formula tests", function () {
             const eta = formulas.propEfficiency.eta(vh);
             assert.closeTo(eta, 0.744 * 0.85, 0.01);
         });
+        it("has an efficiency from velocity and vprop", function () {
+            const v = 67;
+            const vprop = 67.36;
+            const eta = formulas.propEfficiency.etaFromV(v, vprop);
+            assert.closeTo(eta, 0.744 * 0.85, 0.01);
+        });
     });
 });
 describe("advanced propeller", function () {
