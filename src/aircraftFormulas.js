@@ -77,7 +77,7 @@ const climbingFlight = (function iife() {
 }());
 const propEfficiency = {
     vprop(bhp, sigma, dp_ft) {
-        return 41.9 * Math.pow(bhp / (sigma * Math.pow(dp_ft, 2)), 1.0 / 3);
+        return 41.86 * Math.pow(bhp / (sigma * Math.pow(dp_ft, 2)), 1.0 / 3);
     }
 };
 const propAdvanced = {

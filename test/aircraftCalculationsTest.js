@@ -91,7 +91,7 @@ describe("calculation tests", function () {
             assert.closeTo(data.results.fp, 0.12, 0.01);
         });
         it("has max rate of climb", function () {
-            assert.closeTo(data.results.rcmax, 1500, 1);
+            assert.closeTo(data.results.rcmax, 1501, 1);
         });
         it("has useful load", function () {
             assert.equal(data.results.useful_load, 600);

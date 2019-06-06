@@ -119,7 +119,7 @@ describe("Formula tests", function () {
             const bhp = 150;
             const dp = 6;
             const vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
-            assert.closeTo(vprop, 67.42, 0.01);
+            assert.closeTo(vprop, 67.4, 0.1);
         });
         it("has a higher vprop at 40,000 feet", function () {
             const sigma = 0.25;
