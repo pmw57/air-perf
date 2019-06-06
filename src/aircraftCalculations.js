@@ -9,6 +9,7 @@ const propEfficiency = formulas.propEfficiency;
 const propAdvanced = formulas.propAdvanced;
 const propTipSpeed = formulas.propTipSpeed;
 const atmosphere = formulas.atmosphere;
+const reynolds = formulas.reynolds;
 
 function calculateOutputs(data) {
     const sigma = atmosphere.densityRatio(data.altitude_ft);
@@ -53,44 +54,43 @@ function rateOfClimb(data, v) {
     const eta = propEfficiency.etaFromV(v, data.prop_vel_ref);
     return climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
 }
+function tableRow(data, v) {
+    return {
+        v,
+        rc: rateOfClimb(data, v),
+        eta: propEfficiency.etaFromV(v, data.prop_vel_ref),
+        rs: minSinkRate.rs(
+            atmosphere.densityRatio(data.altitude_ft),
+            data.drag_area_ft,
+            v,
+            data.gross_lb,
+            data.wing_span_effective
+        ),
+        rec: reynolds.re(v, data.wing_chord_ft, data.altitude_ft)
+    };
+}
 function calculateResults(data) {
-    const reynolds = formulas.reynolds;
     const results = {
         rcmax: 0,
         vmax: 0
     };
     const table = [];
 
-    let rc = 1;
     let v = data.vs1;
-    while (rc > 0 && table.length <= 1000) {
-        rc = rateOfClimb(data, v);
-        if (rc > 0) {
-            if (rc > results.rcmax) {
-                results.rcmax = Math.max(rc, results.rcmax);
-                results.vy = v;
-            }
-            results.vmax = Math.max(v, results.vmax);
-            table.push({
-                v,
-                rc,
-                eta: propEfficiency.etaFromV(v, data.prop_vel_ref),
-                rs: minSinkRate.rs(
-                    atmosphere.densityRatio(data.altitude_ft),
-                    data.drag_area_ft,
-                    v,
-                    data.gross_lb,
-                    data.wing_span_effective
-                ),
-                rec: reynolds.re(v, data.wing_chord_ft, data.altitude_ft)
-            });
-            v += 1;
+    while (rateOfClimb(data, v + 1) > 0 && table.length <= 1000) {
+        v += 1;
+        const rc = rateOfClimb(data, v);
+        if (rc > results.rcmax) {
+            results.rcmax = rc;
+            results.vy = v;
         }
+        table.push(tableRow(data, v));
     }
     results.fp = results.rcmax * data.useful_load_lb / 33000 / data.bhp * (
-        1 - ((data.vs0) / results.vmax)
+        1 - ((data.vs0) / v)
     );
     results.wv2 = data.gross_lb * Math.pow(v, 2);
+    results.vmax = v;
     results.useful_load = data.useful_load_lb;
     return Object.assign(data, {results, table});
 }

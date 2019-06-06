@@ -100,7 +100,7 @@ describe("calculation tests", function () {
             assert.closeTo(data.results.vmax, 213, 0.1);
         });
         it("has kinetic energy", function () {
-            assert.closeTo(data.results.wv2, 68600000, 100000);
+            assert.closeTo(data.results.wv2, 68000000, 100000);
         });
         it("has data", function () {
             assert.isAbove(data.table.length, 10);
