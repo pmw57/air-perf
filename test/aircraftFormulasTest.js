@@ -128,6 +128,18 @@ describe("Formula tests", function () {
             const vprop = formulas.propEfficiency.vprop(bhp, sigma, dp);
             assert.closeTo(vprop, 107, 0.1);
         });
+        it("has a sealevel dimensionless velocity", function () {
+            const v = 67;
+            const vprop = 67.42;
+            const vh = formulas.propEfficiency.vh(v, vprop);
+            assert.closeTo(vh, 0.99, 0.01);
+        });
+        it("has a dimensionless velocity at 40,000 feet", function () {
+            const v = 67;
+            const vprop = 107.47;
+            const vh = formulas.propEfficiency.vh(v, vprop);
+            assert.closeTo(vh, 0.62, 0.01);
+        });
     });
 });
 describe("advanced propeller", function () {
