@@ -141,16 +141,15 @@ describe("Formula tests", function () {
             assert.closeTo(vh, 0.62, 0.01);
         });
         it("has an ideal efficiency", function () {
-            var vh = 1;
-            var etastar = formulas.propEfficiency.etastar(vh);
+            const vh = 1;
+            const etastar = formulas.propEfficiency.etastar(vh);
             assert.closeTo(etastar, 0.744, 0.01);
 
         });
         it("has an efficiency", function () {
-            var vh = 1;
-            var etastar = formulas.propEfficiency.eta(vh);
-            assert.closeTo(etastar, 0.744 * 0.85, 0.01);
-
+            const vh = 1;
+            const eta = formulas.propEfficiency.eta(vh);
+            assert.closeTo(eta, 0.744 * 0.85, 0.01);
         });
     });
 });
