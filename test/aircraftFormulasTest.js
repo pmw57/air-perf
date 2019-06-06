@@ -138,7 +138,7 @@ describe("advanced propeller", function () {
         const ts = formulas.propAdvanced.ts(sigma, bhp, dp);
         assert.closeTo(ts, 970.39, 0.01);
     });
-    it("has a sealevel ideal static thrust", function () {
+    it("has an ideal static thrust at 40,000 feet", function () {
         const sigma = 0.25;
         const bhp = 150;
         const dp = 6;
