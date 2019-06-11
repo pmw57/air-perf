@@ -68,7 +68,7 @@ function updateInputsFromCsv(csvArr) {
 }
 function saveToFile(filename, data) {
     const csvContent = window.csv.stringify(data);
-    window.csv.save(csvContent, filename);
+    window.csv_spike.save(csvContent, filename);
 }
 function saveButtonHandler(evt) {
     evt.preventDefault();
@@ -84,7 +84,7 @@ function inputChangeHandler() {
 function init(document, precisionObj) {
     precision = Object.assign({}, precisionObj);
     const loadFile = document.querySelector(".js-loadfile");
-    const loadHandler = window.csv.loadWrapper(updateInputsFromCsv);
+    const loadHandler = window.csv_spike.loadWrapper(updateInputsFromCsv);
     loadFile.addEventListener("change", loadHandler);
 
     const saveButton = document.querySelector(".js-savebutton");
