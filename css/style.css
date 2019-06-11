@@ -30,10 +30,12 @@ form sup, form sub {
 form sub { 
 	top: 0.4em; 
 }
-#summary {
-	position: absolute;
-	top: 0;
-	left: 30em;
+#perf {
+	float: left;
+}
+#perf > h3,
+#summary > h3 {
+	margin-top: 0;
 }
 #summary th {
 	padding-right: 1em;
