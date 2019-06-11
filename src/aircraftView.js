@@ -61,7 +61,7 @@ const view = (function iife() {
                 Number(result.rec).toFixed(precision.rec)
             ]);
         });
-        if (table.length >= 1000) {
+        if (table.length >= 2000) {
             return tooManyResults();
         }
         Object.entries(results).forEach(function ([prop, value]) {

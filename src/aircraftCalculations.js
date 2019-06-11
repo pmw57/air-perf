@@ -55,15 +55,6 @@ function rateOfClimb(data, v) {
     const eta = propEfficiency.etaFromV(v, data.prop_vel_ref);
     return climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
 }
-function flightPerformance(data, rcmax, v) {
-    return performance.fp(
-        data.useful_load_lb,
-        rcmax,
-        data.bhp,
-        data.vs0,
-        v
-    );
-}
 function tableRow(data, v) {
     return {
         v,
@@ -79,28 +70,45 @@ function tableRow(data, v) {
         rec: reynolds.re(v, data.wing_chord_ft, data.altitude_ft)
     };
 }
-function calculateResults(data) {
-    const results = {
-        rcmax: 0,
-        vmax: 0
-    };
+function climbrateTable(data) {
     const table = [];
-
     let v = data.vs1;
-    while (rateOfClimb(data, v + 1) > 0 && table.length <= 1000) {
-        v += 1;
-        const rc = rateOfClimb(data, v);
-        if (rc > results.rcmax) {
-            results.rcmax = rc;
-            results.vy = v;
-        }
+    while (table.length <= 2000 && rateOfClimb(data, v) > 0) {
         table.push(tableRow(data, v));
+        v += 1;
     }
-    results.fp = flightPerformance(data, results.rcmax, v);
-    results.wv2 = data.gross_lb * Math.pow(v, 2);
-    results.vmax = v;
+    return table;
+}
+function flightPerformance(data, rcmax, v) {
+    return performance.fp(
+        data.useful_load_lb,
+        rcmax,
+        data.bhp,
+        data.vs0,
+        v
+    );
+}
+function performanceResults(data) {
+    const results = {};
+    const maxClimbrateRow = data.table.reduce(function (maxRow, climbrateRow) {
+        if (climbrateRow.rc > maxRow.rc) {
+            return climbrateRow;
+        }
+        return maxRow;
+    });
+    const lastRow = data.table.slice(-1)[0];
+    results.rcmax = maxClimbrateRow.rc;
+    results.vy = maxClimbrateRow.v;
+    results.vmax = lastRow.v;
+    results.fp = flightPerformance(data, results.rcmax, results.vmax);
+    results.wv2 = data.gross_lb * Math.pow(results.vmax, 2);
     results.useful_load = data.useful_load_lb;
-    return Object.assign(data, {results, table});
+    return results;
+}
+function calculateResults(data) {
+    data.table = climbrateTable(data);
+    data.results = performanceResults(data);
+    return data;
 }
 export default Object.freeze({
     outputs: calculateOutputs,
