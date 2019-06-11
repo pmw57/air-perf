@@ -93,6 +93,7 @@ function init(document, precisionObj) {
     const form = document.getElementById("input");
     const formInputs = form.querySelectorAll("input");
     formInputs.forEach(function (input) {
+        input.setAttribute("autocomplete", "off");
         input.addEventListener("change", inputChangeHandler);
     });
     view.init(form, document);
