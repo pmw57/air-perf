@@ -1,5 +1,6 @@
 /*jslint browser */
 import aircraftCalcs from "./aircraftCalculations.js";
+import csv from "./csv.js";
 import view from "./aircraftView.js";
 
 let precision = {};
@@ -58,13 +59,15 @@ function inputFromCsv(arr) {
     }
     return arr.slice(1, lastItem).reduce(keyNumberReducer, {});
 }
-function updateInputsFromCsv(csvArr) {
+function updateInputsFromCsv(csvArr, filename) {
     const data = inputFromCsv(csvArr);
     if (Object.entries(data).length === 0) {
         window.alert("File format is invalid.");
         return;
     }
     main(data, precision);
+    const saveInput = document.querySelector(".js-savefile");
+    saveInput.value = filename;
 }
 function saveToFile(filename, data) {
     const csvContent = window.csv.stringify(data);
@@ -84,7 +87,8 @@ function inputChangeHandler() {
 function init(document, precisionObj) {
     precision = Object.assign({}, precisionObj);
     const loadFile = document.querySelector(".js-loadfile");
-    const loadHandler = window.csv_spike.loadWrapper(updateInputsFromCsv);
+    const reader = new FileReader();
+    const loadHandler = csv.loadHandler(updateInputsFromCsv, reader);
     loadFile.addEventListener("change", loadHandler);
 
     const saveButton = document.querySelector(".js-savebutton");
