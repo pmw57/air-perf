@@ -1,5 +1,6 @@
 /*jslint browser */
 import aircraftCalcs from "./aircraftCalculations.js";
+import writer from "../lib/filesaver.min.js";
 import csv from "./csv.js";
 import view from "./aircraftView.js";
 
@@ -33,9 +34,8 @@ function main(data, precision) {
     data = calculate(data);
     view.render(data, precision);
 }
-function calculatePerformance() {
-    main(getInputValues(), precision);
-}
+
+// load file
 function keyNumberReducer(obj, item) {
     const key = item[0];
     const value = item[1];
@@ -69,9 +69,11 @@ function updateInputsFromCsv(csvArr, filename) {
     const saveInput = document.querySelector(".js-savefile");
     saveInput.value = filename;
 }
+
+// save file
 function saveToFile(filename, data) {
     const csvContent = window.csv.stringify(data);
-    window.csv_spike.save(csvContent, filename);
+    window.csv_spike.save(csvContent, filename, writer.saveAs);
 }
 function saveButtonHandler(evt) {
     evt.preventDefault();
@@ -79,6 +81,11 @@ function saveButtonHandler(evt) {
     const inputs = getInputValues();
     const data = calculate(inputs);
     saveToFile(filename, data);
+}
+
+// update values
+function calculatePerformance() {
+    main(getInputValues(), precision);
 }
 function inputChangeHandler() {
     calculatePerformance();
