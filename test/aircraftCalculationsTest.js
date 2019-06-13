@@ -14,7 +14,7 @@ describe("calculation tests", function () {
         plane_efficiency: 0.744,
         bhp: 150,
         vel_max_mph: 180,
-        prop_dia_in: 72,
+        prop_dia_ft: 6,
         prop_max_rpm: 2700,
         altitude_ft: 10000
     };

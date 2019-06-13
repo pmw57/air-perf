@@ -83,7 +83,7 @@ function saveToFile(filename, data) {
         plane_efficiency: data.plane_efficiency,
         bhp: data.bhp,
         vel_max_mph: data.vel_max_mph,
-        prop_dia_in: data.prop_dia_in,
+        prop_dia_ft: data.prop_dia_ft,
         prop_max_rpm: data.prop_max_rpm,
         altitude_ft: data.altitude_ft
     };
