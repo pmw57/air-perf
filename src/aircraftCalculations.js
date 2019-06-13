@@ -54,7 +54,7 @@ function rateOfClimb(data, v) {
     const eta = propEfficiency.etaFromV(v, data.prop_vel_ref);
     return climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
 }
-function tableRow(data, v) {
+function climbrateRow(data, v) {
     return {
         v,
         rc: rateOfClimb(data, v),
@@ -73,7 +73,7 @@ function climbrateTable(data) {
     const table = [];
     let v = data.vs1;
     while (table.length <= 2000 && rateOfClimb(data, v) > 0) {
-        table.push(tableRow(data, v));
+        table.push(climbrateRow(data, v));
         v += 1;
     }
     return table;
