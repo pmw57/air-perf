@@ -3,16 +3,16 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div>
-    <form class="actions">
-        <p><label for="file-load" class="input-label">Load:
-            <input type="file" accept=".csv" id="file-load" class="js-loadfile" value="Load file">
-        </label>
-        <label for="file-save" class="input-label">Save:
-            <input type="text" id="file-save" class="js-savefile">
-        </label>
-        <button class="js-saveButton" ref="#input">Save</button></p>
-    </form>
+<form class="actions">
+    <p><label for="file-load" class="input-label">Load:
+        <input type="file" accept=".csv" id="file-load" class="js-loadfile" value="Load file">
+    </label>
+    <label for="file-save" class="input-label">Save:
+        <input type="text" id="file-save" class="js-savefile">
+    </label>
+    <button class="js-saveButton" ref="#input">Save</button></p>
+</form>
+<div id="content">
     <div id="perf">
         <h3>Input parameters</h3>
         <form id="input">
@@ -69,27 +69,26 @@
             <tr><th>Ideal static thrust <span class="symbol">T<sub>s</sub></span> <span class="units">lb</span></th><td id="static_thrust_ideal">&nbsp;</td></tr>
         </table>
     </div>
+    <div id="results">
+        <h3>Performance</h3>
+        <ul>
+            <li>performance parameter <span class="symbol">F<sub>p</sub></span> <span class="units"></span> = <span id="fp"></span></li>
+            <li>kinetic energy parameter <span class="symbol">WV<sub>max</sub><sup>2</sup></span> <span class="units">lb mph<sup>2</sup></span> = <span id="wv2"></class></li>
+            <li>maximum rate of climb <span class="symbol">R<sub>C,max</sub></span> <span class="units">fpm</span> = <span id="rcmax"></class></li>
+            <li>best rate of climb velocity <span class="symbol">V<sub>y</sub></span> <span class="units">mph</span> = <span id="vy"></class></li>
+            <li>maximum speed <span class="symbol">v<sub>max</sub></span> <span class="units">mph</span> = <span id="vmax"></class></li>
+            <li>useful load <span class="symbol">W<sub>u</sub></span> <span class="units">lb</span> = <span id="useful_load"></class></li>
+        </ul>
+        <table>
+            <thead>
+                <tr><th>airspeed</th><th>climb rate</th><th>prop eff</th><th>sink rate</th><th>reynolds num</th></tr>
+                <tr><td>v(mph)</td><td>rc(fpm)</td><td>eta</td><td>rs(fpm)</td><td>re=rho*v*c/mu</td></tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>
-<div id="results">
-    <ul>
-        <li>performance parameter <span class="symbol">F<sub>p</sub></span> <span class="units"></span> = <span id="fp"></span></li>
-        <li>kinetic energy parameter <span class="symbol">WV<sub>max</sub><sup>2</sup></span> <span class="units">lb mph<sup>2</sup></span> = <span id="wv2"></class></li>
-        <li>maximum rate of climb <span class="symbol">R<sub>C,max</sub></span> <span class="units">fpm</span> = <span id="rcmax"></class></li>
-        <li>best rate of climb velocity <span class="symbol">V<sub>y</sub></span> <span class="units">mph</span> = <span id="vy"></class></li>
-        <li>maximum speed <span class="symbol">v<sub>max</sub></span> <span class="units">mph</span> = <span id="vmax"></class></li>
-        <li>useful load <span class="symbol">W<sub>u</sub></span> <span class="units">lb</span> = <span id="useful_load"></class></li>
-    </ul>
-    <table>
-        <thead>
-            <tr><th>airspeed</th><th>climb rate</th><th>prop eff</th><th>sink rate</th><th>reynolds num</th></tr>
-            <tr><td>v(mph)</td><td>rc(fpm)</td><td>eta</td><td>rs(fpm)</td><td>re=rho*v*c/mu</td></tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
-
-<script src="lib/filesaver.min.js"></script>
 <script src="src/csv-spike.js"></script>
 <script src="dist/air-perf.js"></script>
 <script>
