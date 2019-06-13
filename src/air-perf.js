@@ -72,8 +72,56 @@ function updateInputsFromCsv(csvArr, filename) {
 
 // save file
 function saveToFile(filename, data) {
-    const csvContent = window.csv.stringify(data);
-    window.csv_spike.save(csvContent, filename, writer.saveAs);
+    const inputs = {
+        name: data.name,
+        vs1: data.vs1,
+        cl_max_clean: data.cl_max_clean,
+        cl_max_flap: data.cl_max_flap,
+        gross_lb: data.gross_lb,
+        useful_load_lb: data.useful_load_lb,
+        wing_span_ft: data.wing_span_ft,
+        plane_efficiency: data.plane_efficiency,
+        bhp: data.bhp,
+        vel_max_mph: data.vel_max_mph,
+        prop_dia_in: data.prop_dia_in,
+        prop_max_rpm: data.prop_max_rpm,
+        altitude_ft: data.altitude_ft
+    };
+    const outputs = {
+        wing_load_lb_ft: data.wing_load_lb_ft,
+        vs0: data.vs0,
+        wing_area_ft: data.wing_area_ft,
+        wing_aspect: data.wing_aspect,
+        wing_chord_ft: data.wing_chord_ft,
+        wing_span_effective: data.wing_span_effective,
+        drag_area_ft: data.drag_area_ft,
+        zerolift_drag_coefficient: data.zerolift_drag_coefficient,
+        vel_sink_min_ft: data.vel_sink_min_ft,
+        pwr_min_req_hp: data.pwr_min_req_hp,
+        rate_sink_min_ft: data.rate_sink_min_ft,
+        ld_max: data.ld_max,
+        drag_min: data.drag_min,
+        cl_min_sink: data.cl_min_sink,
+        rate_climb_ideal_max: data.rate_climb_ideal_max,
+        prop_tip_mach: data.prop_tip_mach,
+        prop_vel_ref: data.prop_vel_ref,
+        static_thrust_ideal: data.static_thrust_ideal
+    };
+    const results = {
+        fp: data.results.fp,
+        wv2: data.results.wv2,
+        rcmax: data.results.rcmax,
+        vy: data.results.vy,
+        vmax: data.results.vmax,
+        useful_load: data.results.useful_load,
+        data: data.table
+    };
+    const csvContent = window.csv_spike.stringify({
+        inputs,
+        outputs,
+        results
+    });
+    csv.save(csvContent, filename, writer.saveAs, window);
 }
 function saveButtonHandler(evt) {
     evt.preventDefault();

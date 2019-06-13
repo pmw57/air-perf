@@ -28,9 +28,18 @@ function loadHandler(callback, reader) {
         return load(evt, callback, reader);
     };
 }
+function makeBlob(content, window) {
+    return new window.Blob([content], {type: "text/csv"});
+}
+function save(content, filename, writer, window) {
+    const blob = makeBlob(content, window);
+    writer(blob, filename);
+}
 export default Object.freeze({
     stringify,
     parse,
     load,
-    loadHandler
+    loadHandler,
+    makeBlob,
+    save
 });

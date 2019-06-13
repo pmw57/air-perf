@@ -1,13 +1,7 @@
 /*jslint browser */
-/*global saveAs*/
 var csv_spike = (function makeCsv() {
     "use strict";
 
-    function saveText(csvText, filename) {
-        saveAs(new window.Blob([csvText], {
-            type: "text/csv"
-        }), filename);
-    }
     function commaSeparated([key, value]) {
         return key + "," + value;
     }
@@ -40,8 +34,7 @@ var csv_spike = (function makeCsv() {
             ""
         ];
     }
-    function stringify(data) {
-        const {inputs, outputs, results} = data;
+    function stringify({inputs, outputs, results}) {
         return [
             ...csvInputs(inputs),
             ...csvOutputs(outputs),
@@ -49,7 +42,6 @@ var csv_spike = (function makeCsv() {
         ].join("\n");
     }
     return {
-        save: saveText,
         stringify: stringify
     };
 }());
