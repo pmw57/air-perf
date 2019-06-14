@@ -87,6 +87,9 @@ function flightPerformance(data, rcmax, v) {
         v
     );
 }
+function getLastRow(arr) {
+    return arr.slice(-1)[0];
+}
 function performanceResults(data) {
     const results = {};
     const maxClimbrateRow = data.table.reduce(function (maxRow, climbrateRow) {
@@ -95,10 +98,9 @@ function performanceResults(data) {
         }
         return maxRow;
     });
-    const lastRow = data.table.slice(-1)[0];
     results.rcmax = maxClimbrateRow.rc;
     results.vy = maxClimbrateRow.v;
-    results.vmax = lastRow.v;
+    results.vmax = getLastRow(data.table).v;
     results.fp = flightPerformance(data, results.rcmax, results.vmax);
     results.wv2 = data.gross_lb * Math.pow(results.vmax, 2);
     results.useful_load = data.useful_load_lb;
