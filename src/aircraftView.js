@@ -15,6 +15,14 @@ const view = (function iife() {
             return obj;
         }, {});
     }
+    function getOutputFields() {
+        const results = props.doc.querySelector("#summary");
+        const tds = results.querySelectorAll("td");
+        return Array.from(tds).reduce(function (outputs, field) {
+            outputs[field.id] = field.textContent;
+            return outputs;
+        }, {});
+    }
     function renderOutputs(data, precision) {
         Object.entries(data).forEach(function ([key, value]) {
             const summary = props.doc.querySelector("#summary");
@@ -80,6 +88,7 @@ const view = (function iife() {
     }
     return {
         getFormValues,
+        getOutputFields,
         renderInputs,
         renderOutputs,
         renderResults,

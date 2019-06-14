@@ -71,29 +71,22 @@ function updateInputsFromCsv(csvArr, filename) {
 }
 
 // save file
-function saveToFile(filename, data) {
-    const inputs = view.getFormValues();
-    const outputs = {
-        wing_load_lb_ft: data.wing_load_lb_ft,
-        vs0: data.vs0,
-        wing_area_ft: data.wing_area_ft,
-        wing_aspect: data.wing_aspect,
-        wing_chord_ft: data.wing_chord_ft,
-        wing_span_effective: data.wing_span_effective,
-        drag_area_ft: data.drag_area_ft,
-        zerolift_drag_coefficient: data.zerolift_drag_coefficient,
-        vel_sink_min_ft: data.vel_sink_min_ft,
-        pwr_min_req_hp: data.pwr_min_req_hp,
-        rate_sink_min_ft: data.rate_sink_min_ft,
-        ld_max: data.ld_max,
-        drag_min: data.drag_min,
-        cl_min_sink: data.cl_min_sink,
-        rate_climb_ideal_max: data.rate_climb_ideal_max,
-        prop_tip_mach: data.prop_tip_mach,
-        prop_vel_ref: data.prop_vel_ref,
-        static_thrust_ideal: data.static_thrust_ideal
-    };
-    const results = {
+function valuesFromObj(obj, keys) {
+    return keys.reduce(function (result, key) {
+        result[key] = obj[key];
+        return result;
+    }, {});
+}
+function getInputs(data, view) {
+    const formValues = view.getFormValues();
+    return valuesFromObj(data, Object.keys(formValues));
+}
+function getOutputs(data, view) {
+    const outputFields = view.getOutputFields();
+    return valuesFromObj(data, Object.keys(outputFields));
+}
+function getResults(data) {
+    return {
         fp: data.results.fp,
         wv2: data.results.wv2,
         rcmax: data.results.rcmax,
@@ -102,10 +95,12 @@ function saveToFile(filename, data) {
         useful_load: data.results.useful_load,
         data: data.table
     };
+}
+function saveToFile(filename, data) {
     const csvContent = window.csv_spike.stringify({
-        inputs,
-        outputs,
-        results
+        inputs: getInputs(data, view),
+        outputs: getOutputs(data, view),
+        results: getResults(data, view)
     });
     csv.save(csvContent, filename, writer.saveAs, window);
 }

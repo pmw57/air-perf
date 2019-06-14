@@ -34,6 +34,31 @@ describe("Aircraft view tests", function () {
         assert.equal(values.vs1, "67");
         assert.equal(values.cl_max_clean, "1.53");
     });
+    it("gets output fields", function () {
+        const fakeDoc = {
+            querySelector: function () {
+                return {
+                    querySelectorAll: function querySelector() {
+                        return [
+                            {id: "field1", textContent: "123"},
+                            {id: "field2", textContent: "456"},
+                            {id: "field3", textContent: "789"}
+                        ];
+                    }
+                };
+            }
+        };
+        const expect = {
+            field1: "123",
+            field2: "456",
+            field3: "789"
+        };
+        view.init(null, fakeDoc);
+        const outputFields = view.getOutputFields();
+        assert.equal(outputFields.field1, "123");
+        assert.equal(outputFields.field2, "456");
+        assert.equal(outputFields.field3, "789");
+    });
     it("updates an input", function () {
         const inputs = {vs1: "67"};
         const form = {elements: {vs1: {value: ""}}};
