@@ -23,6 +23,17 @@ const view = (function iife() {
             return outputs;
         }, {});
     }
+    function getResultFields() {
+        const results = props.doc.querySelector("#results");
+        const items = results.querySelectorAll("li span");
+        const idItems = Array.from(items).filter(function (item) {
+            return item.id;
+        });
+        return Array.from(idItems).reduce(function (results, item) {
+            results[item.id] = item.textContent;
+            return results;
+        }, {});
+    }
     function renderOutputs(data, precision) {
         Object.entries(data).forEach(function ([key, value]) {
             const summary = props.doc.querySelector("#summary");
@@ -89,6 +100,7 @@ const view = (function iife() {
     return {
         getFormValues,
         getOutputFields,
+        getResultFields,
         renderInputs,
         renderOutputs,
         renderResults,

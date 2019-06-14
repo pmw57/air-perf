@@ -48,11 +48,6 @@ describe("Aircraft view tests", function () {
                 };
             }
         };
-        const expect = {
-            field1: "123",
-            field2: "456",
-            field3: "789"
-        };
         view.init(null, fakeDoc);
         const outputFields = view.getOutputFields();
         assert.equal(outputFields.field1, "123");

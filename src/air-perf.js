@@ -86,15 +86,10 @@ function getOutputs(data, view) {
     return valuesFromObj(data, Object.keys(outputFields));
 }
 function getResults(data) {
-    return {
-        fp: data.results.fp,
-        wv2: data.results.wv2,
-        rcmax: data.results.rcmax,
-        vy: data.results.vy,
-        vmax: data.results.vmax,
-        useful_load: data.results.useful_load,
-        data: data.table
-    };
+    const resultFields = view.getResultFields();
+    const results = valuesFromObj(data.results, Object.keys(resultFields));
+    results.data = data.table;
+    return results;
 }
 function saveToFile(filename, data) {
     const csvContent = window.csv_spike.stringify({
