@@ -23,7 +23,7 @@ function convertToNumbers(inputs) {
     }, inputs);
 }
 function getInputValues() {
-    const inputs = view.getValues();
+    const inputs = view.getFormValues();
     return convertToNumbers(inputs);
 }
 function calculate(data) {
@@ -72,21 +72,7 @@ function updateInputsFromCsv(csvArr, filename) {
 
 // save file
 function saveToFile(filename, data) {
-    const inputs = {
-        name: data.name,
-        vs1: data.vs1,
-        cl_max_clean: data.cl_max_clean,
-        cl_max_flap: data.cl_max_flap,
-        gross_lb: data.gross_lb,
-        useful_load_lb: data.useful_load_lb,
-        wing_span_ft: data.wing_span_ft,
-        plane_efficiency: data.plane_efficiency,
-        bhp: data.bhp,
-        vel_max_mph: data.vel_max_mph,
-        prop_dia_ft: data.prop_dia_ft,
-        prop_max_rpm: data.prop_max_rpm,
-        altitude_ft: data.altitude_ft
-    };
+    const inputs = view.getFormValues();
     const outputs = {
         wing_load_lb_ft: data.wing_load_lb_ft,
         vs0: data.vs0,

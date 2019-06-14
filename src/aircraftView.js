@@ -9,7 +9,7 @@ const view = (function iife() {
             elements[key].value = data[key];
         });
     }
-    function getValues() {
+    function getFormValues() {
         return Array.from(props.form.elements).reduce(function (obj, field) {
             obj[field.name] = field.value;
             return obj;
@@ -79,7 +79,7 @@ const view = (function iife() {
         props.form = formToUse;
     }
     return {
-        getValues,
+        getFormValues,
         renderInputs,
         renderOutputs,
         renderResults,

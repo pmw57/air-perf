@@ -24,6 +24,16 @@ describe("Aircraft view tests", function () {
             }
         };
     });
+    it("gets values of input fields", function () {
+        const form = {elements: [
+            {name: "vs1", value: "67"},
+            {name: "cl_max_clean", value: "1.53"}
+        ]};
+        view.init(form);
+        const values = view.getFormValues();
+        assert.equal(values.vs1, "67");
+        assert.equal(values.cl_max_clean, "1.53");
+    });
     it("updates an input", function () {
         const inputs = {vs1: "67"};
         const form = {elements: {vs1: {value: ""}}};
