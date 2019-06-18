@@ -3,7 +3,7 @@ import aircraftCalcs from "./aircraftCalculations.js";
 import writer from "../lib/filesaver.min.js";
 import csv from "./csv.js";
 import view from "./aircraftView.js";
-
+import aircraftCsv from "./aircraftCsv.js";
 let precision = {};
 
 function isValidNumber(value) {
@@ -77,10 +77,6 @@ function valuesFromObj(obj, keys) {
         return result;
     }, {});
 }
-function getInputs(data, view) {
-    const formValues = view.getFormValues();
-    return valuesFromObj(data, Object.keys(formValues));
-}
 function getOutputs(data, view) {
     const outputFields = view.getOutputFields();
     return valuesFromObj(data, Object.keys(outputFields));
@@ -93,7 +89,7 @@ function getResults(data) {
 }
 function saveToFile(filename, data) {
     const csvContent = window.csv_spike.stringify({
-        inputs: getInputs(data, view),
+        inputs: aircraftCsv.getInputs(data, view),
         outputs: getOutputs(data, view),
         results: getResults(data, view)
     });
