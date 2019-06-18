@@ -70,28 +70,11 @@ function updateInputsFromCsv(csvArr, filename) {
     saveInput.value = filename;
 }
 
-// save file
-function valuesFromObj(obj, keys) {
-    return keys.reduce(function (result, key) {
-        result[key] = obj[key];
-        return result;
-    }, {});
-}
-function getOutputs(data, view) {
-    const outputFields = view.getOutputFields();
-    return valuesFromObj(data, Object.keys(outputFields));
-}
-function getResults(data) {
-    const resultFields = view.getResultFields();
-    const results = valuesFromObj(data.results, Object.keys(resultFields));
-    results.data = data.table;
-    return results;
-}
 function saveToFile(filename, data) {
     const csvContent = window.csv_spike.stringify({
         inputs: aircraftCsv.getInputs(data, view),
-        outputs: getOutputs(data, view),
-        results: getResults(data, view)
+        outputs: aircraftCsv.getOutputs(data, view),
+        results: aircraftCsv.getResults(data, view)
     });
     csv.save(csvContent, filename, writer.saveAs, window);
 }
