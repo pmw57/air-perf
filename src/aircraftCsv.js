@@ -1,7 +1,7 @@
 // When given a stats object containing keyed values, and
 // access via view to form values, output fields, and result fields,
 // returns an object similar to the stats object, that only contains
-// the matching key names.
+import csv from "./csv.js";
 
 function valuesFromObj(stats, keys) {
     return keys.reduce(function (result, key) {
@@ -23,9 +23,16 @@ function getResults(data, view) {
     results.data = data.table;
     return results;
 }
+function csvInputs(stats, view) {
+    const inputs = getInputs(stats, view);
+    const inputCsv = csv.stringify(inputs);
+    const blankLine = "";
+    return ["Input parameters", ...inputCsv, blankLine];
+}
 
 export default Object.freeze({
     getInputs,
+    csvInputs,
     getOutputs,
     getResults
 });

@@ -3,7 +3,7 @@ import {assert} from "chai";
 import aircraftCsv from "../src/aircraftCsv.js";
 
 describe("Aircraft CSV tests", function () {
-    it("gets input values", function () {
+    describe("inputs", function () {
         var data = {
             name: "test craft",
             vs1: 67,
@@ -19,11 +19,23 @@ describe("Aircraft CSV tests", function () {
         var view = {
             getFormValues
         };
-        var inputs = aircraftCsv.getInputs(data, view);
-        assert.deepEqual(inputs, {
-            name: "test craft",
-            vs1: 67,
-            cl_max_clean: undefined
+        it("gets input values", function () {
+            var inputs = aircraftCsv.getInputs(data, view);
+            assert.deepEqual(inputs, {
+                name: "test craft",
+                vs1: 67,
+                cl_max_clean: undefined
+            });
+        });
+        it("creates csv input content", function () {
+            var csvInputs = aircraftCsv.csvInputs(data, view);
+            assert.deepEqual(csvInputs, [
+                "Input parameters",
+                "name,test craft",
+                "vs1,67",
+                "cl_max_clean,undefined",
+                ""
+            ]);
         });
     });
     it("gets output values", function () {
