@@ -54,7 +54,7 @@ describe("Aircraft view tests", function () {
         assert.equal(outputFields.field2, "456");
         assert.equal(outputFields.field3, "789");
     });
-    it.only("gets results fields", function () {
+    it("gets results fields", function () {
     const fakeDoc = {
         querySelector: function () {
             return {
