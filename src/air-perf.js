@@ -71,12 +71,12 @@ function updateInputsFromCsv(csvArr, filename) {
 }
 
 function saveToFile(filename, data) {
-    const csvContent = window.csv_spike.stringify({
+    const csvSpikeContent = window.csv_spike.stringify({
         inputs: aircraftCsv.getInputs(data, view),
         outputs: aircraftCsv.getOutputs(data, view),
         results: aircraftCsv.getResults(data, view)
     });
-    csv.save(csvContent, filename, writer.saveAs, window);
+    csv.save(csvSpikeContent, filename, writer.saveAs, window);
 }
 function saveButtonHandler(evt) {
     evt.preventDefault();
