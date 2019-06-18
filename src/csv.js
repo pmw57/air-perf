@@ -1,11 +1,8 @@
 function commaSeparated([key, value]) {
     return key + "," + value;
 }
-function convertToCsv(data) {
-    return Object.entries(data).map(commaSeparated);
-}
 function stringify(data) {
-    return convertToCsv(data);
+    return Object.entries(data).map(commaSeparated);
 }
 function splitByComma(line) {
     return line.split(",");
