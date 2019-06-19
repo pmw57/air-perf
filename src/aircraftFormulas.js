@@ -121,6 +121,11 @@ const performance = {
         );
     }
 };
+const performanceComparison = {
+    wvmax2(w, vmax) {
+        return w * vmax * vmax;
+    }
+};
 const createAtmosphere = function createAtmosphere() {
     function densityRatio(altitude) {
         if (altitude < 36240) {
@@ -181,6 +186,7 @@ export default Object.freeze({
     propAdvanced,
     propTipSpeed,
     performance,
+    performanceComparison,
     reynolds,
     atmosphere
 });

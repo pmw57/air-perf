@@ -195,6 +195,15 @@ describe("performance", function () {
         assert.closeTo(fp, 0.12, 0.01);
     });
 });
+describe("performance comparison", function () {
+    const comparison = formulas.performanceComparison;
+    it("has kinetic energy parameter", function () {
+        const w = 1500;
+        const vmax = 180;
+        const wvmax2 = comparison.wvmax2(w, vmax);
+        assert.closeTo(wvmax2, 48600000, 10000);
+    });
+});
 describe("Atmosphere", function () {
     it("has density ratio at sealevel", function () {
         assert.equal(formulas.atmosphere.densityRatio(0), 1);

@@ -9,6 +9,7 @@ const propEfficiency = formulas.propEfficiency;
 const propAdvanced = formulas.propAdvanced;
 const propTipSpeed = formulas.propTipSpeed;
 const performance = formulas.performance;
+const performanceComparison = formulas.performanceComparison;
 const atmosphere = formulas.atmosphere;
 const reynolds = formulas.reynolds;
 
@@ -102,7 +103,7 @@ function performanceResults(data) {
     results.vy = maxClimbrateRow.v;
     results.vmax = getLastRow(data.table).v;
     results.fp = flightPerformance(data, results.rcmax, results.vmax);
-    results.wv2 = data.gross_lb * Math.pow(results.vmax, 2);
+    results.wv2 = performanceComparison.wvmax2(data.gross_lb, results.vmax);
     results.useful_load = data.useful_load_lb;
     return results;
 }
