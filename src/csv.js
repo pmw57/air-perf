@@ -3,8 +3,8 @@ function commaSeparated([key, value]) {
 }
 function stringify(data) {
     if (Array.isArray(data)) {
-        return data.map(function (item) {
-            return item.join(",");
+        return data.map(function (row) {
+            return Object.values(row).join(",");
         }).join("\n");
     }
     return Object.entries(data).map(commaSeparated);

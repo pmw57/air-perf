@@ -55,22 +55,22 @@ describe("Aircraft view tests", function () {
         assert.equal(outputFields.field3, "789");
     });
     it("gets results fields", function () {
-    const fakeDoc = {
-        querySelector: function () {
-            return {
-                querySelectorAll: function () {
-                    return [
-                        {id: "vs1", textContent: "67"},
-                        {id: "cl_max_clean", textContent: "1.53"}
-                    ];
-                }
+        const fakeDoc = {
+            querySelector: function () {
+                return {
+                    querySelectorAll: function () {
+                        return [
+                            {id: "vs1", textContent: "67"},
+                            {id: "cl_max_clean", textContent: "1.53"}
+                        ];
+                    }
+                };
             }
-        }
-    };
-    view.init(null, fakeDoc);
-    const resultFields = view.getResultFields();
-    assert.equal(resultFields.vs1, "67");
-    assert.equal(resultFields.cl_max_clean, "1.53");
+        };
+        view.init(null, fakeDoc);
+        const resultFields = view.getResultFields();
+        assert.equal(resultFields.vs1, "67");
+        assert.equal(resultFields.cl_max_clean, "1.53");
     });
     it("updates an input", function () {
         const inputs = {vs1: "67"};

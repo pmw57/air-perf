@@ -44,10 +44,19 @@ function csvResults(stats, view) {
         "Results",
         ...summary,
         "",
-        ["v(mph)", "rc(fpm)", "eta", "rs(fpm)", "re=rho*v*c/mu"],
-        ...performance,
+        ["v(mph)", "rc(fpm)", "eta", "rs(fpm)", "re=rho*v*c/mu"].join(","),
+        performance,
         ""
     ];
+}
+function stringify(stats, view) {
+    return [].concat(
+        csvInputs(stats, view)
+    ).concat(
+        csvOutputs(stats, view)
+    ).concat(
+        csvResults(stats, view)
+    ).join("\n");
 }
 
 export default Object.freeze({
@@ -56,5 +65,6 @@ export default Object.freeze({
     getOutputs,
     csvOutputs,
     getResults,
-    csvResults
+    csvResults,
+    stringify
 });

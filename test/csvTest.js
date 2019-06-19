@@ -11,8 +11,8 @@ describe("CSV tests", function () {
         });
         it("converts an object into csv", function () {
             const arr = [
-                [67, 1177.3, 0.63, 895.5, 2561330],
-                [68, 1198, 0.63, 890.5, 2599558]
+                {v: 67, rc: 1177.3, eta: 0.63, rs: 895.5, re: 2561330},
+                {v: 68, rc: 1198, eta: 0.63, rs: 890.5, re: 2599558}
             ];
             const converted = csv.stringify(arr);
             assert.equal(converted, "67,1177.3,0.63,895.5,2561330\n" +
