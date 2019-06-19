@@ -1,35 +1,32 @@
 import {describe, it} from "mocha";
 import {assert} from "chai";
 import aircraftCsv from "../src/aircraftCsv.js";
+import {JSDOM} from "jsdom";
 
 describe("Aircraft CSV tests", function () {
+    const dom = new JSDOM("<form>" +
+            "    <input name=name><input name=vs1><input name=cl_max_clean>" +
+            "</form>" +
+            "<div id=outputs>" +
+            "    <span id=vs0></span>" +
+            "    <span id=wing_area_ft></span>" +
+            "    <span id=wing_aspect></span>" +
+            "</div>" +
+            "<div id=results>" +
+            "    <span id=fp></span>" +
+            "    <span id=wv2></span>" +
+            "</div>");
+    const document = dom.window.document;
+
     const inputSpecs = {
         name: "test craft",
         vs1: 67,
         vs0: 57 // shouldn't appear from getInputs
     };
-    const inputsView = {
-        getFormValues() {
-            return {
-                name: "",
-                vs1: "",
-                cl_max_clean: "" // should appear from getInputs
-            };
-        }
-    };
     const outputSpecs = {
         vs1: 67,
         vs0: 57,
         wing_area_ft: 86
-    };
-    const outputsView = {
-        getOutputFields() {
-            return {
-                vs0: "",
-                wing_area_ft: "",
-                wing_aspect: ""
-            };
-        }
     };
     const resultsSpecs = {
         results: {
@@ -42,12 +39,34 @@ describe("Aircraft CSV tests", function () {
             [6, 7, 8, 9, 10]
         ]
     };
+    function getFormEntries(form) {
+        return Array.from(form.elements).reduce(function (obj, el) {
+            obj[el.name] = el.value;
+            return obj;
+        }, {});
+    }
+    function getIdEntries(selector) {
+        var els = document.querySelectorAll(selector);
+        return Array.from(els).reduce(function (obj, el) {
+            if (el.id) {
+                obj[el.id] = el.textContent;
+            }
+            return obj;
+        }, {});
+    }
+    const inputsView = {
+        getFormValues() {
+            return getFormEntries(document.querySelector("form"));
+        }
+    };
+    const outputsView = {
+        getOutputFields() {
+            return getIdEntries("#outputs span");
+        }
+    };
     const resultsView = {
         getResultFields() {
-            return {
-                fp: "",
-                wv2: ""
-            };
+            return getIdEntries("#results span");
         }
     };
     describe("inputs", function () {
