@@ -79,10 +79,17 @@ describe("CSV tests", function () {
         let fakeWindow;
         beforeEach(function () {
             fakeWindow = (function () {
+                const props = {};
                 function Blob(content, options) {
-                    this.content = content;
-                    this.type = options.type;
+                    props.content = content;
+                    props.type = options.type;
                 }
+                Blob.prototype.getContent = function () {
+                    return props.content;
+                };
+                Blob.prototype.getType = function () {
+                    return props.type;
+                };
                 return {
                     Blob
                 };
@@ -91,8 +98,8 @@ describe("CSV tests", function () {
         it("creates a csv blob for saving", function () {
             const csvText = "vs1,67";
             const blob = csv.makeBlob(csvText, fakeWindow);
-            assert.equal(blob.content, csvText);
-            assert.equal(blob.type, "text/csv");
+            assert.equal(blob.getContent(), csvText);
+            assert.equal(blob.getType(), "text/csv");
         });
         it("saves to the writer", function () {
             const writer = (function makeWriter() {
@@ -106,7 +113,7 @@ describe("CSV tests", function () {
             const filename = "a filename";
             csv.save(csvText, filename, writer, fakeWindow);
             assert.equal(writer.filename, filename);
-            assert.equal(writer.blob.content, csvText);
+            assert.equal(writer.blob.getContent(), csvText);
         });
     });
 });
