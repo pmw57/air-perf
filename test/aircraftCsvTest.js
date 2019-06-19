@@ -72,8 +72,8 @@ describe("Aircraft CSV tests", function () {
             ]);
         });
     });
-    it("gets result values", function () {
-        var data = {
+    describe("results", function () {
+        const data = {
             results: {
                 fp: 10,
                 wv2: 3000,
@@ -81,7 +81,7 @@ describe("Aircraft CSV tests", function () {
             },
             table: []
         };
-        var view = {
+        const view = {
             getResultFields() {
                 return {
                     fp: "",
@@ -89,11 +89,26 @@ describe("Aircraft CSV tests", function () {
                 };
             }
         };
-        var results = aircraftCsv.getResults(data, view);
-        assert.deepEqual(results, {
-            fp: 10,
-            wv2: 3000,
-            data: []
+        it("gets result values", function () {
+            const results = aircraftCsv.getResults(data, view);
+            assert.deepEqual(results, {
+                fp: 10,
+                wv2: 3000,
+                data: []
+            });
+        });
+        it("creates csv results content", function () {
+            const csvResults = aircraftCsv.csvResults(data, view);
+            assert.deepEqual(csvResults, [
+                "Results",
+                "fp,10",
+                "wv2,3000",
+                "",
+                [
+                    "v(mph)", "rc(fpm)", "eta", "rs(fpm)", "re=rho*v*c/mu"
+                ],
+                ""
+            ]);
         });
     });
 });

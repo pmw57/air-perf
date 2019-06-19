@@ -35,11 +35,26 @@ function csvOutputs(stats, view) {
     const blankLine = "";
     return ["Output parameters", ...outputCsv, blankLine];
 }
+function csvResults(stats, view) {
+    const results = getResults(stats, view);
+    const performance = csv.stringify(results.data);
+    delete results.data;
+    const summary = csv.stringify(results);
+    return [
+        "Results",
+        ...summary,
+        "",
+        ["v(mph)", "rc(fpm)", "eta", "rs(fpm)", "re=rho*v*c/mu"],
+        ...performance,
+        ""
+    ];
+}
 
 export default Object.freeze({
     getInputs,
     csvInputs,
     getOutputs,
     csvOutputs,
-    getResults
+    getResults,
+    csvResults
 });
