@@ -5,6 +5,7 @@ import view from "../src/aircraftView.js";
 describe("Aircraft view tests", function () {
     let els;
     let doc;
+    let form;
     function newElement() {
         return {value: ""};
     }
@@ -24,8 +25,20 @@ describe("Aircraft view tests", function () {
             }
         };
     });
+    it.only("gets elements from the form", function () {
+        form = {
+            elements: {
+                "vs1": "67",
+                "cl_max_clean": "1.53"
+            }
+        };
+        view.init(form);
+        const elements = view.getFormElements();
+        assert.equal(elements.vs1, "67");
+        assert.equal(elements.cl_max_clean, "1.53");
+    });
     it("gets values of input fields", function () {
-        const form = {elements: [
+        form = {elements: [
             {name: "vs1", value: "67"},
             {name: "cl_max_clean", value: "1.53"}
         ]};

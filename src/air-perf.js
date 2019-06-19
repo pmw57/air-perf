@@ -16,15 +16,21 @@ function numberOrValue(value) {
     }
     return value;
 }
-function convertToNumbers(inputs) {
+function convertToNumbers(inputs, elements) {
+    window.numberOrValue = numberOrValue;
     return Object.entries(inputs).reduce(function (converted, [key, value]) {
-        converted[key] = numberOrValue(value);
+        if (elements[key].type === "number") {
+            converted[key] = numberOrValue(value);
+        } else {
+            converted[key] = value;
+        }
         return converted;
     }, inputs);
 }
 function getInputValues() {
     const inputs = view.getFormValues();
-    return convertToNumbers(inputs);
+    const elements = view.getFormElements();
+    return convertToNumbers(inputs, elements);
 }
 function calculate(data) {
     data = aircraftCalcs.outputs(data);
