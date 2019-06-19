@@ -29,10 +29,17 @@ function csvInputs(stats, view) {
     const blankLine = "";
     return ["Input parameters", ...inputCsv, blankLine];
 }
+function csvOutputs(stats, view) {
+    const outputs = getOutputs(stats, view);
+    const outputCsv = csv.stringify(outputs);
+    const blankLine = "";
+    return ["Output parameters", ...outputCsv, blankLine];
+}
 
 export default Object.freeze({
     getInputs,
     csvInputs,
     getOutputs,
+    csvOutputs,
     getResults
 });

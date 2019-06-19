@@ -38,7 +38,7 @@ describe("Aircraft CSV tests", function () {
             ]);
         });
     });
-    it("gets output values", function () {
+    describe("outputs", function () {
         var data = {
             vs1: 67,
             vs0: 57,
@@ -53,11 +53,23 @@ describe("Aircraft CSV tests", function () {
                 };
             }
         };
-        var outputs = aircraftCsv.getOutputs(data, view);
-        assert.deepEqual(outputs, {
-            vs0: 57,
-            wing_area_ft: 86,
-            wing_aspect: undefined
+        it("gets output values", function () {
+            var outputs = aircraftCsv.getOutputs(data, view);
+            assert.deepEqual(outputs, {
+                vs0: 57,
+                wing_area_ft: 86,
+                wing_aspect: undefined
+            });
+        });
+        it("creates csv output content", function () {
+            var csvOutputs = aircraftCsv.csvOutputs(data, view);
+            assert.deepEqual(csvOutputs, [
+                "Output parameters",
+                "vs0,57",
+                "wing_area_ft,86",
+                "wing_aspect,undefined",
+                ""
+            ]);
         });
     });
     it("gets result values", function () {
