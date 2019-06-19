@@ -4,7 +4,7 @@ import aircraftCsv from "../src/aircraftCsv.js";
 
 describe("Aircraft CSV tests", function () {
     describe("inputs", function () {
-        var data = {
+        const data = {
             name: "test craft",
             vs1: 67,
             vs0: 57 // shouldn't appear from getInputs
@@ -16,11 +16,11 @@ describe("Aircraft CSV tests", function () {
                 cl_max_clean: "" // should appear from getInputs
             };
         }
-        var view = {
+        const view = {
             getFormValues
         };
         it("gets input values", function () {
-            var inputs = aircraftCsv.getInputs(data, view);
+            const inputs = aircraftCsv.getInputs(data, view);
             assert.deepEqual(inputs, {
                 name: "test craft",
                 vs1: 67,
@@ -28,7 +28,7 @@ describe("Aircraft CSV tests", function () {
             });
         });
         it("creates csv input content", function () {
-            var csvInputs = aircraftCsv.csvInputs(data, view);
+            const csvInputs = aircraftCsv.csvInputs(data, view);
             assert.deepEqual(csvInputs, [
                 "Input parameters",
                 "name,test craft",
@@ -39,12 +39,12 @@ describe("Aircraft CSV tests", function () {
         });
     });
     describe("outputs", function () {
-        var data = {
+        const data = {
             vs1: 67,
             vs0: 57,
             wing_area_ft: 86
         };
-        var view = {
+        const view = {
             getOutputFields() {
                 return {
                     vs0: "",
@@ -54,7 +54,7 @@ describe("Aircraft CSV tests", function () {
             }
         };
         it("gets output values", function () {
-            var outputs = aircraftCsv.getOutputs(data, view);
+            const outputs = aircraftCsv.getOutputs(data, view);
             assert.deepEqual(outputs, {
                 vs0: 57,
                 wing_area_ft: 86,
@@ -62,7 +62,7 @@ describe("Aircraft CSV tests", function () {
             });
         });
         it("creates csv output content", function () {
-            var csvOutputs = aircraftCsv.csvOutputs(data, view);
+            const csvOutputs = aircraftCsv.csvOutputs(data, view);
             assert.deepEqual(csvOutputs, [
                 "Output parameters",
                 "vs0,57",
