@@ -2,6 +2,11 @@ function commaSeparated([key, value]) {
     return key + "," + value;
 }
 function stringify(data) {
+    if (Array.isArray(data)) {
+        return data.map(function (item) {
+            return item.join(",");
+        }).join("\n");
+    }
     return Object.entries(data).map(commaSeparated);
 }
 function splitByComma(line) {

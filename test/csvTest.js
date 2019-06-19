@@ -9,6 +9,15 @@ describe("CSV tests", function () {
             const converted = csv.stringify(obj);
             assert.equal(converted[0], "key,some data");
         });
+        it("converts an object into csv", function () {
+            const arr = [
+                [67, 1177.3, 0.63, 895.5, 2561330],
+                [68, 1198, 0.63, 890.5, 2599558]
+            ];
+            const converted = csv.stringify(arr);
+            assert.equal(converted, "67,1177.3,0.63,895.5,2561330\n" +
+                    "68,1198,0.63,890.5,2599558");
+        });
         it("converts csv into an object", function () {
             const csvText = "key,some data";
             const arr = csv.parse(csvText);
