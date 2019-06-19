@@ -25,7 +25,7 @@ describe("Aircraft view tests", function () {
             }
         };
     });
-    it.only("gets elements from the form", function () {
+    it("gets elements from the form", function () {
         form = {
             elements: {
                 "vs1": "67",
