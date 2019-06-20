@@ -110,6 +110,18 @@ describe("Aircraft view tests", function () {
             ReferenceError
         );
     });
+    it("clears old performance values with no table data", function () {
+        const fp = document.querySelector("#fp");
+        const wv2 = document.querySelector("#wv2");
+        const table = [];
+        const results = {};
+        assert.equal(fp.innerHTML, "0.1207");
+        assert.equal(wv2.innerHTML, "45414000");
+        view.init(form, document);
+        view.renderResults({results, table}, {});
+        assert.equal(fp.innerHTML, "");
+        assert.equal(wv2.innerHTML, "");
+    });
     it("updates a result", function () {
         const results = {
             fp: 0.1207,

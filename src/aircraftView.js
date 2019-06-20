@@ -54,8 +54,12 @@ const view = (function iife() {
         });
     }
     function clearResults() {
-        const resultSection = props.doc.querySelector("#results");
-        const table = resultSection.querySelector("table");
+        const resultFields = getResultFields();
+        Object.keys(resultFields).forEach(function (id) {
+            props.doc.getElementById(id).innerHTML = "";
+        });
+        const results = props.doc.querySelector("#results");
+        const table = results.querySelector("table");
         if (!table) {
             throw new ReferenceError("Results table not found");
         }
