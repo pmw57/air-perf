@@ -91,25 +91,32 @@ function flightPerformance(stats, rcmax, v) {
 function getLastRow(arr) {
     return arr.slice(-1)[0];
 }
-function performanceResults(stats) {
+function performanceResults(stats, table) {
     const results = {};
-    const maxClimbrateRow = stats.table.reduce(function (maxRow, climbrateRow) {
+    const maxClimbrateRow = table.reduce(function (maxRow, climbrateRow) {
         if (climbrateRow.rc > maxRow.rc) {
             return climbrateRow;
         }
         return maxRow;
+    }, {
+        rc: 0
     });
+    if (!maxClimbrateRow.rc) {
+        return {};
+    }
     results.rcmax = maxClimbrateRow.rc;
     results.vy = maxClimbrateRow.v;
-    results.vmax = getLastRow(stats.table).v;
+    results.vmax = getLastRow(table).v;
     results.fp = flightPerformance(stats, results.rcmax, results.vmax);
     results.wv2 = performanceComparison.wvmax2(stats.gross_lb, results.vmax);
     results.useful_load = stats.useful_load_lb;
     return results;
 }
 function calculateResults(stats) {
-    stats.table = climbrateTable(stats);
-    stats.results = performanceResults(stats);
+    const table = climbrateTable(stats);
+    const results = performanceResults(stats, table);
+    stats.table = table;
+    stats.results = results;
     return stats;
 }
 export default Object.freeze({

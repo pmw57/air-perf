@@ -104,8 +104,6 @@ describe("calculation tests", function () {
                 prop_max_rpm: 2700,
                 altitude_ft: 10000
             };
-            outputs = aircraftCalcs.outputs(inputs);
-            stats = aircraftCalcs.results(outputs);
         });
         it("doesn't change inputs when calculating outputs", function () {
             inputs = {
@@ -127,23 +125,39 @@ describe("calculation tests", function () {
             assert.equal(Object.entries(inputs).length, 12);
         });
         it("has performance parameter", function () {
+            outputs = aircraftCalcs.outputs(inputs);
+            stats = aircraftCalcs.results(outputs);
             assert.closeTo(stats.results.fp, 0.12, 0.01);
         });
         it("has max rate of climb", function () {
+            outputs = aircraftCalcs.outputs(inputs);
+            stats = aircraftCalcs.results(outputs);
             assert.closeTo(stats.results.rcmax, 1501, 1);
         });
         it("has useful load", function () {
+            outputs = aircraftCalcs.outputs(inputs);
+            stats = aircraftCalcs.results(outputs);
             assert.equal(stats.results.useful_load, 600);
         });
         it("has max velocity", function () {
+            outputs = aircraftCalcs.outputs(inputs);
+            stats = aircraftCalcs.results(outputs);
             assert.closeTo(stats.results.vmax, 213, 0.1);
         });
         it("has kinetic energy", function () {
+            outputs = aircraftCalcs.outputs(inputs);
+            stats = aircraftCalcs.results(outputs);
             assert.closeTo(stats.results.wv2, 68000000, 100000);
         });
         it("has a results table", function () {
+            outputs = aircraftCalcs.outputs(inputs);
+            stats = aircraftCalcs.results(outputs);
             assert.isAbove(stats.table.length, 10);
         });
+        it("copes with no table values", function () {
+            inputs.vs1 = 0;
+            outputs = aircraftCalcs.outputs(inputs);
+            stats = aircraftCalcs.results(outputs);
         });
     });
 });
