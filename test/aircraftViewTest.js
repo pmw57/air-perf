@@ -101,8 +101,14 @@ describe("Aircraft view tests", function () {
         view.renderOutputs(outputs, precision);
         assert.equal(vs0.innerHTML, 57.00);
     });
-    it.skip("Throws and error when table section not found", function () {
-        return;
+    it("Throws an error when table section not found", function () {
+        const table = document.querySelector("#results table");
+        table.parentNode.removeChild(table);
+        view.init(form, document);
+        assert.throw(
+            () => view.renderResults({}, {}),
+            ReferenceError
+        );
     });
     it("updates a result", function () {
         const results = {

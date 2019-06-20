@@ -56,6 +56,9 @@ const view = (function iife() {
     function clearResults() {
         const resultSection = props.doc.querySelector("#results");
         const table = resultSection.querySelector("table");
+        if (!table) {
+            throw new ReferenceError("Results table not found");
+        }
         table.tBodies[0].innerHTML = "";
     }
     function insertCell(row, value) {
