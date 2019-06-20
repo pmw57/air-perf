@@ -97,6 +97,9 @@ const view = (function iife() {
         renderResults(data, precision);
     }
     function init(formToUse, doc) {
+        if (!formToUse || formToUse.nodeName !== "FORM") {
+            throw new ReferenceError("Form not found");
+        }
         props.doc = doc;
         props.form = formToUse;
     }

@@ -33,6 +33,13 @@ describe("Aircraft view tests", function () {
         document = dom.window.document;
         form = document.querySelector("form");
     });
+    it("Throws an error when no form exists", function () {
+        document.innerHTML = "";
+        assert.throw(
+            () => view.init(null, document),
+            ReferenceError
+        );
+    });
     it("gets elements from the form", function () {
         view.init(form, document);
         const elements = view.getFormElements();
