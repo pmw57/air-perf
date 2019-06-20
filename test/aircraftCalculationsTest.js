@@ -88,7 +88,7 @@ describe("calculation tests", function () {
     describe("Results test", function () {
         let inputs;
         let outputs;
-        let data;
+        let stats;
         beforeEach(function () {
             inputs = {
                 vs1: 77.95,
@@ -105,7 +105,7 @@ describe("calculation tests", function () {
                 altitude_ft: 10000
             };
             outputs = aircraftCalcs.outputs(inputs);
-            data = aircraftCalcs.results(outputs);
+            stats = aircraftCalcs.results(outputs);
         });
         it("doesn't change inputs when calculating outputs", function () {
             inputs = {
@@ -127,22 +127,23 @@ describe("calculation tests", function () {
             assert.equal(Object.entries(inputs).length, 12);
         });
         it("has performance parameter", function () {
-            assert.closeTo(data.results.fp, 0.12, 0.01);
+            assert.closeTo(stats.results.fp, 0.12, 0.01);
         });
         it("has max rate of climb", function () {
-            assert.closeTo(data.results.rcmax, 1501, 1);
+            assert.closeTo(stats.results.rcmax, 1501, 1);
         });
         it("has useful load", function () {
-            assert.equal(data.results.useful_load, 600);
+            assert.equal(stats.results.useful_load, 600);
         });
         it("has max velocity", function () {
-            assert.closeTo(data.results.vmax, 213, 0.1);
+            assert.closeTo(stats.results.vmax, 213, 0.1);
         });
         it("has kinetic energy", function () {
-            assert.closeTo(data.results.wv2, 68000000, 100000);
+            assert.closeTo(stats.results.wv2, 68000000, 100000);
         });
-        it("has data", function () {
-            assert.isAbove(data.table.length, 10);
+        it("has a results table", function () {
+            assert.isAbove(stats.table.length, 10);
+        });
         });
     });
 });
