@@ -47,53 +47,53 @@ function calculateOutputs(inputs) {
         static_thrust_ideal: propAdvanced.ts(sigma, inputs.bhp, inputs.prop_dia_ft)
     });
 }
-function rateOfClimb(data, v) {
-    const sigma = atmosphere.densityRatio(data.altitude_ft);
-    const ad = data.drag_area_ft;
-    const be = data.wing_span_effective;
-    const rs = minSinkRate.rs(sigma, ad, v, data.gross_lb, be);
-    const eta = propEfficiency.etaFromV(v, data.prop_vel_ref);
-    return climbingFlight.rc(data.bhp, data.gross_lb, eta, rs);
+function rateOfClimb(stats, v) {
+    const sigma = atmosphere.densityRatio(stats.altitude_ft);
+    const ad = stats.drag_area_ft;
+    const be = stats.wing_span_effective;
+    const rs = minSinkRate.rs(sigma, ad, v, stats.gross_lb, be);
+    const eta = propEfficiency.etaFromV(v, stats.prop_vel_ref);
+    return climbingFlight.rc(stats.bhp, stats.gross_lb, eta, rs);
 }
-function climbrateRow(data, v) {
+function climbrateRow(stats, v) {
     return {
         v,
-        rc: rateOfClimb(data, v),
-        eta: propEfficiency.etaFromV(v, data.prop_vel_ref),
+        rc: rateOfClimb(stats, v),
+        eta: propEfficiency.etaFromV(v, stats.prop_vel_ref),
         rs: minSinkRate.rs(
-            atmosphere.densityRatio(data.altitude_ft),
-            data.drag_area_ft,
+            atmosphere.densityRatio(stats.altitude_ft),
+            stats.drag_area_ft,
             v,
-            data.gross_lb,
-            data.wing_span_effective
+            stats.gross_lb,
+            stats.wing_span_effective
         ),
-        rec: reynolds.re(v, data.wing_chord_ft, data.altitude_ft)
+        rec: reynolds.re(v, stats.wing_chord_ft, stats.altitude_ft)
     };
 }
-function climbrateTable(data) {
+function climbrateTable(stats) {
     const table = [];
-    let v = data.vs1;
-    while (table.length <= 2000 && rateOfClimb(data, v) > 0) {
-        table.push(climbrateRow(data, v));
+    let v = stats.vs1;
+    while (table.length <= 2000 && rateOfClimb(stats, v) > 0) {
+        table.push(climbrateRow(stats, v));
         v += 1;
     }
     return table;
 }
-function flightPerformance(data, rcmax, v) {
+function flightPerformance(stats, rcmax, v) {
     return performance.fp(
-        data.useful_load_lb,
+        stats.useful_load_lb,
         rcmax,
-        data.bhp,
-        data.vs0,
+        stats.bhp,
+        stats.vs0,
         v
     );
 }
 function getLastRow(arr) {
     return arr.slice(-1)[0];
 }
-function performanceResults(data) {
+function performanceResults(stats) {
     const results = {};
-    const maxClimbrateRow = data.table.reduce(function (maxRow, climbrateRow) {
+    const maxClimbrateRow = stats.table.reduce(function (maxRow, climbrateRow) {
         if (climbrateRow.rc > maxRow.rc) {
             return climbrateRow;
         }
@@ -101,16 +101,16 @@ function performanceResults(data) {
     });
     results.rcmax = maxClimbrateRow.rc;
     results.vy = maxClimbrateRow.v;
-    results.vmax = getLastRow(data.table).v;
-    results.fp = flightPerformance(data, results.rcmax, results.vmax);
-    results.wv2 = performanceComparison.wvmax2(data.gross_lb, results.vmax);
-    results.useful_load = data.useful_load_lb;
+    results.vmax = getLastRow(stats.table).v;
+    results.fp = flightPerformance(stats, results.rcmax, results.vmax);
+    results.wv2 = performanceComparison.wvmax2(stats.gross_lb, results.vmax);
+    results.useful_load = stats.useful_load_lb;
     return results;
 }
-function calculateResults(data) {
-    data.table = climbrateTable(data);
-    data.results = performanceResults(data);
-    return data;
+function calculateResults(stats) {
+    stats.table = climbrateTable(stats);
+    stats.results = performanceResults(stats);
+    return stats;
 }
 export default Object.freeze({
     outputs: calculateOutputs,
