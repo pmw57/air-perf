@@ -19,7 +19,7 @@ function numberOrValue(value) {
 function convertToNumbers(inputs, elements) {
     window.numberOrValue = numberOrValue;
     return Object.entries(inputs).reduce(function (converted, [key, value]) {
-        if (elements[key].type === "number") {
+        if (value !== "") {
             converted[key] = numberOrValue(value);
         } else {
             converted[key] = value;
