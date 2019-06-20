@@ -23,12 +23,10 @@ describe("Aircraft view tests", function () {
         "    <li><span id=fp>0.1207</span></li>" +
         "    <li><span id=wv2>45414000</span></li>" +
         "  </ul>" +
-        "  <div id=summary>" +
-        "    <table>" +
-        "      <tbody>" +
-        "      </tbody>" +
-        "    </table>" +
-        "  </div>" +
+        "  <table>" +
+        "    <tbody>" +
+        "    </tbody>" +
+        "  </table>" +
         "</div>");
         document = dom.window.document;
         form = document.querySelector("form");
