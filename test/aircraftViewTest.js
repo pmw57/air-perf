@@ -83,9 +83,6 @@ describe("Aircraft view tests", function () {
         assert.equal(resultFields.fp, "0.1207");
         assert.equal(resultFields.wv2, "45414000");
     });
-    it.skip("throws an error when no form exists", function () {
-        return;
-    });
     it("updates an input", function () {
         const vs1 = form.elements[0];
         const oldValue = vs1.value;
@@ -103,9 +100,6 @@ describe("Aircraft view tests", function () {
         const precision = {vs0: 2};
         view.renderOutputs(outputs, precision);
         assert.equal(vs0.innerHTML, 57.00);
-    });
-    it.skip("Throws and error when result section not found", function () {
-        return;
     });
     it.skip("Throws and error when table section not found", function () {
         return;
