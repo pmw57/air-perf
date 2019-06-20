@@ -88,6 +88,15 @@ function saveButtonHandler(evt) {
     saveToFile(filename, data);
 }
 
+function clearButtonHandler(evt) {
+    evt.preventDefault();
+    const elements = view.getFormElements();
+    Array.from(elements).forEach(function (element) {
+        element.value = "";
+    });
+    main(getInputValues(), precision);
+}
+
 // update values
 function calculatePerformance() {
     main(getInputValues(), precision);
@@ -105,6 +114,9 @@ function init(document, precisionObj) {
 
     const saveButton = document.querySelector(".js-savebutton");
     saveButton.addEventListener("click", saveButtonHandler);
+
+    const clear = document.querySelector("button[name=clear]");
+    clear.addEventListener("click", clearButtonHandler);
 
     const form = document.getElementById("input");
     const formInputs = form.querySelectorAll("input");

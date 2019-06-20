@@ -18,6 +18,9 @@ h3 {
 	margin-right: 1em;
 	width: 16em;
 }
+#perf [name="clear"] {
+	margin-bottom: 0.5em;
+}
 .symbol {
 	color: navy;
 }
