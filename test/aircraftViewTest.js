@@ -4,35 +4,37 @@ import view from "../src/aircraftView.js";
 import {JSDOM} from "jsdom";
 
 describe("Aircraft view tests", function () {
-    const dom = new JSDOM("<form>" +
-            "    <input name=vs1 value=67>" +
-            "    <input name=cl_max_clean value=1.53>" +
-            "</form>" +
-            "<table id=summary><tr>" +
-            "    <td id=vs0>57.19</td>" +
-            "    <td id=wing_area_ft>85.39</td>" +
-            "    <td id=wing_aspect>5.08</td>" +
-            "</tr></table>" +
-            "<div id=results>" +
-            "  <ul>" +
-            "    <li><span id=fp>0.1207</span></li>" +
-            "    <li><span id=wv2>45414000</span></li>" +
-            "  </ul>" +
-            "  <div id=summary>" +
-            "    <table>" +
-            "      <tbody>" +
-            "      </tbody>" +
-            "    </table>" +
-            "  </div>" +
-            "</div>");
-    const document = dom.window.document;
+    let dom;
+    let document;
 
     let form;
     beforeEach(function () {
+        dom = new JSDOM("<form>" +
+        "    <input name=vs1 value=67>" +
+        "    <input name=cl_max_clean value=1.53>" +
+        "</form>" +
+        "<table id=summary><tr>" +
+        "    <td id=vs0>57.19</td>" +
+        "    <td id=wing_area_ft>85.39</td>" +
+        "    <td id=wing_aspect>5.08</td>" +
+        "</tr></table>" +
+        "<div id=results>" +
+        "  <ul>" +
+        "    <li><span id=fp>0.1207</span></li>" +
+        "    <li><span id=wv2>45414000</span></li>" +
+        "  </ul>" +
+        "  <div id=summary>" +
+        "    <table>" +
+        "      <tbody>" +
+        "      </tbody>" +
+        "    </table>" +
+        "  </div>" +
+        "</div>");
+        document = dom.window.document;
         form = document.querySelector("form");
     });
     it("gets elements from the form", function () {
-        view.init(document.querySelector("form"));
+        view.init(form, document);
         const elements = view.getFormElements();
         assert.equal(elements[0].name, "vs1");
         assert.equal(elements[0].value, "67");
@@ -40,7 +42,7 @@ describe("Aircraft view tests", function () {
         assert.equal(elements[1].value, "1.53");
     });
     it("gets values of input fields", function () {
-        view.init(document.querySelector("form"));
+        view.init(form, document);
         const values = view.getFormValues();
         assert.equal(values.vs1, "67");
         assert.equal(values.cl_max_clean, "1.53");
