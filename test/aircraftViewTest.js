@@ -52,8 +52,14 @@ describe("Aircraft view tests", function () {
         assert.equal(values.vs1, "67");
         assert.equal(values.cl_max_clean, "1.53");
     });
-    it.skip("throws an error when no summary exists", function () {
-        return;
+    it("throws an error when no summary exists", function () {
+        const summary = document.querySelector("#summary");
+        summary.parentNode.removeChild(summary);
+        view.init(form, document);
+        assert.throw(
+            () => view.getOutputFields(),
+            ReferenceError
+        );
     });
     it("gets output fields", function () {
         view.init(form, document);

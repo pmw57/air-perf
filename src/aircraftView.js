@@ -20,6 +20,9 @@ const view = (function iife() {
     }
     function getOutputFields() {
         const results = props.doc.querySelector("#summary");
+        if (!results) {
+            throw new ReferenceError("Summary id not found");
+        }
         const tds = results.querySelectorAll("td");
         return Array.from(tds).reduce(function (outputs, field) {
             outputs[field.id] = field.textContent;
