@@ -31,6 +31,9 @@ const view = (function iife() {
     }
     function getResultFields() {
         const results = props.doc.querySelector("#results");
+        if (!results) {
+            throw new ReferenceError("Result id not found");
+        }
         const items = results.querySelectorAll("li span");
         const idItems = Array.from(items).filter(function (item) {
             return item.id;

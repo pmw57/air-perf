@@ -68,8 +68,14 @@ describe("Aircraft view tests", function () {
         assert.equal(outputFields.wing_area_ft, "85.39");
         assert.equal(outputFields.wing_aspect, "5.08");
     });
-    it.skip("throws an error when no results exist", function () {
-        return;
+    it("throws an error when no results exist", function () {
+        const results = document.querySelector("#results");
+        results.parentNode.removeChild(results);
+        view.init(form, document);
+        assert.throw(
+            () => view.getResultFields(),
+            ReferenceError
+        );
     });
     it("gets results fields", function () {
         view.init(form, document);
