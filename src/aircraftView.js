@@ -1,6 +1,10 @@
 const view = (function iife() {
     const props = {};
     function renderInputs(stats) {
+        const allInputs = props.form.querySelectorAll("input");
+        allInputs.forEach(function (input) {
+            input.value = "";
+        });
         const elements = props.form.elements;
         Object.entries(stats).forEach(function ([key]) {
             if (!elements[key]) {

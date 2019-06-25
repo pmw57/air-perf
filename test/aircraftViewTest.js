@@ -93,6 +93,14 @@ describe("Aircraft view tests", function () {
         assert.equal(vs1.value, "67");
         vs1.value = oldValue;
     });
+    it("clears the fields before updating inputs", function () {
+        const vs1 = form.elements[0];
+        view.init(form, document);
+        vs1.value = "previous value";
+        view.renderInputs({somethingElse: "otherValue"});
+        // rendering some other value should clear all input fields
+        assert.equal(vs1.value, "");
+    });
     it("updates an output", function () {
         const vs0 = document.querySelector("#vs0");
         view.init(form, document);
