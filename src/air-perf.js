@@ -72,6 +72,12 @@ function updateInputsFromCsv(csvArr, filename) {
         return;
     }
     main(stats, precision);
+    Object.keys(stats).forEach(function (key) {
+        const field = document.querySelector("[name=" + key + "]");
+        if (!field) {
+            alert("Display field not found for " + key + ":" + stats[key]);
+        }
+    });
     const saveInput = document.querySelector(".js-savefile");
     saveInput.value = filename;
 }
