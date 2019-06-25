@@ -1,12 +1,12 @@
 const view = (function iife() {
     const props = {};
-    function renderInputs(data) {
+    function renderInputs(stats) {
         const elements = props.form.elements;
-        Object.entries(data).forEach(function ([key]) {
+        Object.entries(stats).forEach(function ([key]) {
             if (!elements[key]) {
                 return;
             }
-            elements[key].value = data[key];
+            elements[key].value = stats[key];
         });
     }
     function getFormElements() {
@@ -43,8 +43,8 @@ const view = (function iife() {
             return results;
         }, {});
     }
-    function renderOutputs(data, precision) {
-        Object.entries(data).forEach(function ([key, value]) {
+    function renderOutputs(stats, precision) {
+        Object.entries(stats).forEach(function ([key, value]) {
             const summary = props.doc.querySelector("#summary");
             const el = summary.querySelector("#" + key);
             if (!el) {
@@ -104,10 +104,10 @@ const view = (function iife() {
             props.doc.querySelector("#" + prop).innerHTML = num;
         });
     }
-    function render(data, precision) {
-        renderInputs(data);
-        renderOutputs(data, precision);
-        renderResults(data, precision);
+    function render(stats, precision) {
+        renderInputs(stats);
+        renderOutputs(stats, precision);
+        renderResults(stats, precision);
     }
     function init(formToUse, doc) {
         if (!formToUse || formToUse.nodeName !== "FORM") {
