@@ -32,13 +32,13 @@ function getInputValues() {
     const elements = view.getFormElements();
     return convertToNumbers(inputs, elements);
 }
-function calculate(data) {
-    data = aircraftCalcs.outputs(data);
-    return aircraftCalcs.results(data);
+function calculate(stats) {
+    stats = aircraftCalcs.outputs(stats);
+    return aircraftCalcs.results(stats);
 }
-function main(data, precision) {
-    data = calculate(data);
-    view.render(data, precision);
+function main(stats, precision) {
+    stats = calculate(stats);
+    view.render(stats, precision);
 }
 
 // load file
@@ -66,26 +66,26 @@ function inputFromCsv(arr) {
     return arr.slice(1, lastItem).reduce(keyNumberReducer, {});
 }
 function updateInputsFromCsv(csvArr, filename) {
-    const data = inputFromCsv(csvArr);
-    if (Object.entries(data).length === 0) {
+    const stats = inputFromCsv(csvArr);
+    if (Object.entries(stats).length === 0) {
         window.alert("File format is invalid.");
         return;
     }
-    main(data, precision);
+    main(stats, precision);
     const saveInput = document.querySelector(".js-savefile");
     saveInput.value = filename;
 }
 
-function saveToFile(filename, data) {
-    const csvContent = aircraftCsv.stringify(data, view);
+function saveToFile(filename, stats) {
+    const csvContent = aircraftCsv.stringify(stats, view);
     csv.save(csvContent, filename, writer.saveAs, window);
 }
 function saveButtonHandler(evt) {
     evt.preventDefault();
     const filename = document.querySelector(".js-savefile").value;
     const inputs = getInputValues();
-    const data = calculate(inputs);
-    saveToFile(filename, data);
+    const stats = calculate(inputs);
+    saveToFile(filename, stats);
 }
 
 function clearButtonHandler(evt) {
