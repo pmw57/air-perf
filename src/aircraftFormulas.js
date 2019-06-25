@@ -15,6 +15,9 @@ const inducedDrag = {
     },
     c(ws_lbft, ar) {
         return ws_lbft / ar;
+    },
+    ear(ar, e) {
+        return e * ar;
     }
 };
 const minSinkRate = {

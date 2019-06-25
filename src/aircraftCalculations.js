@@ -20,6 +20,7 @@ function calculateOutputs(inputs) {
     const s_ft = forceBalance.s(inputs.gross_lb, ws_lbft);
     const ar = inducedDrag.ar(inputs.wing_span_ft, s_ft);
     const c_ft = inducedDrag.c(inputs.wing_span_ft, ar);
+    const ear = inducedDrag.ear(ar, inputs.plane_efficiency);
     const be = minSinkRate.be(inputs.wing_span_ft, inputs.plane_efficiency);
     const ce = minSinkRate.ce(c_ft, inputs.plane_efficiency);
     const wbe = minSinkRate.wbe(inputs.gross_lb, be);
@@ -30,6 +31,7 @@ function calculateOutputs(inputs) {
         wing_area_ft: s_ft,
         wing_aspect: ar,
         wing_chord_ft: c_ft,
+        aspect_ratio_effective: ear,
         wing_span_effective: be,
         wing_chord_effective: ce,
         span_load_effective: wbe,

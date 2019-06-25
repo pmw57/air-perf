@@ -39,6 +39,9 @@ describe("calculation tests", function () {
         it("has a wing chord", function () {
             assert.isFinite(outputs.wing_chord_ft);
         });
+        it("has an effective aspect ratio", function () {
+            assert.isFinite(outputs.aspect_ratio_effective);
+        });
         it("has an effective wing span", function () {
             assert.isFinite(outputs.wing_span_effective);
         });

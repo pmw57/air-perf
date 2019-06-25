@@ -49,6 +49,11 @@ describe("Formula tests", function () {
             const ar = 5.08;
             assert.closeTo(inducedDrag.c(ws, ar), 3.45, 0.1);
         });
+        it("has effective aspect ratio", function () {
+            const e = 0.744;
+            const ar = 5.083;
+            assert.closeTo(inducedDrag.ear(ar, e), 3.782, 0.001);
+        });
     });
     describe("minimum sink rate", function () {
         it("has a sealevel drag area", function () {
