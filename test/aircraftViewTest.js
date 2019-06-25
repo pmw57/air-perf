@@ -155,10 +155,10 @@ describe("Aircraft view tests", function () {
             view.init(form, document);
             view.renderResults({results, table}, precision);
             assert.equal(document.querySelector("#fp").innerHTML, "0.1207");
-            assert.equal(document.querySelector("#wv2").innerHTML, "45414000");
+            assert.equal(document.querySelector("#wv2").innerHTML, "4.541e+7");
             assert.equal(
                 document.querySelector("#results tr").innerHTML,
-                "<td>67</td><td>1177.0</td><td>0.63</td>" +
+                "<td>67.00</td><td>1177</td><td>0.6300</td>" +
                         "<td>895.0</td><td>2560000</td>"
             );
         });

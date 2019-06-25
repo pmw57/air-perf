@@ -4,7 +4,6 @@ import writer from "../lib/filesaver.min.js";
 import csv from "./csv.js";
 import view from "./aircraftView.js";
 import aircraftCsv from "./aircraftCsv.js";
-let precision = {};
 
 function isValidNumber(value) {
     const num = Number(value);
@@ -36,9 +35,9 @@ function calculate(stats) {
     stats = aircraftCalcs.outputs(stats);
     return aircraftCalcs.results(stats);
 }
-function main(stats, precision) {
+function main(stats) {
     stats = calculate(stats);
-    view.render(stats, precision);
+    view.render(stats);
 }
 
 // load file
@@ -71,7 +70,7 @@ function updateInputsFromCsv(csvArr, filename) {
         window.alert("File format is invalid.");
         return;
     }
-    main(stats, precision);
+    main(stats);
     Object.keys(stats).forEach(function (key) {
         const field = document.querySelector("[name=" + key + "]");
         if (!field) {
@@ -100,19 +99,18 @@ function clearButtonHandler(evt) {
     Array.from(elements).forEach(function (element) {
         element.value = "";
     });
-    main(getInputValues(), precision);
+    main(getInputValues());
 }
 
 // update values
 function calculatePerformance() {
-    main(getInputValues(), precision);
+    main(getInputValues());
 }
 function inputChangeHandler() {
     calculatePerformance();
 }
 
-function init(document, precisionObj) {
-    precision = Object.assign({}, precisionObj);
+function init(document) {
     const loadFile = document.querySelector(".js-loadfile");
     const reader = new FileReader();
     const loadHandler = csv.loadHandler(updateInputsFromCsv, reader);
