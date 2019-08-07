@@ -15,7 +15,7 @@ function numberOrValue(value) {
     }
     return value;
 }
-function convertToNumbers(inputs, elements) {
+function convertToNumbers(inputs) {
     window.numberOrValue = numberOrValue;
     return Object.entries(inputs).reduce(function (converted, [key, value]) {
         if (value !== "") {
@@ -28,8 +28,7 @@ function convertToNumbers(inputs, elements) {
 }
 function getInputValues() {
     const inputs = view.getFormValues();
-    const elements = view.getFormElements();
-    return convertToNumbers(inputs, elements);
+    return convertToNumbers(inputs);
 }
 function calculate(stats) {
     stats = aircraftCalcs.outputs(stats);
@@ -74,7 +73,9 @@ function updateInputsFromCsv(csvArr, filename) {
     Object.keys(stats).forEach(function (key) {
         const field = document.querySelector("[name=" + key + "]");
         if (!field) {
-            alert("Display field not found for " + key + ":" + stats[key]);
+            window.console(
+                "Display field not found for " + key + ":" + stats[key]
+            );
         }
     });
     const saveInput = document.querySelector(".js-savefile");

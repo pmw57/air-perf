@@ -25,6 +25,8 @@ function calculateOutputs(inputs) {
     const ce = minSinkRate.ce(c_ft, inputs.plane_efficiency);
     const wbe = minSinkRate.wbe(inputs.gross_lb, be);
     const ad_ft = minSinkRate.ad(sigma, inputs.bhp, inputs.vel_max_mph);
+    const w = inputs.gross_lb;
+    const dp = inputs.prop_dia_ft;
     return Object.assign({}, inputs, {
         wing_load_lb_ft: ws_lbft,
         vs0: vs0,
@@ -43,10 +45,10 @@ function calculateOutputs(inputs) {
         ld_max: maxLiftDragRatio.ldmax(be, ad_ft),
         drag_min: maxLiftDragRatio.dmin(ad_ft, inputs.gross_lb, be),
         cl_min_sink: minSinkRate.clmins(ad_ft, ce),
-        rate_climb_ideal_max: climbingFlight.rcstarmax(inputs.bhp, inputs.gross_lb),
-        prop_tip_mach: propTipSpeed.mp(inputs.prop_max_rpm, inputs.prop_dia_ft),
-        prop_vel_ref: propEfficiency.vprop(inputs.bhp, sigma, inputs.prop_dia_ft),
-        static_thrust_ideal: propAdvanced.ts(sigma, inputs.bhp, inputs.prop_dia_ft)
+        rate_climb_ideal_max: climbingFlight.rcstarmax(inputs.bhp, w),
+        prop_tip_mach: propTipSpeed.mp(inputs.prop_max_rpm, dp),
+        prop_vel_ref: propEfficiency.vprop(inputs.bhp, sigma, dp),
+        static_thrust_ideal: propAdvanced.ts(sigma, inputs.bhp, dp)
     });
 }
 function rateOfClimb(stats, v) {
