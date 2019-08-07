@@ -10,24 +10,24 @@ describe("Aircraft view tests", function () {
     let form;
     beforeEach(function () {
         dom = new JSDOM("<form>" +
-        "    <input name=vs1 value=67>" +
-        "    <input name=cl_max_clean value=1.53>" +
-        "</form>" +
-        "<table id=summary><tr>" +
-        "    <td id=vs0>57.19</td>" +
-        "    <td id=wing_area_ft>85.39</td>" +
-        "    <td id=wing_aspect>5.08</td>" +
-        "</tr></table>" +
-        "<div id=results>" +
-        "  <ul>" +
-        "    <li><span id=fp>0.1207</span></li>" +
-        "    <li><span id=wv2>45414000</span></li>" +
-        "  </ul>" +
-        "  <table>" +
-        "    <tbody>" +
-        "    </tbody>" +
-        "  </table>" +
-        "</div>");
+                "    <input name=vs1 value=67>" +
+                "    <input name=cl_max_clean value=1.53>" +
+                "</form>" +
+                "<table id=summary><tr>" +
+                "    <td id=vs0>57.19</td>" +
+                "    <td id=wing_area_ft>85.39</td>" +
+                "    <td id=wing_aspect>5.08</td>" +
+                "</tr></table>" +
+                "<div id=results>" +
+                "  <ul>" +
+                "    <li><span id=fp>0.1207</span></li>" +
+                "    <li><span id=wv2>45414000</span></li>" +
+                "  </ul>" +
+                "  <table>" +
+                "    <tbody>" +
+                "    </tbody>" +
+                "  </table>" +
+                "</div>");
         document = dom.window.document;
         form = document.querySelector("form");
     });
