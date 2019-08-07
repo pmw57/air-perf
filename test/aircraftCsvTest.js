@@ -1,6 +1,6 @@
 import {describe, it} from "mocha";
 import {assert} from "chai";
-import aircraftCsv from "../src/aircraftCsv.js";
+import aircraftCsv from "../built/aircraftCsv.js";
 import {JSDOM} from "jsdom";
 
 describe("Aircraft CSV tests", function () {

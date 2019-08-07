@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "watchify": "watchify src/air-perf.js -o dist/air-perf.js -dv --standalone airperf",
+    "watchify": "watchify built/air-perf.js -o dist/air-perf.js -dv --standalone airperf",
     "mocha": "mocha 'test/**/*.js'",
     "test": "npm-run-all --parallel watchify mocha"
   },

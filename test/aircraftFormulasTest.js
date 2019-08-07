@@ -1,7 +1,7 @@
 /*jslint browser */
 import {describe, it} from "mocha";
 import {assert} from "chai";
-import formulas from "../src/aircraftFormulas.js";
+import formulas from "../built/aircraftFormulas.js";
 
 describe("Formula tests", function () {
     describe("force balance", function () {

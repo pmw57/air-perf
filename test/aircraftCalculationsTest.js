@@ -1,7 +1,7 @@
 /*jslint browser */
 import {beforeEach, describe, it} from "mocha";
 import {assert} from "chai";
-import aircraftCalcs from "../src/aircraftCalculations.js";
+import aircraftCalcs from "../built/aircraftCalculations.js";
 
 describe("calculation tests", function () {
     describe("Output test", function () {

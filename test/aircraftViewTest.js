@@ -1,6 +1,6 @@
 import {describe, beforeEach, it} from "mocha";
 import {assert} from "chai";
-import view from "../src/aircraftView.js";
+import view from "../built/aircraftView.js";
 import {JSDOM} from "jsdom";
 
 describe("Aircraft view tests", function () {

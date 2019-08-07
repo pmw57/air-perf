@@ -1,6 +1,6 @@
 import {describe, beforeEach, it} from "mocha";
 import {assert} from "chai";
-import csv from "../src/csv.js";
+import csv from "../built/csv.js";
 
 describe("CSV tests", function () {
     describe("convert", function () {
