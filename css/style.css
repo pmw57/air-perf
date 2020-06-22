@@ -1,3 +1,6 @@
+#content {
+	position: relative;
+}
 h3 {
 	margin-top: 1em;
 }
@@ -15,6 +18,9 @@ h3 {
 	margin-right: 1em;
 	width: 16em;
 }
+#perf [name="clear"] {
+	margin-bottom: 0.5em;
+}
 .symbol {
 	color: navy;
 }
@@ -30,10 +36,14 @@ form sup, form sub {
 form sub { 
 	top: 0.4em; 
 }
+#perf > h3,
+#summary > h3 {
+	margin-top: 0;
+}
 #summary {
 	position: absolute;
-	top: 0;
 	left: 30em;
+	top: 0;
 }
 #summary th {
 	padding-right: 1em;
@@ -42,7 +52,4 @@ form sub {
 table {
 	text-align: right;
 }
-#results {
-	margin-top: 2em;
-	margin-left: 2em;
-}
+
